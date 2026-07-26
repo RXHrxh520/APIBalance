@@ -9,9 +9,37 @@
 - 无广告、无多余SDK
 
 ## 如何使用
-1. 输入你的 DeepSeek API Key
-2. 完成算术验证
-3. 查看余额
+第一步：输入密钥
+打开 App，在输入框中粘贴你的 DeepSeek API Key（密钥只存在你手机里，不上传任何服务器）。
+
+第二步：开启自动登录（可选）
+打开“自动登录”开关，下次打开 App 会自动填入密钥，不用重复输入。
+
+第三步：查询余额
+点击“查询余额”，会弹出一道简单的算术题，算对后再次点击查询，等待几秒就能看到余额。
+
+第四步：查看数据
+主界面会显示三个数字：
+
+· 总可用金额
+· 赠金余额
+· 充值余额
+
+刷新数据
+点击左上角的刷新图标，可以手动更新最新余额。
+
+切换账号
+点击右上角的设置 → 更换 API 密钥，返回登录页重新输入即可。
+
+关于与反馈
+在设置 → 关于里，可以找到：
+
+· 开发人员信息
+· QQ交流群
+· GitHub仓库地址
+
+隐藏彩蛋
+在关于页面，连续点击版本号 8 次，会进入调试模式（内含崩溃测试，仅供娱乐）。
 
 ## 开源协议
 本项目基于 GNU Affero General Public License v3.0 开源。
@@ -109,3 +137,142 @@ AGPLv3 不会阻止任何人使用、修改、分发这个代码。它只做一�
 
 愿每一个好用的 API 都不被滥用。
 愿每一个干净的 App 都不被埋没。
+# DeepseekBalance
+# DS Balance Checker
+
+A minimalist Android tool for checking your DeepSeek API balance.
+
+## Features
+- Enter your API Key to view grant balance, total balance, and top-up balance
+- Key is stored locally only, never uploaded to any server
+- No ads, no extra SDKs
+
+## How to Use
+
+**Step 1: Enter your key**
+Open the app and paste your DeepSeek API Key into the input field (the key stays only on your device and is never sent to any server).
+
+**Step 2: Enable auto-login (optional)**
+Turn on the "Auto Login" switch and the app will remember your key for next time – no need to re-enter.
+
+**Step 3: Check your balance**
+Tap "Check Balance". A simple arithmetic puzzle will pop up. Solve it correctly, then tap "Check Balance" again. Wait a few seconds and your balance will appear.
+
+**Step 4: View your data**
+The main screen shows three numbers:
+- Total available amount
+- Grant balance
+- Top-up balance
+
+**Refresh data**
+Tap the refresh icon in the top‑left corner to manually update your balance.
+
+**Switch accounts**
+Go to Settings (top‑right) → Change API Key, which returns you to the login screen to enter a new key.
+
+**About & Feedback**
+In Settings → About, you can find:
+- Developer info
+- QQ group
+- GitHub repository link
+
+**Hidden Easter egg**
+On the About page, tap the version number 8 times to enter debug mode (contains a crash test – for fun only).
+
+## License
+This project is open‑sourced under the GNU Affero General Public License v3.0.
+
+---
+
+## 📖 About This Project – What I Want to Say
+
+### I. Why did I make this app?
+
+DeepSeek is a great company. Their API documentation is clear, and the calling method is publicly available on their official website. Anyone can copy those few lines of Python code and run it on their own computer to check balances.
+
+But not everyone wants to turn on a computer, and not everyone wants to open a browser just to glance at a number.
+
+I just wanted this: an icon on my phone screen. Tap it, enter my key, see three numbers, close it. That’s it. Nothing else.
+
+So this app was born.
+
+### II. What it is NOT
+
+It is **not** a full DeepSeek client.  
+It has no chat, no search, no news feed, no ads, no analytics SDK, no crash reporting, no background services, no extra network requests.
+
+It does only one thing: **check your balance**.
+
+And the way it does that one thing:
+- Does **not** transmit your key over the network (the key stays locally on your device)
+- Does **not** request any unnecessary permissions (no storage, location, contacts)
+- Does **not** load any third‑party libraries (except for the Android system itself – zero third‑party SDKs)
+
+You open it, it’s there. You close it, it’s as if it never existed.
+
+### III. Why did I open‑source it?
+
+To be honest, the codebase is small and technically not complex. It’s just an Android wrapper around DeepSeek’s public API. Anyone with some Android development experience could write it in a couple of hours – even with Vibe Coding, it might only take one or two hours.
+
+But I still chose to open‑source it. For three reasons:
+
+1. **Because I want it to be transparent.**  
+   When I say “the key stays local” or “never uploaded to any server”, words alone aren’t enough. With the source code open, anyone can inspect it and verify. Trust isn’t built on promises – it’s built on verifiability.
+
+2. **Because I want it to be free.**  
+   The API itself is free. I only built a tool to call it. If someone took this and sold it for ¥9.99 or ¥19.99, they’d be profiting from the information gap – from users who don’t know what GitHub is.  
+   I think that’s unfair. So I made the source public, so that anyone can compile and use it themselves, and so that those who almost paid can find a free original version to compare.
+
+3. **Because I want it to be more than mine.**  
+   In the future, if someone wants to add features, fix bugs, or adapt it for more service providers – welcome. It doesn’t carry only my name; it belongs to everyone who needs it.
+
+### IV. Why did I choose AGPLv3?
+
+Many people online criticise this license, calling it “toxic”, “viral”, or “pseudo‑open‑source”.
+
+But I chose it precisely because it is **strong**.
+
+I’m not afraid of others using my code. What I fear is:
+- Closed‑source commercial redistribution
+- Making innocent users pay for information asymmetry
+- Biting back at the original author
+- Removing my name and pretending it’s “original”
+
+AGPLv3 does not stop anyone from using, modifying, or distributing this code. It does only one thing: **if you take it and make it commercial or closed‑source, you must also open‑source your modifications.**
+
+That is my stance:
+
+> *“You can stand on my shoulders, but you cannot pretend those shoulders aren’t there.”*
+
+### V. About Myself
+
+I am not an employee of DeepSeek – I have no employment relationship with them.  
+I’m just an ordinary user who found their API useful and hopes they can survive and thrive. I’m only 14 years old now.
+
+I have no right to speak for them, nor any obligation to act on their behalf.  
+But I did it anyway.
+
+Not out of duty, but because:
+
+> *“When you truly like something, you can’t help but do something for it.”*
+
+This app is that small something I did.
+
+---
+
+### VI. Finally
+
+If you’ve read this far – thank you.
+
+If you download this app, I hope you find it “clean, simple, and non‑intrusive”.
+
+If you want to modify it, use it, or even criticise it – you’re welcome. The source is on GitHub, you can do whatever you like – as long as you respect the AGPLv3.
+
+If you see someone selling a paid version of this app on Taobao, Coolapk, or Xianyu……  
+please help me report it, and tell them: **this thing is free – the author said, whoever sells it is a dog.**
+
+---
+
+May every good API be used responsibly.  
+May every clean app be discovered.  
+May every ordinary user’s love be treated with kindness.
