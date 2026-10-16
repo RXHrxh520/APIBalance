@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 捐赠二维码占位框：方形圆角 + 虚线感的浅边框，暂不放真实二维码数据 -->
+<shape xmlns:android="http://schemas.android.com/apk/res/android" android:shape="rectangle">
+    <solid android:color="#0DFFFFFF" />
+    <corners android:radius="16dp" />
+    <stroke android:width="2dp" android:color="#3D000000" android:dashWidth="8dp" android:dashGap="6dp" />
+</shape>

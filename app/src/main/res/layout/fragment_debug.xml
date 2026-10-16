@@ -1,0 +1,410 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true">
+        
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="16dp">
+        <LinearLayout android:id="@+id/btn_debug_close"
+            android:layout_width="wrap_content" android:layout_height="40dp"
+            android:layout_marginTop="8dp" android:background="@drawable/bg_card_balance"
+            android:gravity="center" android:orientation="horizontal"
+            android:paddingLeft="16dp" android:paddingRight="16dp"
+            android:clickable="true" android:focusable="false">
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                android:text="@string/debug_close" android:textColor="@color/primary"
+                android:textSize="14sp" />
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="4dp"
+            android:layout_marginBottom="8dp"
+            android:text="@string/str_090"
+            android:textColor="@color/primary"
+            android:textSize="12sp"
+            android:textStyle="bold"
+            android:letterSpacing="0.1" />
+
+        <TextView
+            android:id="@+id/btn_crash_test"
+            android:layout_width="match_parent"
+            android:layout_height="52dp"
+            android:gravity="center"
+            android:text="@string/str_091"
+            android:textColor="@color/text_on_primary"
+            android:textSize="15sp"
+            android:textStyle="bold"
+            android:background="@drawable/bg_gradient_button"
+            android:foreground="@drawable/bg_ripple_20"
+            android:clickable="true"
+            android:focusable="false" />
+
+        <TextView
+            android:id="@+id/btn_crash_view"
+            android:layout_width="match_parent"
+            android:layout_height="52dp"
+            android:layout_marginTop="12dp"
+            android:gravity="center"
+            android:text="@string/str_092"
+            android:textColor="@color/text_primary"
+            android:textSize="15sp"
+            android:textStyle="bold"
+            android:background="@drawable/bg_card_balance"
+            android:foreground="@drawable/bg_ripple_24"
+            android:clickable="true"
+            android:focusable="false" />
+
+        <TextView
+            android:id="@+id/btn_crash_clear"
+            android:layout_width="match_parent"
+            android:layout_height="52dp"
+            android:layout_marginTop="12dp"
+            android:gravity="center"
+            android:text="@string/str_093"
+            android:textColor="@color/text_primary"
+            android:textSize="15sp"
+            android:textStyle="bold"
+            android:background="@drawable/bg_card_balance"
+            android:foreground="@drawable/bg_ripple_24"
+            android:clickable="true"
+            android:focusable="false" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="4dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="8dp"
+            android:text="@string/str_094"
+            android:textColor="@color/primary"
+            android:textSize="12sp"
+            android:textStyle="bold"
+            android:letterSpacing="0.1" />
+
+        <TextView
+            android:id="@+id/btn_network_test"
+            android:layout_width="match_parent"
+            android:layout_height="52dp"
+            android:gravity="center"
+            android:text="@string/str_095"
+            android:textColor="@color/text_primary"
+            android:textSize="15sp"
+            android:textStyle="bold"
+            android:background="@drawable/bg_card_balance"
+            android:foreground="@drawable/bg_ripple_24"
+            android:clickable="true"
+            android:focusable="false" />
+
+        <TextView
+            android:id="@+id/btn_api_test"
+            android:layout_width="match_parent"
+            android:layout_height="52dp"
+            android:layout_marginTop="12dp"
+            android:gravity="center"
+            android:text="@string/str_096"
+            android:textColor="@color/text_primary"
+            android:textSize="15sp"
+            android:textStyle="bold"
+            android:background="@drawable/bg_card_balance"
+            android:foreground="@drawable/bg_ripple_24"
+            android:clickable="true"
+            android:focusable="false" />
+
+        <TextView
+            android:id="@+id/btn_key_test"
+            android:layout_width="match_parent"
+            android:layout_height="52dp"
+            android:layout_marginTop="12dp"
+            android:gravity="center"
+            android:text="@string/str_097"
+            android:textColor="@color/text_primary"
+            android:textSize="15sp"
+            android:textStyle="bold"
+            android:background="@drawable/bg_card_balance"
+            android:foreground="@drawable/bg_ripple_24"
+            android:clickable="true"
+            android:focusable="false" />
+
+        <TextView
+            android:id="@+id/btn_crypto_test"
+            android:layout_width="match_parent"
+            android:layout_height="52dp"
+            android:layout_marginTop="12dp"
+            android:gravity="center"
+            android:text="@string/str_098"
+            android:textColor="@color/text_primary"
+            android:textSize="15sp"
+            android:textStyle="bold"
+            android:background="@drawable/bg_card_balance"
+            android:foreground="@drawable/bg_ripple_24"
+            android:clickable="true"
+            android:focusable="false" />
+
+        <TextView
+            android:id="@+id/btn_history_test"
+            android:layout_width="match_parent"
+            android:layout_height="52dp"
+            android:layout_marginTop="12dp"
+            android:gravity="center"
+            android:text="@string/str_099"
+            android:textColor="@color/text_primary"
+            android:textSize="15sp"
+            android:textStyle="bold"
+            android:background="@drawable/bg_card_balance"
+            android:foreground="@drawable/bg_ripple_24"
+            android:clickable="true"
+            android:focusable="false" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="4dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="8dp"
+            android:text="@string/str_100"
+            android:textColor="@color/primary"
+            android:textSize="12sp"
+            android:textStyle="bold"
+            android:letterSpacing="0.1" />
+
+        <TextView
+            android:id="@+id/btn_notify_check"
+            android:layout_width="match_parent"
+            android:layout_height="52dp"
+            android:gravity="center"
+            android:text="@string/str_101"
+            android:textColor="@color/text_primary"
+            android:textSize="15sp"
+            android:textStyle="bold"
+            android:background="@drawable/bg_card_balance"
+            android:foreground="@drawable/bg_ripple_24"
+            android:clickable="true"
+            android:focusable="false" />
+
+        <TextView
+            android:id="@+id/btn_alarm_check"
+            android:layout_width="match_parent"
+            android:layout_height="52dp"
+            android:layout_marginTop="12dp"
+            android:gravity="center"
+            android:text="@string/str_102"
+            android:textColor="@color/text_primary"
+            android:textSize="15sp"
+            android:textStyle="bold"
+            android:background="@drawable/bg_card_balance"
+            android:foreground="@drawable/bg_ripple_24"
+            android:clickable="true"
+            android:focusable="false" />
+
+        <TextView
+            android:id="@+id/btn_overlay_check"
+            android:layout_width="match_parent"
+            android:layout_height="52dp"
+            android:layout_marginTop="12dp"
+            android:gravity="center"
+            android:text="@string/str_103"
+            android:textColor="@color/text_primary"
+            android:textSize="15sp"
+            android:textStyle="bold"
+            android:background="@drawable/bg_card_balance"
+            android:foreground="@drawable/bg_ripple_24"
+            android:clickable="true"
+            android:focusable="false" />
+
+        <TextView
+            android:id="@+id/btn_env_info"
+            android:layout_width="match_parent"
+            android:layout_height="52dp"
+            android:layout_marginTop="12dp"
+            android:gravity="center"
+            android:text="@string/str_104"
+            android:textColor="@color/text_primary"
+            android:textSize="15sp"
+            android:textStyle="bold"
+            android:background="@drawable/bg_card_balance"
+            android:foreground="@drawable/bg_ripple_24"
+            android:clickable="true"
+            android:focusable="false" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="4dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="8dp"
+            android:text="@string/str_105"
+            android:textColor="@color/primary"
+            android:textSize="12sp"
+            android:textStyle="bold"
+            android:letterSpacing="0.1" />
+
+        <TextView
+            android:id="@+id/btn_clear_cache"
+            android:layout_width="match_parent"
+            android:layout_height="52dp"
+            android:gravity="center"
+            android:text="@string/str_106"
+            android:textColor="@color/text_primary"
+            android:textSize="15sp"
+            android:textStyle="bold"
+            android:background="@drawable/bg_card_balance"
+            android:foreground="@drawable/bg_ripple_24"
+            android:clickable="true"
+            android:focusable="false" />
+            <TextView
+            android:id="@+id/btn_egg_reset"
+            android:layout_width="match_parent"
+            android:layout_height="52dp"
+            android:gravity="center"
+            android:text="@string/egg_reset_btn"
+            android:textColor="@color/text_primary"
+            android:textSize="15sp"
+            android:textStyle="bold"
+            android:background="@drawable/bg_card_balance"
+            android:foreground="@drawable/bg_ripple_24"
+            android:clickable="true"
+            android:focusable="false" />
+
+        <TextView
+            android:id="@+id/btn_show_settings"
+            android:layout_width="match_parent"
+            android:layout_height="52dp"
+            android:layout_marginTop="12dp"
+            android:gravity="center"
+            android:text="@string/str_107"
+            android:textColor="@color/text_primary"
+            android:textSize="15sp"
+            android:textStyle="bold"
+            android:background="@drawable/bg_card_balance"
+            android:foreground="@drawable/bg_ripple_24"
+            android:clickable="true"
+            android:focusable="false" />
+
+        <TextView
+            android:id="@+id/tv_test_result"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:background="@color/card_bg"
+            android:textColor="@color/text_secondary"
+            android:textSize="12sp"
+            android:typeface="monospace"
+            android:padding="14dp"
+            android:visibility="gone" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="32dp" />
+
+    
+        <TextView
+            android:id="@+id/btn_device_info"
+            android:layout_width="match_parent"
+            android:layout_height="52dp"
+            android:layout_marginTop="10dp"
+            android:gravity="center"
+            android:text="@string/dbg_device"
+            android:textColor="@color/text_primary"
+            android:textSize="15sp"
+            android:background="@drawable/bg_card_balance"
+            android:foreground="@drawable/bg_ripple_20"
+            android:clickable="true"
+            android:focusable="false" />
+
+        <TextView
+            android:id="@+id/btn_mem_info"
+            android:layout_width="match_parent"
+            android:layout_height="52dp"
+            android:layout_marginTop="10dp"
+            android:gravity="center"
+            android:text="@string/dbg_mem"
+            android:textColor="@color/text_primary"
+            android:textSize="15sp"
+            android:background="@drawable/bg_card_balance"
+            android:foreground="@drawable/bg_ripple_20"
+            android:clickable="true"
+            android:focusable="false" />
+
+        <TextView
+            android:id="@+id/btn_time_info"
+            android:layout_width="match_parent"
+            android:layout_height="52dp"
+            android:layout_marginTop="10dp"
+            android:gravity="center"
+            android:text="@string/dbg_time"
+            android:textColor="@color/text_primary"
+            android:textSize="15sp"
+            android:background="@drawable/bg_card_balance"
+            android:foreground="@drawable/bg_ripple_20"
+            android:clickable="true"
+            android:focusable="false" />
+
+        <TextView
+            android:id="@+id/btn_dns_check"
+            android:layout_width="match_parent"
+            android:layout_height="52dp"
+            android:layout_marginTop="10dp"
+            android:gravity="center"
+            android:text="@string/dbg_dns"
+            android:textColor="@color/text_primary"
+            android:textSize="15sp"
+            android:background="@drawable/bg_card_balance"
+            android:foreground="@drawable/bg_ripple_20"
+            android:clickable="true"
+            android:focusable="false" />
+
+        <TextView
+            android:id="@+id/btn_privacy_info"
+            android:layout_width="match_parent"
+            android:layout_height="52dp"
+            android:layout_marginTop="10dp"
+            android:gravity="center"
+            android:text="@string/dbg_privacy"
+            android:textColor="@color/text_primary"
+            android:textSize="15sp"
+            android:background="@drawable/bg_card_balance"
+            android:foreground="@drawable/bg_ripple_20"
+            android:clickable="true"
+            android:focusable="false" />
+
+        <TextView
+            android:id="@+id/btn_provider_info"
+            android:layout_width="match_parent"
+            android:layout_height="52dp"
+            android:layout_marginTop="10dp"
+            android:gravity="center"
+            android:text="@string/dbg_provider"
+            android:textColor="@color/text_primary"
+            android:textSize="15sp"
+            android:background="@drawable/bg_card_balance"
+            android:foreground="@drawable/bg_ripple_20"
+            android:clickable="true"
+            android:focusable="false" />
+
+        <TextView
+            android:id="@+id/btn_export_diag"
+            android:layout_width="match_parent"
+            android:layout_height="52dp"
+            android:layout_marginTop="10dp"
+            android:gravity="center"
+            android:text="@string/dbg_export"
+            android:textColor="@color/text_primary"
+            android:textSize="15sp"
+            android:background="@drawable/bg_card_balance"
+            android:foreground="@drawable/bg_ripple_20"
+            android:clickable="true"
+            android:focusable="false" />
+    
+        
+    
+        
+    </LinearLayout>
+</ScrollView>

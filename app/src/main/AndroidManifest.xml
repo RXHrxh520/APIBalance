@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <!-- ======================================================================
+         一、权限声明
+         ====================================================================== -->
+
+    <!-- 核心：向 DeepSeek / Kimi / 智谱 / Anthropic 等官方接口发起 HTTPS 请求 -->
+    <uses-permission android:name="android.permission.INTERNET" />
+
+    <!-- 查询前判断网络状态，避免把「没网」误报成「Key 错误」 -->
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+
+    <!--
+      仅 Android 12（API 32）及以前用于读取用户从相册挑选的背景图。
+      Android 13 起改用 SAF（ACTION_OPEN_DOCUMENT），不再需要该权限，
+      因此用 maxSdkVersion 限死在 32，避免在新系统上多要一个权限。
+    -->
+    <uses-permission
+        android:name="android.permission.READ_EXTERNAL_STORAGE"
+        android:maxSdkVersion="32" />
+
+    <!-- Android 13（API 33）起通知改为运行时权限 -->
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+
+    <!-- 指纹 / 人脸解锁，用于应用锁 -->
+    <uses-permission android:name="android.permission.USE_BIOMETRIC" />
+
+    <!--
+      定时自动刷新余额使用精确闹钟。
+      Android 12+ 用户可在系统设置中收回该权限，应用会自动降级为不精确闹钟。
+    -->
+    <uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM" />
+
+    <!-- 悬浮球：在其它应用上层显示余额数字 -->
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
+
+    <!-- 检查更新后调起系统安装器安装新版 APK -->
+    <uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES" />
+
+    <!--
+      悬浮球常驻时需要前台服务保活。
+      注意：这里只申请基础权限，未声明特殊前台服务类型，
+      因为 FloatingWindowService 不调用 startForeground()，仅作为普通后台服务运行。
+    -->
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+
+    <!-- ======================================================================
+         二、包可见性声明（Android 11+ 必须显式声明才能查询）
+         ====================================================================== -->
+    <queries>
+        <!-- 卸载引导：查询系统卸载器 -->
+        <intent>
+            <action android:name="android.intent.action.DELETE" />
+            <data android:scheme="package" />
+        </intent>
+        <intent>
+            <action android:name="android.intent.action.UNINSTALL_PACKAGE" />
+        </intent>
+        <!-- 跳转「应用详情」设置页 -->
+        <intent>
+            <action android:name="android.settings.APPLICATION_DETAILS_SETTINGS" />
+        </intent>
+        <!-- 打开 GitHub 仓库、协议链接等 https 页面 -->
+        <intent>
+            <action android:name="android.intent.action.VIEW" />
+            <data android:scheme="https" />
+        </intent>
+    </queries>
+
+    <!-- ======================================================================
+         三、应用主体声明
+         ====================================================================== -->
+    <application
+        android:allowBackup="false"
+        android:label="@string/app_name"
+        android:theme="@style/RxHTheme"
+        android:icon="@mipmap/ic_launcher"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        tools:ignore="GoogleAppIndexingWarning">
+
+        <!--
+          allowBackup=false 的原因：
+            API Key 密文、余额历史、Token 用量都存放在应用私有目录，
+            若允许备份，这些文件可能被云备份或 adb backup 带出设备。
+        -->
+
+        <!-- ================= 主界面 ================= -->
+        <activity
+            android:name="asia.rxh.apibalance.MainActivity"
+            android:exported="true"
+            android:theme="@style/RxHTheme.FollowSystem">
+            <!-- 唯一对外导出的组件：桌面启动入口 -->
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+            <!-- 长按图标「一键查余额」桌面快捷方式 -->
+            <meta-data
+                android:name="android.app.shortcuts"
+                android:resource="@xml/shortcuts" />
+        </activity>
+
+        <!-- ================= 崩溃页 ================= -->
+        <activity
+            android:name="asia.rxh.apibalance.CrashActivity"
+            android:exported="false"
+            android:theme="@style/RxHTheme" />
+
+        <!-- ================= 首次引导 + 协议 ================= -->
+        <activity
+            android:name="asia.rxh.apibalance.OnboardingActivity"
+            android:exported="false"
+            android:theme="@style/RxHTheme.FollowSystem" />
+
+        <!-- ================= 备份与恢复 ================= -->
+        <activity
+            android:name="asia.rxh.apibalance.BackupActivity"
+            android:exported="false" />
+
+        <!-- ================= 卸载引导 ================= -->
+        <activity
+            android:name="asia.rxh.apibalance.UninstallActivity"
+            android:exported="false" />
+
+        <!-- ================= 安全中心 ================= -->
+        <activity
+            android:name="asia.rxh.apibalance.SecurityCenterActivity"
+            android:exported="false" />
+
+        <!-- ================= 主题中心 ================= -->
+        <activity
+            android:name="asia.rxh.apibalance.ThemeCenterActivity"
+            android:exported="false" />
+
+        <!-- ================= 悬浮球服务 ================= -->
+        <service
+            android:name="asia.rxh.apibalance.FloatingWindowService"
+            android:exported="false" />
+
+        <!-- ================= 定时自动刷新 ================= -->
+        <receiver
+            android:name="asia.rxh.apibalance.AutoRefreshReceiver"
+            android:exported="false" />
+
+        <!-- ================= 桌面小组件 ================= -->
+        <receiver
+            android:name="asia.rxh.apibalance.BalanceWidgetProvider"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/widget_info" />
+        </receiver>
+    </application>
+</manifest>

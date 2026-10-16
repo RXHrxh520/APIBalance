@@ -1,0 +1,93 @@
+apply plugin: 'com.android.application'
+apply from: 'dependencies.gradle'
+
+// ---------------------------------------------------------------------------
+// 签名口令解析：keystore.properties → 环境变量 → Gradle -P 属性
+// 明文口令绝不写入本文件或 gradle.properties（会被开源分发）。
+// ---------------------------------------------------------------------------
+def rxhKeystoreProps = new Properties()
+def rxhKeystoreFile = rootProject.file('keystore.properties')
+if (rxhKeystoreFile.exists()) {
+    rxhKeystoreFile.withInputStream { rxhKeystoreProps.load(it) }
+}
+def rxhSigningValueOr = { String key, String fallback ->
+    def v = rxhKeystoreProps.getProperty(key)
+    if (v == null || v.trim().isEmpty()) v = System.getenv(key)
+    if (v == null || v.trim().isEmpty()) v = project.findProperty(key)
+    if (v == null || v.trim().isEmpty()) return fallback
+    return v.trim()
+}
+def rxhSigningValue = { String key ->
+    def v = rxhKeystoreProps.getProperty(key)
+    if (v == null || v.trim().isEmpty()) v = System.getenv(key)
+    if (v == null || v.trim().isEmpty()) v = project.findProperty(key)
+    if (v == null || v.trim().isEmpty()) {
+        throw new GradleException("缺少签名口令 " + key
+            + "：请先 export " + key + "=... ，或在项目根目录创建 keystore.properties"
+            + "（内容为 " + key + "=... ，该文件已被 .gitignore 忽略）。")
+    }
+    return v.trim()
+}
+
+android {
+    namespace 'asia.rxh.apibalance'
+    compileSdk 36
+    buildToolsVersion '36.0.0'
+
+    defaultConfig {
+        applicationId 'asia.rxh.apibalance'
+        minSdk 26
+        targetSdk 34
+        versionCode 7
+        versionName '1.5'
+        buildConfigField "String", "BUILD_TIME", "\"" + new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm").format(new java.util.Date()) + "\""
+    }
+
+    buildFeatures {
+        // AGP 8 起 BuildConfig 默认关闭，本工程用到 BuildConfig.BUILD_TIME，必须显式打开
+        buildConfig true
+    }
+
+    signingConfigs {
+        release {
+            // 密钥库路径 / 别名同样不写死在仓库里，
+            // 避免把个人环境信息带进开源分发。
+            storeFile file(rxhSigningValueOr('RXH_STORE_FILE', 'keystore.jks'))
+            storePassword rxhSigningValue('RXH_STORE_PASS')
+            keyAlias rxhSigningValueOr('RXH_KEY_ALIAS', 'key0')
+            keyPassword rxhSigningValue('RXH_KEY_PASS')
+        }
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled true
+            shrinkResources false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.release
+        }
+        debug {
+            signingConfig signingConfigs.release
+        }
+    }
+
+    packaging {
+        pickFirst 'lib/**/libc++_shared.so'
+        exclude 'META-INF/DEPENDENCIES'
+        exclude 'META-INF/LICENSE*'
+        exclude 'META-INF/NOTICE*'
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
+    }
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar', '*.aar'])
+    addGeneratedAppDependencies(project)
+    // 现代网络 / JSON 依赖
+    implementation 'com.squareup.okhttp3:okhttp:4.12.0'
+    implementation 'com.google.code.gson:gson:2.10.1'
+}

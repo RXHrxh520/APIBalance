@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent"
+    android:fillViewport="true">
+    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+        android:orientation="vertical" android:paddingLeft="16dp" android:paddingRight="16dp"
+        android:paddingTop="18dp" android:paddingBottom="24dp">
+                <LinearLayout android:id="@+id/egg_row" android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:orientation="horizontal" android:gravity="center_vertical">
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+            android:text="@string/mine_title" android:textColor="@color/text_primary"
+            android:textSize="22sp" android:textStyle="bold" android:layout_marginBottom="6dp" />
+            <FrameLayout android:id="@+id/fish_slot" android:layout_width="46dp"
+                android:layout_height="32dp" android:layout_marginLeft="6dp"
+                android:clipChildren="true" android:clipToPadding="true">
+                <ImageView android:id="@+id/iv_deepseek" android:layout_width="46dp"
+                    android:layout_height="46dp" android:layout_gravity="top"
+                    android:contentDescription="@string/egg_title" />
+            </FrameLayout>
+        </LinearLayout>
+
+        <LinearLayout android:id="@+id/card_user"
+            android:clipChildren="false"
+            android:layout_width="match_parent" android:layout_height="76dp"
+            android:layout_marginTop="12dp" android:background="@drawable/bg_card_balance"
+            android:foreground="@drawable/bg_ripple_24"
+            android:gravity="center_vertical" android:orientation="horizontal"
+            android:paddingLeft="16dp" android:paddingRight="16dp"
+            android:clickable="true" android:focusable="false">
+                        
+<ImageView android:id="@+id/iv_mine_avatar" android:layout_width="50dp"
+                android:layout_height="50dp" android:src="@drawable/ic_broken_image"
+                android:contentDescription="@string/mine_title" />
+            <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content"
+                android:layout_weight="1" android:layout_marginLeft="16dp"
+                android:orientation="vertical">
+                <TextView android:id="@+id/tv_mine_name" android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" android:text="@string/mine_account_null"
+                    android:textColor="@color/text_primary" android:textSize="17sp"
+                    android:textStyle="bold" />
+                <TextView android:id="@+id/tv_mine_sub" android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" android:text="@string/mine_account_hint"
+                    android:textColor="@color/text_secondary" android:textSize="12sp" />
+            </LinearLayout>
+        </LinearLayout>
+        <LinearLayout android:id="@+id/row_donate"
+            android:layout_width="match_parent" android:layout_height="56dp"
+            android:layout_marginTop="8dp" android:background="@drawable/bg_card_balance"
+            android:foreground="@drawable/bg_ripple_24"
+            android:gravity="center_vertical" android:orientation="horizontal"
+            android:paddingLeft="16dp" android:paddingRight="16dp"
+            android:clickable="true" android:focusable="false">
+            <ImageView android:layout_width="24dp" android:layout_height="24dp"
+                android:src="@drawable/ic_gift" android:contentDescription="@string/mine_donate" />
+            <TextView android:layout_width="0dp" android:layout_height="wrap_content"
+                android:layout_weight="1" android:layout_marginLeft="16dp"
+                android:text="@string/mine_donate" android:textColor="@color/text_primary"
+                android:textSize="15sp" />
+</LinearLayout>
+
+        <LinearLayout android:id="@+id/row_settings"
+            android:layout_width="match_parent" android:layout_height="56dp"
+            android:layout_marginTop="8dp" android:background="@drawable/bg_card_balance"
+            android:foreground="@drawable/bg_ripple_24"
+            android:gravity="center_vertical" android:orientation="horizontal"
+            android:paddingLeft="16dp" android:paddingRight="16dp"
+            android:clickable="true" android:focusable="false">
+            <ImageView android:layout_width="24dp" android:layout_height="24dp"
+                android:src="@drawable/ic_settings" android:contentDescription="@string/mine_settings" />
+            <TextView android:layout_width="0dp" android:layout_height="wrap_content"
+                android:layout_weight="1" android:layout_marginLeft="16dp"
+                android:text="@string/mine_settings" android:textColor="@color/text_primary"
+                android:textSize="15sp" />
+</LinearLayout>
+
+        <LinearLayout android:id="@+id/row_contributors"
+            android:layout_width="match_parent" android:layout_height="56dp"
+            android:layout_marginTop="8dp" android:background="@drawable/bg_card_balance"
+            android:foreground="@drawable/bg_ripple_24"
+            android:gravity="center_vertical" android:orientation="horizontal"
+            android:paddingLeft="16dp" android:paddingRight="16dp"
+            android:clickable="true" android:focusable="false">
+            <ImageView android:layout_width="24dp" android:layout_height="24dp"
+                android:src="@drawable/ic_repo" android:contentDescription="@string/mine_contributors" />
+            <TextView android:layout_width="0dp" android:layout_height="wrap_content"
+                android:layout_weight="1" android:layout_marginLeft="16dp"
+                android:text="@string/mine_contributors" android:textColor="@color/text_primary"
+                android:textSize="15sp" />
+</LinearLayout>
+
+        <LinearLayout android:id="@+id/row_developers"
+            android:layout_width="match_parent" android:layout_height="56dp"
+            android:layout_marginTop="8dp" android:background="@drawable/bg_card_balance"
+            android:foreground="@drawable/bg_ripple_24"
+            android:gravity="center_vertical" android:orientation="horizontal"
+            android:paddingLeft="16dp" android:paddingRight="16dp"
+            android:clickable="true" android:focusable="false">
+            <ImageView android:layout_width="24dp" android:layout_height="24dp"
+                android:src="@drawable/ic_qq" android:contentDescription="@string/mine_developers" />
+            <TextView android:layout_width="0dp" android:layout_height="wrap_content"
+                android:layout_weight="1" android:layout_marginLeft="16dp"
+                android:text="@string/mine_developers" android:textColor="@color/text_primary"
+                android:textSize="15sp" />
+</LinearLayout>
+
+        <LinearLayout android:id="@+id/row_update"
+            android:layout_width="match_parent" android:layout_height="56dp"
+            android:layout_marginTop="8dp" android:background="@drawable/bg_card_balance"
+            android:foreground="@drawable/bg_ripple_24"
+            android:gravity="center_vertical" android:orientation="horizontal"
+            android:paddingLeft="16dp" android:paddingRight="16dp"
+            android:clickable="true" android:focusable="false">
+            <ImageView android:layout_width="24dp" android:layout_height="24dp"
+                android:src="@drawable/ic_update" android:contentDescription="@string/mine_check_update" />
+            <TextView android:layout_width="0dp" android:layout_height="wrap_content"
+                android:layout_weight="1" android:layout_marginLeft="16dp"
+                android:text="@string/mine_check_update" android:textColor="@color/text_primary"
+                android:textSize="15sp" />
+</LinearLayout>
+
+        <LinearLayout android:id="@+id/row_build_time"
+            android:layout_width="match_parent" android:layout_height="56dp"
+            android:layout_marginTop="8dp" android:background="@drawable/bg_card_balance"
+            android:foreground="@drawable/bg_ripple_24"
+            android:gravity="center_vertical" android:orientation="horizontal"
+            android:paddingLeft="16dp" android:paddingRight="16dp"
+            android:clickable="true" android:focusable="false">
+            <ImageView android:layout_width="24dp" android:layout_height="24dp"
+                android:src="@drawable/ic_info" android:contentDescription="@string/mine_build_time" />
+            <TextView android:layout_width="0dp" android:layout_height="wrap_content"
+                android:layout_weight="1" android:layout_marginLeft="16dp"
+                android:text="@string/mine_build_time" android:textColor="@color/text_primary"
+                android:textSize="15sp" />
+                <TextView android:id="@+id/tv_build_time" android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" android:textColor="@color/text_secondary"
+                    android:textSize="12sp" android:layout_marginRight="6dp" />
+</LinearLayout>
+
+        <LinearLayout android:id="@+id/row_build_version"
+            android:layout_width="match_parent" android:layout_height="56dp"
+            android:layout_marginTop="8dp" android:background="@drawable/bg_card_balance"
+            android:foreground="@drawable/bg_ripple_24"
+            android:gravity="center_vertical" android:orientation="horizontal"
+            android:paddingLeft="16dp" android:paddingRight="16dp"
+            android:clickable="true" android:focusable="false">
+            <ImageView android:layout_width="24dp" android:layout_height="24dp"
+                android:src="@drawable/ic_info" android:contentDescription="@string/mine_build_version" />
+            <TextView android:layout_width="0dp" android:layout_height="wrap_content"
+                android:layout_weight="1" android:layout_marginLeft="16dp"
+                android:text="@string/mine_build_version" android:textColor="@color/text_primary"
+                android:textSize="15sp" />
+                <TextView android:id="@+id/tv_build_version" android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" android:textColor="@color/text_secondary"
+                    android:textSize="12sp" android:layout_marginRight="6dp" />
+</LinearLayout>
+
+    </LinearLayout>
+</ScrollView>

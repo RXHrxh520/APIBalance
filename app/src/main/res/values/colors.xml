@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- MD3 palette -->
+    <color name="md_primary">#6750A4</color>
+    <color name="md_on_primary">#FFFFFF</color>
+    <color name="md_primary_container">#EADDFF</color>
+    <color name="md_on_primary_container">#21005D</color>
+    <color name="md_surface">#FFFBFE</color>
+    <color name="md_surface_variant">#E7E0EC</color>
+    <color name="md_on_surface">#1C1B1F</color>
+    <color name="md_on_surface_variant">#49454F</color>
+    <color name="md_outline">#79747E</color>
+    <color name="md_error">#B3261E</color>
+    <color name="md_error_container">#F9DEDC</color>
+
+    <!-- Semantic colors (light) -->
+    <color name="text_primary">#1C1B1F</color>
+    <color name="text_secondary">#49454F</color>
+    <color name="text_hint">#79747E</color>
+    <color name="text_on_primary">#FFFFFF</color>
+    <color name="primary">#6750A4</color>
+    <color name="primary_dark">#4F378B</color>
+    <color name="surface">#FFFBFE</color>
+    <color name="surface_variant">#F5F3FA</color>
+    <color name="card_bg">#FFFFFF</color>
+    <color name="input_bg">#EEF0F5</color>
+    <color name="banner_bg">#E8DEF8</color>
+    <color name="title_sub">#CCC2DC</color>
+    <color name="footer">#9CA3AF</color>
+    <color name="divider">#CAC4D0</color>
+    <color name="error">#B3261E</color>
+    <color name="error_container">#F9DEDC</color>
+    <color name="granted_color">#F59E0B</color>
+    <color name="topped_color">#10B981</color>
+    <color name="gradient_end">#4F378B</color>
+
+    <!-- Legacy accent -->
+    <color name="accent">#00D4AA</color>
+    <color name="surface_dark">#1C1B1F</color>
+    <color name="card_balance_granted">#F59E0B</color>
+    <color name="card_balance_topped">#10B981</color>
+    <color name="background">#F6F3FA</color>
+    <color name="launcher_icon_background">#FFFFFF</color>
+    <color name="launcher_bg_v1">#6750A4</color>
+    <color name="launcher_bg_v2">#1C1B1F</color>
+    <color name="launcher_bg_v3">#10B981</color>
+</resources>

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shortcuts xmlns:android="http://schemas.android.com/apk/res/android">
+    <shortcut android:shortcutId="uninstall_app" android:enabled="true"
+        android:icon="@drawable/ic_warn"
+        android:shortcutShortLabel="@string/uninstall_title"
+        android:shortcutLongLabel="@string/uninstall_title">
+        <intent android:action="asia.rxh.apibalance.UNINSTALL"
+            android:targetPackage="asia.rxh.apibalance"
+            android:targetClass="asia.rxh.apibalance.MainActivity" />
+    </shortcut>
+</shortcuts>
