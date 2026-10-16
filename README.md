@@ -95,9 +95,9 @@
 ## 📦 构建
 
 ### 环境要求
-- Android SDK 34 (platform android-34, build-tools 34.0.0)
-- JDK 17
-- Gradle 7.5（AGP 7.4.2）
+- Android SDK 36 (platform android-36, build-tools 36.0.0)
+- JDK 21
+- Gradle 8.14.3（AGP 8.10.0）
 
 ### 构建命令
 ```bash
@@ -105,10 +105,13 @@
 ```
 产出：`app/build/outputs/apk/release/app-release.apk`
 
-> 说明：工程使用标准 Maven 依赖（AGP 7.4.2 从 google() 拉取），不依赖任何私有工具链。若本机是 arm64 架构，需自备 arm64 版 aapt2（见 `gradle.properties` 的 `android.aapt2FromMavenOverride`）。
+> 说明：工程已显式开启 `buildConfig`（AGP 8 起默认关闭）。若本机是 arm64 架构，需自备 arm64 版 aapt2，并追加
+> `-Pandroid.aapt2FromMavenOverride=<SDK>/build-tools/36.0.0/aapt2` 与 `-Pandroid.builder.sdkDownload=false`。
 
 ### 签名
-工程内置签名配置指向 `RXH.keystore`（别名 `rxh`）。开源分发时建议更换为你自己的密钥库。签名信息可通过环境变量覆盖（`RXH_KEYSTORE` / `RXH_STORE_PASS` / `RXH_KEY_PASS`）。
+签名信息不保存在仓库中。构建时按 keystore.properties、环境变量、`-P` 参数的顺序读取
+RXH_STORE_FILE / RXH_STORE_PASS / RXH_KEY_ALIAS / RXH_KEY_PASS，
+口令缺失会直接报错终止，不会产出未签名或错误签名的包。开源分发时请使用你自己的密钥库。
 
 ---
 
@@ -215,7 +218,37 @@ app/src/main/java/asia/rxh/apibalance/
 
 ## 📜 版本历史
 
-### v1.4（当前）
+### v1.5（当前）
+- 构建链升级：AGP 8.10.0 / Gradle 8.14.3 / JDK 21 / compileSdk 36 / buildTools 36.0.0
+- 显式开启 BuildConfig 生成（AGP 8 起默认关闭）
+- 签名信息改为本地配置或环境变量提供，仓库内不再保存密钥
+- 新增**贡献者页**：斜向扫光骨架屏占位，数据待接入
+- 新增**捐赠页**：方形二维码占位框，未接收款码
+- 新增**实验性功能**：进阶分类入口，MD3 组件开关（开启前需确认风险协议）
+- 新增**用户协议与隐私政策**：首次启动展示，不同意则退出
+- 新增**分享卡片配色**：默认深蓝 / 粉色 / 极简白 / 跟随主题强调色，长按预览图切换
+- 新增**开发人员页改版**：GitHub 头像、相关链接分组、作者简介
+- 新增统一返回、统一转场、骨架屏、设置分类数据、后台线程池等基础类
+- 优化：全应用转场动画统一，返回统一为逐级返回
+- 优化：复古2000 主题重做为银灰底 / 宝蓝链接 / 直角面板
+- 优化：设置分类重排，一个入口只归属一个分类
+- 优化：第三方依赖声明按工具链 / 运行时 / 平台 / 服务商 / 许可重新整理
+- 优化：AndroidManifest 补齐组件、权限用途、包可见性、数据流与安全说明
+- 优化：网络层复用客户端，不再每次请求重建
+- 修复：用户协议弹窗过长导致确定键点不到
+- 修复：部分页面返回直接退回桌面
+- 修复：设置首页返回与主界面叠加、概率性卡住
+- 修复：Fragment 事务在状态保存后提交导致崩溃
+- 修复：设置项在主线程同步写盘
+- 修复：首页圆角卡片底部出现细小黑点
+- 修复：实验性 MD3 开关开启后无任何变化
+- 修复：贡献者页与捐赠页点击无转场动画
+- 修复：签名口令明文保存在仓库中
+- 修复：未关闭 allowBackup
+- 修复：清单缺少前台服务权限与 https 跳转声明
+- 修复：同一个设置项被挂在两个分类下
+- 修复：每次查询余额都重建网络客户端
+### v1.4
 - 四家服务商：DeepSeek / Kimi / 智谱GLM / Anthropic（OpenAI 从选择列表移除）
 - 语言新增**萌语**（`values-eo`），补齐英文/繁体缺失条目
 - 新增**用户引导**页：分步引导 + 专业模式当场答题（题库 20 道随机抽 5，选项每次打乱）
