@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="64dp"
+    android:height="64dp"
+    android:viewportWidth="64"
+    android:viewportHeight="64">
+    <!-- Rounded square bg -->
+    <path
+        android:pathData="M12,8 h40 q4,0 4,4 v40 q0,4 -4,4 h-40 q-4,0 -4,-4 v-40 q0,-4 4,-4z"
+        android:fillColor="#FF6750A4" />
+    <!-- D letter -->
+    <path
+        android:pathData="M19,18 h6 q6,0 6,6 v16 q0,6 -6,6 h-6z m4,3 v26 h2 q3,0 3,-3 v-20 q0,-3 -3,-3z"
+        android:fillColor="#FFFFFF" />
+    <!-- S letter -->
+    <path
+        android:pathData="M38,20 q3,0 3,3 v2 q0,2 -2,3 l-6,4 q-2,1 -2,3 v1 q0,2 2,2 h8 v3 h-8 q-3,0 -3,-3 v-2 q0,-2 2,-3 l6,-4 q2,-1 2,-3 v-1 q0,-2 -2,-2 h-7 v-3z"
+        android:fillColor="#FFFFFF" />
+</vector>

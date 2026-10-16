@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent"
+    android:background="@color/background" android:orientation="vertical">
+    <LinearLayout android:id="@+id/bk_back" android:layout_width="match_parent"
+        android:layout_height="56dp" android:gravity="center_vertical"
+        android:orientation="horizontal" android:paddingLeft="8dp" android:clickable="true"
+        android:focusable="false">
+        <ImageView android:layout_width="24dp" android:layout_height="24dp"
+            android:src="@drawable/ic_arrow_back" android:contentDescription="@string/back_desc" />
+    </LinearLayout>
+    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+        android:layout_marginLeft="16dp" android:layout_marginTop="8dp" android:text="@string/backup_row_title"
+        android:textColor="@color/text_primary" android:textSize="20sp" android:textStyle="bold" />
+    <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
+        android:layout_marginLeft="16dp" android:layout_marginRight="16dp" android:layout_marginTop="8dp"
+        android:lineSpacingExtra="3dp" android:text="@string/backup_row_desc"
+        android:textColor="@color/text_hint" android:textSize="12sp" />
+    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+        android:layout_marginLeft="16dp" android:layout_marginRight="16dp" android:layout_marginTop="16dp"
+        android:orientation="vertical">
+            <LinearLayout android:id="@+id/bk_do_backup"
+                android:layout_width="match_parent" android:layout_height="56dp"
+                android:layout_marginTop="10dp" android:gravity="center_vertical"
+                android:orientation="horizontal" android:paddingLeft="16dp" android:paddingRight="16dp"
+                android:background="@drawable/bg_card_balance" android:foreground="@drawable/bg_ripple_24"
+                android:clickable="true" android:focusable="false">
+                <ImageView android:layout_width="24dp" android:layout_height="24dp"
+                    android:src="@drawable/ic_repo" />
+                <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content"
+                    android:layout_weight="1" android:layout_marginLeft="16dp" android:orientation="vertical">
+                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                        android:text="@string/backup_do" android:textColor="@color/text_primary" android:textSize="15sp" />
+                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                        android:text="@string/backup_export_bin" android:textColor="@color/text_hint" android:textSize="12sp" />
+                </LinearLayout>
+            </LinearLayout>
+            <LinearLayout android:id="@+id/bk_do_restore"
+                android:layout_width="match_parent" android:layout_height="56dp"
+                android:layout_marginTop="10dp" android:gravity="center_vertical"
+                android:orientation="horizontal" android:paddingLeft="16dp" android:paddingRight="16dp"
+                android:background="@drawable/bg_card_balance" android:foreground="@drawable/bg_ripple_24"
+                android:clickable="true" android:focusable="false">
+                <ImageView android:layout_width="24dp" android:layout_height="24dp"
+                    android:src="@drawable/ic_autorenew" />
+                <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content"
+                    android:layout_weight="1" android:layout_marginLeft="16dp" android:orientation="vertical">
+                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                        android:text="@string/backup_restore" android:textColor="@color/text_primary" android:textSize="15sp" />
+                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                        android:text="@string/backup_need_pwd_desc" android:textColor="@color/text_hint" android:textSize="12sp" />
+                </LinearLayout>
+            </LinearLayout>
+    </LinearLayout>
+</LinearLayout>

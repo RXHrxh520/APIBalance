@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent"
+    android:background="@color/background" android:orientation="vertical">
+
+    <LinearLayout android:id="@+id/un_back" android:layout_width="match_parent"
+        android:layout_height="56dp" android:gravity="center_vertical"
+        android:orientation="horizontal" android:paddingLeft="8dp"
+        android:clickable="true" android:focusable="false">
+        <ImageView android:layout_width="24dp" android:layout_height="24dp"
+            android:src="@drawable/ic_arrow_back" android:contentDescription="@string/back_desc" />
+    </LinearLayout>
+
+    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+        android:layout_marginLeft="16dp" android:text="@string/uninstall_title"
+        android:textColor="@color/text_primary" android:textSize="20sp" android:textStyle="bold" />
+
+    <TextView android:id="@+id/un_lines" android:layout_width="match_parent"
+        android:layout_height="wrap_content" android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp" android:layout_marginTop="16dp"
+        android:lineSpacingExtra="6dp" android:textColor="@color/text_hint" android:textSize="14sp" />
+
+    <LinearLayout android:id="@+id/un_backup" android:layout_width="match_parent"
+        android:layout_height="56dp" android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp" android:layout_marginTop="18dp"
+        android:background="@drawable/bg_card_balance" android:foreground="@drawable/bg_ripple_24"
+        android:gravity="center_vertical" android:orientation="horizontal"
+        android:paddingLeft="16dp" android:clickable="true" android:focusable="false">
+        <ImageView android:layout_width="24dp" android:layout_height="24dp"
+            android:src="@drawable/ic_repo" android:contentDescription="@string/backup_row_title" />
+        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+            android:layout_marginLeft="16dp" android:text="@string/un_emergency_backup"
+            android:textColor="@color/text_primary" android:textSize="15sp" />
+    </LinearLayout>
+
+    <LinearLayout android:id="@+id/un_keep" android:layout_width="match_parent"
+        android:layout_height="56dp" android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp" android:layout_marginTop="10dp"
+        android:background="@drawable/bg_card_balance" android:foreground="@drawable/bg_ripple_24"
+        android:gravity="center_vertical" android:orientation="horizontal"
+        android:paddingLeft="16dp" android:clickable="true" android:focusable="false">
+        <ImageView android:layout_width="24dp" android:layout_height="24dp"
+            android:src="@drawable/ic_refresh" android:contentDescription="@string/uninstall_keep" />
+        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+            android:layout_marginLeft="16dp" android:text="@string/un_keep_desc"
+            android:textColor="@color/text_primary" android:textSize="15sp" />
+    </LinearLayout>
+
+    <LinearLayout android:id="@+id/un_go" android:layout_width="match_parent"
+        android:layout_height="56dp" android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp" android:layout_marginTop="10dp"
+        android:background="@drawable/bg_card_balance" android:foreground="@drawable/bg_ripple_24"
+        android:gravity="center_vertical" android:orientation="horizontal"
+        android:paddingLeft="16dp" android:clickable="true" android:focusable="false">
+        <ImageView android:layout_width="24dp" android:layout_height="24dp"
+            android:src="@drawable/ic_delete" android:contentDescription="@string/uninstall_go" />
+        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+            android:layout_marginLeft="16dp" android:text="@string/un_go_desc"
+            android:textColor="#FFEF4444" android:textSize="15sp" />
+    </LinearLayout>
+</LinearLayout>

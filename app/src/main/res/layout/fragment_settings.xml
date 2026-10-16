@@ -1,0 +1,444 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingLeft="8dp"
+        android:paddingRight="16dp"
+        android:background="@color/md_surface"
+        android:elevation="2dp">
+        <ImageView
+            android:id="@+id/btn_back"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:padding="12dp"
+            android:src="@drawable/ic_arrow_back"
+            android:clickable="true"
+            android:focusable="false"
+            android:contentDescription="返回"
+            android:background="?android:attr/selectableItemBackgroundBorderless" />
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/str_021"
+            android:textColor="@color/text_primary"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+    </LinearLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="16dp">
+    <LinearLayout android:id="@+id/row_pro_mode" android:layout_width="match_parent" android:layout_height="64dp" android:layout_marginBottom="12dp" android:gravity="center_vertical" android:orientation="horizontal" android:paddingLeft="16dp" android:paddingRight="12dp" android:background="@drawable/bg_card_balance">
+        <ImageView android:layout_width="24dp" android:layout_height="24dp" android:layout_marginRight="16dp" android:src="@drawable/ic_pro_mode" android:contentDescription="专业模式" />
+        <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:orientation="vertical">
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/pro_mode_title" android:textColor="@color/text_primary" android:textSize="15sp" android:textStyle="bold" />
+            <TextView android:id="@+id/tv_pro_mode_desc" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/pro_mode_desc" android:textColor="@color/text_hint" android:textSize="12sp" />
+        </LinearLayout>
+        <TextView android:id="@+id/btn_pro_help" android:layout_width="28dp" android:layout_height="28dp" android:gravity="center" android:text="?" android:textColor="@color/primary" android:textSize="16sp" android:textStyle="bold" android:clickable="true" android:focusable="false" />
+        <Switch android:id="@+id/sw_pro_mode" android:layout_width="wrap_content" android:layout_height="wrap_content" />
+    </LinearLayout>
+    <LinearLayout android:id="@+id/btn_legacy_toggle" android:layout_width="match_parent" android:layout_height="56dp" android:layout_marginTop="8dp" android:gravity="center_vertical" android:orientation="horizontal" android:paddingLeft="16dp" android:paddingRight="16dp" android:background="@drawable/bg_card_balance" android:foreground="@drawable/bg_ripple_24" android:clickable="true" android:focusable="false">
+        <ImageView android:layout_width="24dp" android:layout_height="24dp" android:src="@drawable/ic_update" android:contentDescription="@string/language_desc" />
+        <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:layout_marginLeft="16dp" android:orientation="vertical">
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/legacy_on" android:textColor="@color/text_primary" android:textSize="15sp" />
+            <TextView android:id="@+id/tv_legacy_desc" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/legacy_desc" android:textColor="@color/text_hint" android:textSize="12sp" />
+        </LinearLayout>
+    </LinearLayout>
+    <LinearLayout android:id="@+id/btn_permission_center" android:layout_width="match_parent" android:layout_height="56dp" android:layout_marginBottom="12dp" android:gravity="center_vertical" android:orientation="horizontal" android:paddingLeft="16dp" android:paddingRight="16dp" android:background="@drawable/bg_card_balance" android:foreground="@drawable/bg_ripple_24" android:clickable="true" android:focusable="false">
+        <ImageView android:layout_width="24dp" android:layout_height="24dp" android:src="@drawable/ic_permission" android:contentDescription="权限" />
+        <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:layout_marginLeft="16dp" android:orientation="vertical">
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/perm_center_title" android:textColor="@color/text_primary" android:textSize="15sp" />
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/perm_center_desc" android:textColor="@color/text_hint" android:textSize="12sp" />
+        </LinearLayout>
+        <TextView android:id="@+id/sec_hdr_1" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="4dp" android:layout_marginBottom="8dp" android:text="@string/str_022" android:textColor="@color/primary" android:textSize="12sp" android:textStyle="bold" android:letterSpacing="0.1" />
+    </LinearLayout>
+    <LinearLayout android:id="@+id/btn_theme" android:layout_width="match_parent" android:layout_height="56dp" android:layout_marginTop="8dp" android:gravity="center_vertical" android:orientation="horizontal" android:paddingLeft="16dp" android:paddingRight="16dp" android:background="@drawable/bg_card_balance" android:foreground="@drawable/bg_ripple_24" android:clickable="true" android:focusable="false">
+        <ImageView android:layout_width="24dp" android:layout_height="24dp" android:src="@drawable/ic_palette" android:contentDescription="主题中心" />
+        <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:layout_marginLeft="16dp" android:orientation="vertical">
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/str_023" android:textColor="@color/text_primary" android:textSize="15sp" />
+            <TextView android:id="@+id/tv_theme_mode" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/str_024" android:textColor="@color/text_hint" android:textSize="12sp" />
+        </LinearLayout>
+    </LinearLayout>
+    <LinearLayout android:id="@+id/btn_lang" android:layout_width="match_parent" android:layout_height="56dp" android:layout_marginTop="8dp" android:gravity="center_vertical" android:orientation="horizontal" android:paddingLeft="16dp" android:paddingRight="16dp" android:background="@drawable/bg_card_balance" android:foreground="@drawable/bg_ripple_24" android:clickable="true" android:focusable="false">
+        <ImageView android:layout_width="24dp" android:layout_height="24dp" android:src="@drawable/ic_language" android:contentDescription="@string/language_desc" />
+        <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:layout_marginLeft="16dp" android:orientation="vertical">
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/str_025" android:textColor="@color/text_primary" android:textSize="15sp" />
+            <TextView android:id="@+id/tv_lang_desc" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/str_026" android:textColor="@color/text_hint" android:textSize="12sp" />
+        </LinearLayout>
+    </LinearLayout>
+    <LinearLayout android:id="@+id/btn_lock_delay" android:layout_width="match_parent" android:layout_height="56dp" android:layout_marginTop="8dp" android:gravity="center_vertical" android:orientation="horizontal" android:paddingLeft="16dp" android:paddingRight="16dp" android:background="@drawable/bg_card_balance" android:foreground="@drawable/bg_ripple_24" android:clickable="true" android:focusable="false">
+        <ImageView android:layout_width="24dp" android:layout_height="24dp" android:src="@drawable/ic_night" android:contentDescription="@string/language_desc" />
+        <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:layout_marginLeft="16dp" android:orientation="vertical">
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/lock_delay_row_title" android:textColor="@color/text_primary" android:textSize="15sp" />
+            <TextView android:id="@+id/tv_lock_delay_desc" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/lock_delay_hint" android:textColor="@color/text_hint" android:textSize="12sp" />
+        </LinearLayout>
+    </LinearLayout>
+    <LinearLayout android:id="@+id/btn_lock_method" android:layout_width="match_parent" android:layout_height="56dp" android:layout_marginTop="8dp" android:gravity="center_vertical" android:orientation="horizontal" android:paddingLeft="16dp" android:paddingRight="16dp" android:background="@drawable/bg_card_balance" android:foreground="@drawable/bg_ripple_24" android:clickable="true" android:focusable="false">
+        <ImageView android:layout_width="24dp" android:layout_height="24dp" android:src="@drawable/ic_shield" android:contentDescription="@string/language_desc" />
+        <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:layout_marginLeft="16dp" android:orientation="vertical">
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/lock_method_title" android:textColor="@color/text_primary" android:textSize="15sp" />
+            <TextView android:id="@+id/tv_lock_method_desc" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/cat_privacy_desc" android:textColor="@color/text_hint" android:textSize="12sp" />
+        </LinearLayout>
+    </LinearLayout>
+    <LinearLayout android:id="@+id/btn_f2a" android:layout_width="match_parent" android:layout_height="56dp" android:layout_marginTop="8dp" android:gravity="center_vertical" android:orientation="horizontal" android:paddingLeft="16dp" android:paddingRight="16dp" android:background="@drawable/bg_card_balance" android:foreground="@drawable/bg_ripple_24" android:clickable="true" android:focusable="false">
+        <ImageView android:layout_width="24dp" android:layout_height="24dp" android:src="@drawable/ic_shield" android:contentDescription="@string/language_desc" />
+        <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:layout_marginLeft="16dp" android:orientation="vertical">
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/f2a_row_title" android:textColor="@color/text_primary" android:textSize="15sp" />
+            <TextView android:id="@+id/tv_f2a_desc" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/f2a_row_unset" android:textColor="@color/text_hint" android:textSize="12sp" />
+        </LinearLayout>
+    </LinearLayout>
+    <LinearLayout android:id="@+id/btn_onboarding" android:layout_width="match_parent" android:layout_height="56dp" android:layout_marginTop="8dp" android:gravity="center_vertical" android:orientation="horizontal" android:paddingLeft="16dp" android:paddingRight="16dp" android:background="@drawable/bg_card_balance" android:foreground="@drawable/bg_ripple_24" android:clickable="true" android:focusable="false">
+        <ImageView android:layout_width="24dp" android:layout_height="24dp" android:src="@drawable/ic_android" android:contentDescription="引导" />
+        <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:layout_marginLeft="16dp" android:orientation="vertical">
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/onboarding_title" android:textColor="@color/text_primary" android:textSize="15sp" />
+            <TextView android:id="@+id/tv_onboarding_desc" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/onboarding_desc" android:textColor="@color/text_hint" android:textSize="12sp" />
+        </LinearLayout>
+    </LinearLayout>
+    <LinearLayout android:id="@+id/btn_history" android:layout_width="match_parent" android:layout_height="56dp" android:layout_marginTop="8dp" android:gravity="center_vertical" android:orientation="horizontal" android:paddingLeft="16dp" android:paddingRight="16dp" android:background="@drawable/bg_card_balance" android:foreground="@drawable/bg_ripple_24" android:clickable="true" android:focusable="false">
+        <ImageView android:layout_width="24dp" android:layout_height="24dp" android:src="@drawable/ic_trending_up" android:contentDescription="余额趋势" />
+        <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:layout_marginLeft="16dp" android:orientation="vertical">
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/str_027" android:textColor="@color/text_primary" android:textSize="15sp" />
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/str_028" android:textColor="@color/text_hint" android:textSize="12sp" />
+        </LinearLayout>
+    </LinearLayout>
+    <LinearLayout android:id="@+id/btn_custom_bg" android:layout_width="match_parent" android:layout_height="56dp" android:layout_marginTop="8dp" android:gravity="center_vertical" android:orientation="horizontal" android:paddingLeft="16dp" android:paddingRight="16dp" android:background="@drawable/bg_card_balance" android:foreground="@drawable/bg_ripple_24" android:clickable="true" android:focusable="false">
+        <ImageView android:layout_width="24dp" android:layout_height="24dp" android:src="@drawable/ic_image" android:contentDescription="自定义背景" />
+        <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:layout_marginLeft="16dp" android:orientation="vertical">
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/str_029" android:textColor="@color/text_primary" android:textSize="15sp" />
+            <TextView android:id="@+id/tv_bg_desc" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/str_030" android:textColor="@color/text_hint" android:textSize="12sp" />
+        </LinearLayout>
+    </LinearLayout>
+    <LinearLayout android:id="@+id/btn_icon" android:layout_width="match_parent" android:layout_height="56dp" android:layout_marginTop="8dp" android:gravity="center_vertical" android:orientation="horizontal" android:paddingLeft="16dp" android:paddingRight="16dp" android:background="@drawable/bg_card_balance" android:foreground="@drawable/bg_ripple_24" android:clickable="true" android:focusable="false">
+        <ImageView android:layout_width="24dp" android:layout_height="24dp" android:src="@drawable/ic_image" android:contentDescription="更换应用图标" />
+        <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:layout_marginLeft="16dp" android:orientation="vertical">
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="更换应用图标" android:textColor="@color/text_primary" android:textSize="15sp" />
+            <TextView android:id="@+id/tv_icon_desc" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="应用图标 + 主界面图标 + 登录头像" android:textColor="@color/text_hint" android:textSize="12sp" />
+        </LinearLayout>
+    </LinearLayout>
+    <LinearLayout android:id="@+id/btn_android_theme" android:layout_width="match_parent" android:layout_height="56dp" android:layout_marginTop="8dp" android:gravity="center_vertical" android:orientation="horizontal" android:paddingLeft="16dp" android:paddingRight="16dp" android:background="@drawable/bg_card_balance" android:foreground="@drawable/bg_ripple_24" android:clickable="true" android:focusable="false">
+        <ImageView android:layout_width="24dp" android:layout_height="24dp" android:src="@drawable/ic_android" android:contentDescription="安卓主题设置" />
+        <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:layout_marginLeft="16dp" android:orientation="vertical">
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="安卓主题设置" android:textColor="@color/text_primary" android:textSize="15sp" />
+            <TextView android:id="@+id/tv_android_desc" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="仿 4.4 / 5.1.1 / 8 / 12 四种 UI 风格" android:textColor="@color/text_hint" android:textSize="12sp" />
+        </LinearLayout>
+    </LinearLayout>
+    <LinearLayout android:id="@+id/btn_font_size" android:layout_width="match_parent" android:layout_height="56dp" android:layout_marginTop="8dp" android:gravity="center_vertical" android:orientation="horizontal" android:paddingLeft="16dp" android:paddingRight="16dp" android:background="@drawable/bg_card_balance" android:foreground="@drawable/bg_ripple_24" android:clickable="true" android:focusable="false">
+        <ImageView android:layout_width="24dp" android:layout_height="24dp" android:src="@drawable/ic_format_size" android:contentDescription="字体大小" />
+        <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:layout_marginLeft="16dp" android:orientation="vertical">
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/str_031" android:textColor="@color/text_primary" android:textSize="15sp" />
+            <TextView android:id="@+id/tv_font_size" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/str_032" android:textColor="@color/text_hint" android:textSize="12sp" />
+        </LinearLayout>
+    </LinearLayout>
+    <LinearLayout android:id="@+id/row_auto_dark" android:layout_width="match_parent" android:layout_height="56dp" android:layout_marginTop="8dp" android:gravity="center_vertical" android:orientation="horizontal" android:paddingLeft="16dp" android:paddingRight="16dp" android:background="@drawable/bg_card_balance" android:foreground="@drawable/bg_ripple_24" android:clickable="true" android:focusable="false">
+        <ImageView android:layout_width="24dp" android:layout_height="24dp" android:src="@drawable/ic_bedtime" android:contentDescription="定时深色" />
+        <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:layout_marginLeft="16dp" android:orientation="vertical">
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/auto_dark" android:textColor="@color/text_primary" android:textSize="15sp" />
+            <TextView android:id="@+id/tv_auto_dark_desc" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/auto_dark_desc" android:textColor="@color/text_hint" android:textSize="12sp" />
+        </LinearLayout>
+        <android.widget.Switch android:id="@+id/sw_auto_dark" android:layout_width="wrap_content" android:layout_height="wrap_content" />
+    </LinearLayout>
+    <LinearLayout android:id="@+id/btn_currency" android:layout_width="match_parent" android:layout_height="56dp" android:layout_marginTop="8dp" android:gravity="center_vertical" android:orientation="horizontal" android:paddingLeft="16dp" android:paddingRight="16dp" android:background="@drawable/bg_card_balance" android:foreground="@drawable/bg_ripple_24" android:clickable="true" android:focusable="false">
+        <ImageView android:layout_width="24dp" android:layout_height="24dp" android:src="@drawable/ic_currency" android:contentDescription="币种显示" />
+        <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:layout_marginLeft="16dp" android:orientation="vertical">
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/str_033" android:textColor="@color/text_primary" android:textSize="15sp" />
+            <TextView android:id="@+id/tv_currency_desc" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/str_034" android:textColor="@color/text_hint" android:textSize="12sp" />
+        </LinearLayout>
+    </LinearLayout>
+    <TextView android:id="@+id/sec_hdr_2" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="4dp" android:layout_marginTop="20dp" android:layout_marginBottom="8dp" android:text="@string/str_035" android:textColor="@color/primary" android:textSize="12sp" android:textStyle="bold" android:letterSpacing="0.1" />
+    <LinearLayout android:id="@+id/btn_accounts" android:layout_width="match_parent" android:layout_height="56dp" android:layout_marginTop="8dp" android:gravity="center_vertical" android:orientation="horizontal" android:paddingLeft="16dp" android:paddingRight="16dp" android:background="@drawable/bg_card_balance" android:foreground="@drawable/bg_ripple_24" android:clickable="true" android:focusable="false">
+        <ImageView android:layout_width="24dp" android:layout_height="24dp" android:src="@drawable/ic_accounts" android:contentDescription="账户管理" />
+        <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:layout_marginLeft="16dp" android:orientation="vertical">
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/str_036" android:textColor="@color/text_primary" android:textSize="15sp" />
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/str_037" android:textColor="@color/text_hint" android:textSize="12sp" />
+        </LinearLayout>
+    </LinearLayout>
+    <LinearLayout android:id="@+id/btn_change_key" android:layout_width="match_parent" android:layout_height="56dp" android:layout_marginTop="8dp" android:gravity="center_vertical" android:orientation="horizontal" android:paddingLeft="16dp" android:paddingRight="16dp" android:background="@drawable/bg_card_balance" android:foreground="@drawable/bg_ripple_24" android:clickable="true" android:focusable="false">
+        <ImageView android:layout_width="24dp" android:layout_height="24dp" android:src="@drawable/ic_vpn_key" android:contentDescription="更换密钥" />
+        <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:layout_marginLeft="16dp" android:orientation="vertical">
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/str_038" android:textColor="@color/text_primary" android:textSize="15sp" />
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/str_039" android:textColor="@color/text_hint" android:textSize="12sp" />
+        </LinearLayout>
+    </LinearLayout>
+    <LinearLayout android:id="@+id/btn_switch_provider" android:layout_width="match_parent" android:layout_height="56dp" android:layout_marginTop="8dp" android:gravity="center_vertical" android:orientation="horizontal" android:paddingLeft="16dp" android:paddingRight="16dp" android:background="@drawable/bg_card_balance" android:foreground="@drawable/bg_ripple_24" android:clickable="true" android:focusable="false">
+        <ImageView android:layout_width="24dp" android:layout_height="24dp" android:src="@drawable/ic_swap" android:contentDescription="切换服务商" />
+        <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:layout_marginLeft="16dp" android:orientation="vertical">
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/str_040" android:textColor="@color/text_primary" android:textSize="15sp" />
+            <TextView android:id="@+id/tv_current_provider" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/str_041" android:textColor="@color/text_hint" android:textSize="12sp" />
+        </LinearLayout>
+    </LinearLayout>
+    <LinearLayout android:id="@+id/btn_token_est" android:layout_width="match_parent" android:layout_height="56dp" android:layout_marginTop="8dp" android:gravity="center_vertical" android:orientation="horizontal" android:paddingLeft="16dp" android:paddingRight="16dp" android:background="@drawable/bg_card_balance" android:foreground="@drawable/bg_ripple_24" android:clickable="true" android:focusable="false">
+        <ImageView android:layout_width="24dp" android:layout_height="24dp" android:src="@drawable/ic_calculate" android:contentDescription="Token估算" />
+        <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:layout_marginLeft="16dp" android:orientation="vertical">
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/str_042" android:textColor="@color/text_primary" android:textSize="15sp" />
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/str_043" android:textColor="@color/text_hint" android:textSize="12sp" />
+        </LinearLayout>
+    </LinearLayout>
+    <TextView android:id="@+id/sec_hdr_3" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="4dp" android:layout_marginTop="20dp" android:layout_marginBottom="8dp" android:text="@string/str_044" android:textColor="@color/primary" android:textSize="12sp" android:textStyle="bold" android:letterSpacing="0.1" />
+    <LinearLayout android:id="@+id/row_alert" android:layout_width="match_parent" android:layout_height="56dp" android:layout_marginTop="8dp" android:gravity="center_vertical" android:orientation="horizontal" android:paddingLeft="16dp" android:paddingRight="16dp" android:background="@drawable/bg_card_balance" android:foreground="@drawable/bg_ripple_24" android:clickable="true" android:focusable="false">
+        <ImageView android:layout_width="24dp" android:layout_height="24dp" android:src="@drawable/ic_notifications" android:contentDescription="提醒" />
+        <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:layout_marginLeft="16dp" android:orientation="vertical">
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/str_045" android:textColor="@color/text_primary" android:textSize="15sp" />
+            <TextView android:id="@+id/tv_alert_desc" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/str_046" android:textColor="@color/text_hint" android:textSize="12sp" />
+        </LinearLayout>
+        <android.widget.Switch android:id="@+id/sw_alert" android:layout_width="wrap_content" android:layout_height="wrap_content" />
+    </LinearLayout>
+    <LinearLayout android:id="@+id/row_auto_refresh" android:layout_width="match_parent" android:layout_height="56dp" android:layout_marginTop="8dp" android:gravity="center_vertical" android:orientation="horizontal" android:paddingLeft="16dp" android:paddingRight="16dp" android:background="@drawable/bg_card_balance" android:foreground="@drawable/bg_ripple_24" android:clickable="true" android:focusable="false">
+        <ImageView android:layout_width="24dp" android:layout_height="24dp" android:src="@drawable/ic_autorenew" android:contentDescription="定时刷新" />
+        <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:layout_marginLeft="16dp" android:orientation="vertical">
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/str_047" android:textColor="@color/text_primary" android:textSize="15sp" />
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/str_048" android:textColor="@color/text_hint" android:textSize="12sp" />
+        </LinearLayout>
+        <android.widget.Switch android:id="@+id/sw_auto_refresh" android:layout_width="wrap_content" android:layout_height="wrap_content" />
+    </LinearLayout>
+    <LinearLayout android:id="@+id/row_quiet" android:layout_width="match_parent" android:layout_height="56dp" android:layout_marginTop="8dp" android:gravity="center_vertical" android:orientation="horizontal" android:paddingLeft="16dp" android:paddingRight="16dp" android:background="@drawable/bg_card_balance" android:foreground="@drawable/bg_ripple_24" android:clickable="true" android:focusable="false">
+        <ImageView android:layout_width="24dp" android:layout_height="24dp" android:src="@drawable/ic_bedtime" android:contentDescription="静音时段" />
+        <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:layout_marginLeft="16dp" android:orientation="vertical">
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/str_049" android:textColor="@color/text_primary" android:textSize="15sp" />
+            <TextView android:id="@+id/tv_quiet_desc" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/str_050" android:textColor="@color/text_hint" android:textSize="12sp" />
+        </LinearLayout>
+        <android.widget.Switch android:id="@+id/sw_quiet" android:layout_width="wrap_content" android:layout_height="wrap_content" />
+    </LinearLayout>
+    <LinearLayout android:id="@+id/row_sticky" android:layout_width="match_parent" android:layout_height="56dp" android:layout_marginTop="8dp" android:gravity="center_vertical" android:orientation="horizontal" android:paddingLeft="16dp" android:paddingRight="16dp" android:background="@drawable/bg_card_balance" android:foreground="@drawable/bg_ripple_24" android:clickable="true" android:focusable="false">
+        <ImageView android:layout_width="24dp" android:layout_height="24dp" android:src="@drawable/ic_push_pin" android:contentDescription="常驻通知" />
+        <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:layout_marginLeft="16dp" android:orientation="vertical">
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/str_051" android:textColor="@color/text_primary" android:textSize="15sp" />
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/str_052" android:textColor="@color/text_hint" android:textSize="12sp" />
+        </LinearLayout>
+        <android.widget.Switch android:id="@+id/sw_sticky" android:layout_width="wrap_content" android:layout_height="wrap_content" />
+    </LinearLayout>
+    <TextView android:id="@+id/sec_hdr_4" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="4dp" android:layout_marginTop="20dp" android:layout_marginBottom="8dp" android:text="@string/str_053" android:textColor="@color/primary" android:textSize="12sp" android:textStyle="bold" android:letterSpacing="0.1" />
+    <LinearLayout android:id="@+id/row_float" android:layout_width="match_parent" android:layout_height="56dp" android:layout_marginTop="8dp" android:gravity="center_vertical" android:orientation="horizontal" android:paddingLeft="16dp" android:paddingRight="16dp" android:background="@drawable/bg_card_balance" android:foreground="@drawable/bg_ripple_24" android:clickable="true" android:focusable="false">
+        <ImageView android:layout_width="24dp" android:layout_height="24dp" android:src="@drawable/ic_ball" android:contentDescription="悬浮窗" />
+        <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:layout_marginLeft="16dp" android:orientation="vertical">
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/str_054" android:textColor="@color/text_primary" android:textSize="15sp" />
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/str_055" android:textColor="@color/text_hint" android:textSize="12sp" />
+        </LinearLayout>
+        <android.widget.Switch android:id="@+id/sw_float" android:layout_width="wrap_content" android:layout_height="wrap_content" />
+    </LinearLayout>
+    <LinearLayout android:id="@+id/row_lock" android:layout_width="match_parent" android:layout_height="56dp" android:layout_marginTop="8dp" android:gravity="center_vertical" android:orientation="horizontal" android:paddingLeft="16dp" android:paddingRight="16dp" android:background="@drawable/bg_card_balance" android:foreground="@drawable/bg_ripple_24" android:clickable="true" android:focusable="false">
+        <ImageView android:layout_width="24dp" android:layout_height="24dp" android:src="@drawable/ic_lock" android:contentDescription="锁" />
+        <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:layout_marginLeft="16dp" android:orientation="vertical">
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/str_056" android:textColor="@color/text_primary" android:textSize="15sp" />
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/str_057" android:textColor="@color/text_hint" android:textSize="12sp" />
+        </LinearLayout>
+        <android.widget.Switch android:id="@+id/sw_lock" android:layout_width="wrap_content" android:layout_height="wrap_content" />
+    </LinearLayout>
+    <LinearLayout android:id="@+id/row_auto_lock" android:layout_width="match_parent" android:layout_height="56dp" android:layout_marginTop="8dp" android:gravity="center_vertical" android:orientation="horizontal" android:paddingLeft="16dp" android:paddingRight="16dp" android:background="@drawable/bg_card_balance" android:foreground="@drawable/bg_ripple_24" android:clickable="true" android:focusable="false">
+        <ImageView android:layout_width="24dp" android:layout_height="24dp" android:src="@drawable/ic_timer" android:contentDescription="自动锁" />
+        <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:layout_marginLeft="16dp" android:orientation="vertical">
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/auto_lock" android:textColor="@color/text_primary" android:textSize="15sp" />
+            <TextView android:id="@+id/tv_auto_lock_desc" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/auto_lock_desc" android:textColor="@color/text_hint" android:textSize="12sp" />
+        </LinearLayout>
+    </LinearLayout>
+    <LinearLayout android:id="@+id/row_hide_balance" android:layout_width="match_parent" android:layout_height="56dp" android:layout_marginTop="8dp" android:gravity="center_vertical" android:orientation="horizontal" android:paddingLeft="16dp" android:paddingRight="16dp" android:background="@drawable/bg_card_balance" android:foreground="@drawable/bg_ripple_24" android:clickable="true" android:focusable="false">
+        <ImageView android:layout_width="24dp" android:layout_height="24dp" android:src="@drawable/ic_visibility_off" android:contentDescription="隐藏余额" />
+        <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:layout_marginLeft="16dp" android:orientation="vertical">
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/str_058" android:textColor="@color/text_primary" android:textSize="15sp" />
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/str_059" android:textColor="@color/text_hint" android:textSize="12sp" />
+        </LinearLayout>
+        <android.widget.Switch android:id="@+id/sw_hide_balance" android:layout_width="wrap_content" android:layout_height="wrap_content" />
+    </LinearLayout>
+    <LinearLayout android:id="@+id/row_no_screenshot" android:layout_width="match_parent" android:layout_height="56dp" android:layout_marginTop="8dp" android:gravity="center_vertical" android:orientation="horizontal" android:paddingLeft="16dp" android:paddingRight="16dp" android:background="@drawable/bg_card_balance" android:foreground="@drawable/bg_ripple_24" android:clickable="true" android:focusable="false">
+        <ImageView android:layout_width="24dp" android:layout_height="24dp" android:src="@drawable/ic_block" android:contentDescription="禁截屏" />
+        <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:layout_marginLeft="16dp" android:orientation="vertical">
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/str_060" android:textColor="@color/text_primary" android:textSize="15sp" />
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/str_061" android:textColor="@color/text_hint" android:textSize="12sp" />
+        </LinearLayout>
+        <android.widget.Switch android:id="@+id/sw_no_screenshot" android:layout_width="wrap_content" android:layout_height="wrap_content" />
+    </LinearLayout>
+    <LinearLayout android:id="@+id/row_no_notify" android:layout_width="match_parent" android:layout_height="56dp" android:layout_marginTop="8dp" android:gravity="center_vertical" android:orientation="horizontal" android:paddingLeft="16dp" android:paddingRight="16dp" android:background="@drawable/bg_card_balance" android:foreground="@drawable/bg_ripple_24" android:clickable="true" android:focusable="false">
+        <ImageView android:layout_width="24dp" android:layout_height="24dp" android:src="@drawable/ic_notifications_off" android:contentDescription="禁通知" />
+        <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:layout_marginLeft="16dp" android:orientation="vertical">
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/str_062" android:textColor="@color/text_primary" android:textSize="15sp" />
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/str_063" android:textColor="@color/text_hint" android:textSize="12sp" />
+        </LinearLayout>
+        <android.widget.Switch android:id="@+id/sw_no_notify" android:layout_width="wrap_content" android:layout_height="wrap_content" />
+    </LinearLayout>
+    <TextView android:id="@+id/sec_hdr_5" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="4dp" android:layout_marginTop="20dp" android:layout_marginBottom="8dp" android:text="@string/str_064" android:textColor="@color/primary" android:textSize="12sp" android:textStyle="bold" android:letterSpacing="0.1" />
+    <LinearLayout android:id="@+id/btn_timeout" android:layout_width="match_parent" android:layout_height="56dp" android:layout_marginTop="8dp" android:gravity="center_vertical" android:orientation="horizontal" android:paddingLeft="16dp" android:paddingRight="16dp" android:background="@drawable/bg_card_balance" android:foreground="@drawable/bg_ripple_24" android:clickable="true" android:focusable="false">
+        <ImageView android:layout_width="24dp" android:layout_height="24dp" android:src="@drawable/ic_timer" android:contentDescription="超时" />
+        <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:layout_marginLeft="16dp" android:orientation="vertical">
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/str_065" android:textColor="@color/text_primary" android:textSize="15sp" />
+            <TextView android:id="@+id/tv_timeout_desc" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/str_066" android:textColor="@color/text_hint" android:textSize="12sp" />
+        </LinearLayout>
+    </LinearLayout>
+    <LinearLayout android:id="@+id/btn_proxy" android:layout_width="match_parent" android:layout_height="56dp" android:layout_marginTop="8dp" android:gravity="center_vertical" android:orientation="horizontal" android:paddingLeft="16dp" android:paddingRight="16dp" android:background="@drawable/bg_card_balance" android:foreground="@drawable/bg_ripple_24" android:clickable="true" android:focusable="false">
+        <ImageView android:layout_width="24dp" android:layout_height="24dp" android:src="@drawable/ic_dns" android:contentDescription="代理" />
+        <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:layout_marginLeft="16dp" android:orientation="vertical">
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/str_067" android:textColor="@color/text_primary" android:textSize="15sp" />
+            <TextView android:id="@+id/tv_proxy_desc" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/str_068" android:textColor="@color/text_hint" android:textSize="12sp" />
+        </LinearLayout>
+        <android.widget.Switch android:id="@+id/sw_proxy" android:layout_width="wrap_content" android:layout_height="wrap_content" />
+    </LinearLayout>
+    <LinearLayout android:id="@+id/btn_advanced_net" android:layout_width="match_parent" android:layout_height="56dp" android:layout_marginTop="8dp" android:gravity="center_vertical" android:orientation="horizontal" android:paddingLeft="16dp" android:paddingRight="16dp" android:background="@drawable/bg_card_balance" android:foreground="@drawable/bg_ripple_24" android:clickable="true" android:focusable="false">
+        <ImageView android:layout_width="24dp" android:layout_height="24dp" android:src="@drawable/ic_router" android:contentDescription="高级网络" />
+        <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:layout_marginLeft="16dp" android:orientation="vertical">
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/str_069" android:textColor="@color/text_primary" android:textSize="15sp" />
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/str_070" android:textColor="@color/text_hint" android:textSize="12sp" />
+        </LinearLayout>
+    </LinearLayout>
+    <TextView android:id="@+id/sec_hdr_6" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="4dp" android:layout_marginTop="20dp" android:layout_marginBottom="8dp" android:text="@string/str_071" android:textColor="@color/primary" android:textSize="12sp" android:textStyle="bold" android:letterSpacing="0.1" />
+    <LinearLayout android:id="@+id/btn_update" android:layout_width="match_parent" android:layout_height="56dp" android:layout_marginTop="8dp" android:gravity="center_vertical" android:orientation="horizontal" android:paddingLeft="16dp" android:paddingRight="16dp" android:background="@drawable/bg_card_balance" android:foreground="@drawable/bg_ripple_24" android:clickable="true" android:focusable="false">
+        <ImageView android:layout_width="24dp" android:layout_height="24dp" android:src="@drawable/ic_update" android:contentDescription="检查更新" />
+        <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:layout_marginLeft="16dp" android:orientation="vertical">
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/str_072" android:textColor="@color/text_primary" android:textSize="15sp" />
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/str_073" android:textColor="@color/text_hint" android:textSize="12sp" />
+        </LinearLayout>
+    </LinearLayout>
+    <LinearLayout android:id="@+id/btn_deps" android:layout_width="match_parent" android:layout_height="56dp" android:layout_marginTop="8dp" android:gravity="center_vertical" android:orientation="horizontal" android:paddingLeft="16dp" android:paddingRight="16dp" android:background="@drawable/bg_card_balance" android:foreground="@drawable/bg_ripple_24" android:clickable="true" android:focusable="false">
+        <ImageView android:layout_width="24dp" android:layout_height="24dp" android:src="@drawable/ic_tools" android:contentDescription="依赖统计" />
+        <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:layout_marginLeft="16dp" android:orientation="vertical">
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="第三方依赖统计" android:textColor="@color/text_primary" android:textSize="15sp" />
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="编程语言 / 构建工具链 / 许可声明" android:textColor="@color/text_hint" android:textSize="12sp" />
+        </LinearLayout>
+    </LinearLayout>
+    <LinearLayout android:id="@+id/btn_experimental" android:layout_width="match_parent" android:layout_height="56dp" android:layout_marginTop="8dp" android:gravity="center_vertical" android:orientation="horizontal" android:paddingLeft="16dp" android:paddingRight="16dp" android:background="@drawable/bg_card_balance" android:foreground="@drawable/bg_ripple_24" android:clickable="true" android:focusable="false">
+        <ImageView android:layout_width="24dp" android:layout_height="24dp" android:src="@drawable/ic_pro_mode" android:contentDescription="@string/exp_title" />
+        <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:layout_marginLeft="16dp" android:orientation="vertical">
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/exp_title" android:textColor="@color/text_primary" android:textSize="15sp" />
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/exp_md3_desc" android:textColor="@color/text_hint" android:textSize="12sp" />
+        </LinearLayout>
+    </LinearLayout>
+    <LinearLayout android:id="@+id/btn_about" android:layout_width="match_parent" android:layout_height="56dp" android:layout_marginTop="8dp" android:gravity="center_vertical" android:orientation="horizontal" android:paddingLeft="16dp" android:paddingRight="16dp" android:background="@drawable/bg_card_balance" android:foreground="@drawable/bg_ripple_24" android:clickable="true" android:focusable="false">
+        <ImageView android:layout_width="24dp" android:layout_height="24dp" android:src="@drawable/ic_info" android:contentDescription="关于" />
+        <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:layout_marginLeft="16dp" android:orientation="vertical">
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/str_071" android:textColor="@color/text_primary" android:textSize="15sp" />
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/str_074" android:textColor="@color/text_hint" android:textSize="12sp" />
+        </LinearLayout>
+    </LinearLayout>
+    <LinearLayout android:id="@+id/btn_clear_data" android:layout_width="match_parent" android:layout_height="56dp" android:layout_marginTop="8dp" android:gravity="center_vertical" android:orientation="horizontal" android:paddingLeft="16dp" android:paddingRight="16dp" android:background="@drawable/bg_card_balance" android:foreground="@drawable/bg_ripple_24" android:clickable="true" android:focusable="false">
+        <ImageView android:layout_width="24dp" android:layout_height="24dp" android:src="@drawable/ic_delete" android:contentDescription="清除数据" />
+        <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:layout_marginLeft="16dp" android:orientation="vertical">
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/str_075" android:textColor="@color/text_primary" android:textSize="15sp" />
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/str_076" android:textColor="@color/text_hint" android:textSize="12sp" />
+        </LinearLayout>
+    </LinearLayout>
+    <LinearLayout android:id="@+id/btn_debug" android:layout_width="match_parent" android:layout_height="56dp" android:layout_marginTop="8dp" android:gravity="center_vertical" android:orientation="horizontal" android:paddingLeft="16dp" android:paddingRight="16dp" android:background="@drawable/bg_card_balance" android:foreground="@drawable/bg_ripple_24" android:visibility="gone" android:clickable="true" android:focusable="false">
+        <ImageView android:layout_width="24dp" android:layout_height="24dp" android:src="@drawable/ic_bug" android:contentDescription="调试" />
+        <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:layout_marginLeft="16dp" android:orientation="vertical">
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/str_077" android:textColor="@color/text_primary" android:textSize="15sp" />
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/str_078" android:textColor="@color/text_hint" android:textSize="12sp" />
+        </LinearLayout>
+    </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/btn_security_center"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:layout_marginTop="8dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingLeft="16dp"
+                android:paddingRight="16dp"
+                android:background="@drawable/bg_card_balance"
+                android:foreground="@drawable/bg_ripple_24"
+                android:clickable="true"
+                android:focusable="false">
+                <ImageView
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:src="@drawable/ic_verified"
+                    android:contentDescription="@string/sec_center_title" />
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_marginLeft="16dp"
+                    android:orientation="vertical">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/sec_center_title"
+                        android:textColor="@color/text_primary"
+                        android:textSize="15sp" />
+                    <TextView
+                        android:id="@+id/tv_sec_desc"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/sec_center_desc"
+                        android:textColor="@color/text_hint"
+                        android:textSize="12sp" />
+                </LinearLayout>
+            </LinearLayout>
+                    <LinearLayout android:id="@+id/row_broken"
+            android:layout_width="match_parent" android:layout_height="56dp"
+            android:layout_marginTop="8dp" android:background="@drawable/bg_card_balance"
+            android:foreground="@drawable/bg_ripple_24"
+            android:gravity="center_vertical" android:orientation="horizontal"
+            android:paddingLeft="16dp" android:paddingRight="16dp"
+            android:clickable="true" android:focusable="false">
+            <ImageView android:layout_width="24dp" android:layout_height="24dp"
+                android:src="@drawable/ic_bug" android:contentDescription="@string/broken_item" />
+            <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content"
+                android:layout_weight="1" android:layout_marginLeft="16dp"
+                android:orientation="vertical">
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                    android:text="@string/broken_item" android:textColor="#FF8B1A1A"
+                    android:textSize="15sp" />
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                    android:text="@string/broken_item_desc" android:textColor="@color/text_secondary"
+                    android:textSize="11sp" />
+            </LinearLayout>
+        </LinearLayout>
+
+<LinearLayout
+                android:id="@+id/btn_backup"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:layout_marginTop="8dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingLeft="16dp"
+                android:paddingRight="16dp"
+                android:background="@drawable/bg_card_balance"
+                android:foreground="@drawable/bg_ripple_24"
+                android:clickable="true"
+                android:focusable="false">
+                <ImageView
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:src="@drawable/ic_repo"
+                    android:contentDescription="@string/backup_row_title" />
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_marginLeft="16dp"
+                    android:orientation="vertical">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/backup_row_title"
+                        android:textColor="@color/text_primary"
+                        android:textSize="15sp" />
+                    <TextView
+                        android:id="@+id/tv_backup_desc"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/backup_row_desc"
+                        android:textColor="@color/text_hint"
+                        android:textSize="12sp" />
+                </LinearLayout>
+            </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
+    <View android:layout_width="match_parent" android:layout_height="1dp"
+        android:background="@color/divider" />
+    <TextView android:id="@+id/tv_oss_footer" android:layout_width="match_parent" android:layout_height="wrap_content" android:gravity="center" android:lineSpacingExtra="3dp" android:text="@string/str_079" android:textColor="@color/footer" android:textSize="11sp" android:padding="8dp" />
+
+</LinearLayout>

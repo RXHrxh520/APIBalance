@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/onboarding_root"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/background"
+    android:paddingLeft="24dp"
+    android:paddingRight="24dp"
+    android:paddingTop="24dp"
+    android:paddingBottom="16dp">
+
+    <FrameLayout
+        android:id="@+id/onboarding_content"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingTop="8dp">
+
+        <TextView
+            android:id="@+id/btn_onboard_skip"
+            android:layout_width="0dp"
+            android:layout_height="48dp"
+            android:layout_weight="1"
+            android:layout_marginRight="8dp"
+            android:gravity="center"
+            android:text="@string/onb_skip"
+            android:textColor="@color/text_secondary"
+            android:textSize="15sp"
+            android:background="@drawable/bg_input_field"
+            android:clickable="true"
+            android:focusable="false" />
+
+        <TextView
+            android:id="@+id/btn_onboard_next"
+            android:layout_width="0dp"
+            android:layout_height="48dp"
+            android:layout_weight="2"
+            android:layout_marginLeft="8dp"
+            android:gravity="center"
+            android:text="@string/onb_next"
+            android:textColor="@color/text_on_primary"
+            android:textSize="15sp"
+            android:textStyle="bold"
+            android:background="@drawable/bg_gradient_button"
+            android:clickable="true"
+            android:focusable="false" />
+    </LinearLayout>
+</LinearLayout>

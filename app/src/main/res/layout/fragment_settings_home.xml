@@ -1,0 +1,211 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent"
+    android:fillViewport="true">
+    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+        android:orientation="vertical" android:paddingLeft="16dp" android:paddingRight="16dp"
+        android:paddingTop="18dp" android:paddingBottom="24dp">
+        <!-- v1.5：设置首页是根页面，移除左上角返回入口 -->
+        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+            android:layout_marginTop="6dp" android:text="@string/settings_home_title"
+            android:textColor="@color/text_primary" android:textSize="22sp"
+            android:textStyle="bold" />
+        <LinearLayout android:id="@+id/cat_general"
+            android:layout_width="match_parent" android:layout_height="56dp"
+            android:layout_marginTop="8dp" android:background="@drawable/bg_card_balance"
+            android:foreground="@drawable/bg_ripple_24"
+            android:gravity="center_vertical" android:orientation="horizontal"
+            android:paddingLeft="16dp" android:paddingRight="16dp"
+            android:clickable="true" android:focusable="false">
+            <ImageView android:layout_width="24dp" android:layout_height="24dp"
+                android:src="@drawable/ic_n_tune" android:contentDescription="@string/cat_general" />
+            <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content"
+                android:layout_weight="1" android:layout_marginLeft="16dp"
+                android:orientation="vertical">
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                    android:text="@string/cat_general" android:textColor="@color/text_primary"
+                    android:textSize="15sp" />
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                    android:text="@string/cat_general_desc" android:textColor="@color/text_secondary"
+                    android:textSize="11sp" />
+            </LinearLayout>
+                </LinearLayout>
+<LinearLayout android:id="@+id/cat_switch_ui"
+            android:layout_width="match_parent" android:layout_height="56dp"
+            android:layout_marginTop="8dp" android:background="@drawable/bg_card_balance"
+            android:foreground="@drawable/bg_ripple_24"
+            android:gravity="center_vertical" android:orientation="horizontal"
+            android:paddingLeft="16dp" android:paddingRight="16dp"
+            android:clickable="true" android:focusable="false">
+            <ImageView android:layout_width="24dp" android:layout_height="24dp"
+                android:src="@drawable/ic_refresh" android:contentDescription="@string/legacy_to_new" />
+            <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content"
+                android:layout_weight="1" android:layout_marginLeft="16dp"
+                android:orientation="vertical">
+                <TextView android:id="@+id/tv_switch_ui_title"
+                    android:layout_width="wrap_content" android:layout_height="wrap_content"
+                    android:text="@string/legacy_to_new" android:textColor="@color/text_primary"
+                    android:textSize="15sp" />
+                <TextView android:id="@+id/tv_switch_ui_desc"
+                    android:layout_width="wrap_content" android:layout_height="wrap_content"
+                    android:text="@string/legacy_desc" android:textColor="@color/text_secondary"
+                    android:textSize="11sp" />
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <LinearLayout android:id="@+id/cat_privacy"
+            android:layout_width="match_parent" android:layout_height="56dp"
+            android:layout_marginTop="8dp" android:background="@drawable/bg_card_balance"
+            android:foreground="@drawable/bg_ripple_24"
+            android:gravity="center_vertical" android:orientation="horizontal"
+            android:paddingLeft="16dp" android:paddingRight="16dp"
+            android:clickable="true" android:focusable="false">
+            <ImageView android:layout_width="24dp" android:layout_height="24dp"
+                android:src="@drawable/ic_n_shield" android:contentDescription="@string/cat_privacy" />
+            <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content"
+                android:layout_weight="1" android:layout_marginLeft="16dp"
+                android:orientation="vertical">
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                    android:text="@string/cat_privacy" android:textColor="@color/text_primary"
+                    android:textSize="15sp" />
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                    android:text="@string/cat_privacy_desc" android:textColor="@color/text_secondary"
+                    android:textSize="11sp" />
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <LinearLayout android:id="@+id/cat_network"
+            android:layout_width="match_parent" android:layout_height="56dp"
+            android:layout_marginTop="8dp" android:background="@drawable/bg_card_balance"
+            android:foreground="@drawable/bg_ripple_24"
+            android:gravity="center_vertical" android:orientation="horizontal"
+            android:paddingLeft="16dp" android:paddingRight="16dp"
+            android:clickable="true" android:focusable="false">
+            <ImageView android:layout_width="24dp" android:layout_height="24dp"
+                android:src="@drawable/ic_n_globe" android:contentDescription="@string/cat_network" />
+            <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content"
+                android:layout_weight="1" android:layout_marginLeft="16dp"
+                android:orientation="vertical">
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                    android:text="@string/cat_network" android:textColor="@color/text_primary"
+                    android:textSize="15sp" />
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                    android:text="@string/cat_network_desc" android:textColor="@color/text_secondary"
+                    android:textSize="11sp" />
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <LinearLayout android:id="@+id/cat_appearance"
+            android:layout_width="match_parent" android:layout_height="56dp"
+            android:layout_marginTop="8dp" android:background="@drawable/bg_card_balance"
+            android:foreground="@drawable/bg_ripple_24"
+            android:gravity="center_vertical" android:orientation="horizontal"
+            android:paddingLeft="16dp" android:paddingRight="16dp"
+            android:clickable="true" android:focusable="false">
+            <ImageView android:layout_width="24dp" android:layout_height="24dp"
+                android:src="@drawable/ic_n_palette" android:contentDescription="@string/cat_appearance" />
+            <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content"
+                android:layout_weight="1" android:layout_marginLeft="16dp"
+                android:orientation="vertical">
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                    android:text="@string/cat_appearance" android:textColor="@color/text_primary"
+                    android:textSize="15sp" />
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                    android:text="@string/cat_appearance_desc" android:textColor="@color/text_secondary"
+                    android:textSize="11sp" />
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <LinearLayout android:id="@+id/cat_account"
+            android:layout_width="match_parent" android:layout_height="56dp"
+            android:layout_marginTop="8dp" android:background="@drawable/bg_card_balance"
+            android:foreground="@drawable/bg_ripple_24"
+            android:gravity="center_vertical" android:orientation="horizontal"
+            android:paddingLeft="16dp" android:paddingRight="16dp"
+            android:clickable="true" android:focusable="false">
+            <ImageView android:layout_width="24dp" android:layout_height="24dp"
+                android:src="@drawable/ic_n_badge" android:contentDescription="@string/cat_account" />
+            <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content"
+                android:layout_weight="1" android:layout_marginLeft="16dp"
+                android:orientation="vertical">
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                    android:text="@string/cat_account" android:textColor="@color/text_primary"
+                    android:textSize="15sp" />
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                    android:text="@string/cat_account_desc" android:textColor="@color/text_secondary"
+                    android:textSize="11sp" />
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <LinearLayout android:id="@+id/cat_notify"
+            android:layout_width="match_parent" android:layout_height="56dp"
+            android:layout_marginTop="8dp" android:background="@drawable/bg_card_balance"
+            android:foreground="@drawable/bg_ripple_24"
+            android:gravity="center_vertical" android:orientation="horizontal"
+            android:paddingLeft="16dp" android:paddingRight="16dp"
+            android:clickable="true" android:focusable="false">
+            <ImageView android:layout_width="24dp" android:layout_height="24dp"
+                android:src="@drawable/ic_n_bell" android:contentDescription="@string/cat_notify" />
+            <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content"
+                android:layout_weight="1" android:layout_marginLeft="16dp"
+                android:orientation="vertical">
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                    android:text="@string/cat_notify" android:textColor="@color/text_primary"
+                    android:textSize="15sp" />
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                    android:text="@string/cat_notify_desc" android:textColor="@color/text_secondary"
+                    android:textSize="11sp" />
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <LinearLayout android:id="@+id/cat_advanced"
+            android:layout_width="match_parent" android:layout_height="56dp"
+            android:layout_marginTop="8dp" android:background="@drawable/bg_card_balance"
+            android:foreground="@drawable/bg_ripple_24"
+            android:gravity="center_vertical" android:orientation="horizontal"
+            android:paddingLeft="16dp" android:paddingRight="16dp"
+            android:clickable="true" android:focusable="false">
+            <ImageView android:layout_width="24dp" android:layout_height="24dp"
+                android:src="@drawable/ic_n_build" android:contentDescription="@string/cat_advanced" />
+            <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content"
+                android:layout_weight="1" android:layout_marginLeft="16dp"
+                android:orientation="vertical">
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                    android:text="@string/cat_advanced" android:textColor="@color/text_primary"
+                    android:textSize="15sp" />
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                    android:text="@string/cat_advanced_desc" android:textColor="@color/text_secondary"
+                    android:textSize="11sp" />
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <LinearLayout android:id="@+id/cat_about"
+            android:layout_width="match_parent" android:layout_height="56dp"
+            android:layout_marginTop="8dp" android:background="@drawable/bg_card_balance"
+            android:foreground="@drawable/bg_ripple_24"
+            android:gravity="center_vertical" android:orientation="horizontal"
+            android:paddingLeft="16dp" android:paddingRight="16dp"
+            android:clickable="true" android:focusable="false">
+            <ImageView android:layout_width="24dp" android:layout_height="24dp"
+                android:src="@drawable/ic_n_info" android:contentDescription="@string/cat_about" />
+            <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content"
+                android:layout_weight="1" android:layout_marginLeft="16dp"
+                android:orientation="vertical">
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                    android:text="@string/cat_about" android:textColor="@color/text_primary"
+                    android:textSize="15sp" />
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                    android:text="@string/cat_about_desc" android:textColor="@color/text_secondary"
+                    android:textSize="11sp" />
+            </LinearLayout>
+
+        </LinearLayout>
+    </LinearLayout>
+</ScrollView>

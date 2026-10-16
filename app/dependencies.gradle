@@ -1,0 +1,20 @@
+/*
+ * 第三方依赖统一写在这里，./gradlew assembleDebug 会打包进 APK。
+ *
+ * Maven 示例：
+ *   deps.add("com.squareup.okhttp3:okhttp:4.12.0")
+ *
+ * 本地 JAR/AAR：
+ *   放入 app/libs/，默认 fileTree 已接入。
+ *
+ * native so：
+ *   放入 app/src/main/jniLibs/<abi>/，或由 AAR 自带。
+ */
+ext.generatedAppDependencies = []
+ext.deps = generatedAppDependencies
+
+ext.addGeneratedAppDependencies = { p ->
+    generatedAppDependencies.each { dep ->
+        p.dependencies.add('implementation', dep)
+    }
+}
