@@ -218,7 +218,19 @@ app/src/main/java/asia/rxh/apibalance/
 
 ## 📜 版本历史
 
-### v1.5（当前）
+### v1.5.1（当前）
+- 安全：备份升级为 PBKDF2-SHA256（210000 次）+ AES-GCM，旧备份兼容；备份包含多账户 Key
+- 安全：锁屏恢复代码不允许在锁屏页现场新建，修复绕过；指纹改用系统 BiometricPrompt
+- 安全：更新包只解析 GitHub Release 资产、只允许 GitHub 域名、安装前校验官方证书指纹
+- 安全：自定义 API 与汇率地址强制 HTTPS；新增 network_security_config，关闭明文流量
+- 安全：悬浮窗补前台服务通知与 specialUse 类型；桌面小组件接收器改为 exported
+- 修复：安全中心状态栏 ✓ / ✗ 字面量乱码
+- 修复：自定义服务商在登录页无法选中、余额页与悬浮窗名称缺少 Context
+- 修复：清除数据遗漏 prefs；onResume 生命周期顺序；快捷方式与常驻通知固定 DeepSeek
+- 修复：定时刷新最小间隔、已移除的精确闹钟权限检查
+- 工程：AGP 9.4.0 / Gradle 9.8.2 / JDK 27 / compileSdk 37 / targetSdk 37 / buildTools 37.0.0
+- 工程：OkHttp 4.12.1 / Gson 2.14.0；移除 jitpack；签名启用 v2 / v3 / v4
+### v1.5
 - 构建链升级：AGP 8.10.0 / Gradle 8.14.3 / JDK 21 / compileSdk 36 / buildTools 36.0.0
 - 显式开启 BuildConfig 生成（AGP 8 起默认关闭）
 - 签名信息改为本地配置或环境变量提供，仓库内不再保存密钥

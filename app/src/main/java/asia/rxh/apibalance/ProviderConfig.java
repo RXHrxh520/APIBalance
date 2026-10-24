@@ -153,7 +153,7 @@ public final class ProviderConfig {
         if (name.trim().length() > 20) return ctx.getString(R.string.g_004);
         if (url == null || url.trim().isEmpty()) return ctx.getString(R.string.g_005);
         String u = url.trim();
-        if (!u.startsWith("https://") && !u.startsWith("http://")) return ctx.getString(R.string.g_006);
+        if (!u.startsWith("https://")) return ctx.getString(R.string.g_006);
         if (auth != AUTH_BEARER && auth != AUTH_X_API_KEY) return ctx.getString(R.string.g_007);
         if (path == null || path.trim().isEmpty()) return ctx.getString(R.string.g_008);
         String p = path.trim();

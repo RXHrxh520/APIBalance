@@ -3,14 +3,12 @@ package asia.rxh.apibalance;
 /*
  * Copyright (C) 2026 软小寒
  *
- * This file is part of APIBalance.
- *
- * APIBalance is free software: you can redistribute it and/or modify
+ * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
- * APIBalance is distributed in the hope that it will be useful,
+ * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU Affero General Public License for more details.
@@ -22,17 +20,19 @@ package asia.rxh.apibalance;
 import android.content.Context;
 import android.content.SharedPreferences;
 
-/**
- * 隐私/锁屏设置：指纹锁、隐藏余额、密码等。
- * 密码以「随机盐 + SHA-256 哈希」存储，不落明文。
- */
+/** 锁屏密码、恢复代码与隐私开关。密码和恢复代码只保存加盐慢哈希。 */
 public final class PrivacyPrefs {
 
     private static final String PREFS = "ds_privacy";
     private static final String KEY_LOCK = "lock_enabled";
     private static final String KEY_HIDE_BALANCE = "hide_balance";
-    private static final String KEY_PASSWORD = "lock_password"; // 存 salt:hash
+    private static final String KEY_PASSWORD = "lock_password";
     private static final String KEY_SALT = "lock_salt";
+    private static final String KEY_F2A = "f2a";
+    private static final String KEY_F2A_SALT = "f2a_salt";
+
+    private static final int PBKDF2_ITERATIONS = 210000;
+    private static final int LEGACY_PBKDF2_ITERATIONS = 12000;
 
     private PrivacyPrefs() {
     }
@@ -57,72 +57,148 @@ public final class PrivacyPrefs {
         sp(c).edit().putBoolean(KEY_HIDE_BALANCE, b).apply();
     }
 
-    /** 锁屏或「隐藏余额」开启时，任何地方都不应直接展示余额数字。 */
     public static boolean shouldMaskBalance(Context c) {
-        return isLockEnabled(c) || isHideBalance(c);
+        return c != null && (isLockEnabled(c) || isHideBalance(c));
     }
 
-    /** 按隐私设置打码余额文本。 */
     public static String maskBalance(Context c, String text) {
         return shouldMaskBalance(c) ? "••••" : text;
     }
 
-    /** 是否已设置锁屏密码。 */
     public static boolean hasPassword(Context c) {
         return sp(c).getString(KEY_PASSWORD, null) != null;
     }
 
-    /** 设置锁屏密码：生成随机盐，存 salt:sha256(salt+pw)。少于 4 位拒绝。 */
     public static void setPassword(Context c, String pw) {
         if (pw == null || pw.length() < 4) return;
-        try {
-            byte[] salt = new byte[16];
-            new java.security.SecureRandom().nextBytes(salt);
-            String hash = pbkdf2(salt, pw);
-            if (hash == null) return;
-            sp(c).edit()
-                    .putString(KEY_SALT, toHex(salt))
-                    .putString(KEY_PASSWORD, "pbkdf2:" + hash)
-                    .apply();
-        } catch (Exception ignored) {
-        }
+        byte[] salt = randomSalt();
+        String hash = pbkdf2(salt, pw, PBKDF2_ITERATIONS);
+        if (hash == null) return;
+        sp(c).edit()
+                .putString(KEY_SALT, toHex(salt))
+                .putString(KEY_PASSWORD, "pbkdf2:" + PBKDF2_ITERATIONS + ":" + hash)
+                .apply();
     }
 
-    /** 校验密码；不存在或错误返回 false。 */
     public static boolean checkPassword(Context c, String pw) {
         if (pw == null) return false;
         String stored = sp(c).getString(KEY_PASSWORD, null);
         String saltHex = sp(c).getString(KEY_SALT, null);
         if (stored == null || saltHex == null) return false;
         if (stored.startsWith("pbkdf2:")) {
-            String hash = pbkdf2(fromHex(saltHex), pw);
-            return hash != null && constantTimeEquals(hash, stored.substring("pbkdf2:".length()));
+            String rest = stored.substring(7);
+            int iterations = LEGACY_PBKDF2_ITERATIONS;
+            String hash = rest;
+            int split = rest.indexOf(':');
+            if (split > 0) {
+                iterations = parseInt(rest.substring(0, split), LEGACY_PBKDF2_ITERATIONS);
+                hash = rest.substring(split + 1);
+            }
+            String calc = pbkdf2(fromHex(saltHex), pw, iterations);
+            return calc != null && constantTimeEquals(calc, hash);
         }
-        // 兼容旧版本 sha256(salt+pw) 格式
         String hash = sha256(saltHex + pw);
         return hash != null && constantTimeEquals(hash, stored);
     }
 
-    /** 清除密码（与锁开关一起由清除数据/设置处理）。 */
     public static void clearPassword(Context c) {
         sp(c).edit().remove(KEY_PASSWORD).remove(KEY_SALT).apply();
     }
 
-    /** PBKDF2 迭代次数。 */
-    private static final int PBKDF2_ITERATIONS = 12000;
+    /** 恢复代码：设置时只保存哈希，不再落明文。 */
+    public static void setF2a(Context c, String code) {
+        if (code == null || code.trim().isEmpty()) {
+            sp(c).edit().remove(KEY_F2A).remove(KEY_F2A_SALT).apply();
+            return;
+        }
+        byte[] salt = randomSalt();
+        String hash = pbkdf2(salt, code.trim(), PBKDF2_ITERATIONS);
+        if (hash == null) return;
+        sp(c).edit()
+                .putString(KEY_F2A_SALT, toHex(salt))
+                .putString(KEY_F2A, "pbkdf2:" + PBKDF2_ITERATIONS + ":" + hash)
+                .apply();
+    }
 
-    /** PBKDF2-HMAC-SHA256 派生 256 位密钥（慢哈希，抗暴力破解）。 */
-    private static String pbkdf2(byte[] salt, String pw) {
+    /** 校验恢复代码；兼容旧版本遗留的明文。 */
+    public static boolean checkF2a(Context c, String code) {
+        String stored = sp(c).getString(KEY_F2A, "");
+        if (stored == null || stored.isEmpty() || code == null) return false;
+        String input = code.trim();
+        if (stored.startsWith("pbkdf2:")) {
+            String saltHex = sp(c).getString(KEY_F2A_SALT, null);
+            if (saltHex == null) return false;
+            String rest = stored.substring(7);
+            int iterations = LEGACY_PBKDF2_ITERATIONS;
+            String hash = rest;
+            int split = rest.indexOf(':');
+            if (split > 0) {
+                iterations = parseInt(rest.substring(0, split), LEGACY_PBKDF2_ITERATIONS);
+                hash = rest.substring(split + 1);
+            }
+            String calc = pbkdf2(fromHex(saltHex), input, iterations);
+            return calc != null && constantTimeEquals(calc, hash);
+        }
+        boolean ok = constantTimeEquals(stored, input);
+        if (ok) setF2a(c, input);
+        return ok;
+    }
+
+    /** 仅供迁移/诊断使用；新代码应使用 checkF2a。 */
+    public static String getF2a(Context c) {
+        return sp(c).getString(KEY_F2A, "");
+    }
+
+    public static boolean hasF2a(Context c) {
+        String v = getF2a(c);
+        return v != null && !v.isEmpty();
+    }
+
+    public static void clearAll(Context c) {
+        sp(c).edit().clear().apply();
+    }
+
+    public static int getLockDelay(Context c) {
+        return sp(c).getInt("lock_delay", 0);
+    }
+
+    public static void setLockDelay(Context c, int minutes) {
+        sp(c).edit().putInt("lock_delay", minutes).apply();
+    }
+
+    public static int getLockMethod(Context c) {
+        return sp(c).getInt("lock_method", 0);
+    }
+
+    public static void setLockMethod(Context c, int method) {
+        sp(c).edit().putInt("lock_method", method).apply();
+    }
+
+    private static byte[] randomSalt() {
+        byte[] salt = new byte[16];
+        new java.security.SecureRandom().nextBytes(salt);
+        return salt;
+    }
+
+    private static String pbkdf2(byte[] salt, String pw, int iterations) {
         try {
             javax.crypto.SecretKeyFactory f =
                     javax.crypto.SecretKeyFactory.getInstance("PBKDF2WithHmacSHA256");
             javax.crypto.spec.PBEKeySpec spec =
-                    new javax.crypto.spec.PBEKeySpec(pw.toCharArray(), salt, PBKDF2_ITERATIONS, 256);
+                    new javax.crypto.spec.PBEKeySpec(pw.toCharArray(), salt, iterations, 256);
             byte[] dk = f.generateSecret(spec).getEncoded();
             spec.clearPassword();
             return toHex(dk);
         } catch (Exception e) {
             return null;
+        }
+    }
+
+    private static int parseInt(String s, int fallback) {
+        try {
+            return Integer.parseInt(s);
+        } catch (Exception e) {
+            return fallback;
         }
     }
 
@@ -157,45 +233,8 @@ public final class PrivacyPrefs {
     private static boolean constantTimeEquals(String a, String b) {
         if (a == null || b == null || a.length() != b.length()) return false;
         int diff = 0;
-        for (int i = 0; i < a.length(); i++) {
-            diff |= a.charAt(i) ^ b.charAt(i);
-        }
+        for (int i = 0; i < a.length(); i++) diff |= a.charAt(i) ^ b.charAt(i);
         return diff == 0;
     }
-
-    /** 自动锁定延迟（分钟，0 = 每次回到应用都验证）。 */
-    public static int getLockDelay(Context c) {
-        return sp(c).getInt("lock_delay", 0);
-    }
-
-    public static void setLockDelay(Context c, int minutes) {
-        sp(c).edit().putInt("lock_delay", minutes).apply();
-    }
-
-    /** 验证方式：0 = 软件密码，1 = 系统原生验证。 */
-    public static int getLockMethod(Context c) {
-        return sp(c).getInt("lock_method", 0);
-    }
-
-    public static void setLockMethod(Context c, int method) {
-        sp(c).edit().putInt("lock_method", method).apply();
-    }
-
-    /** F2a 验证代码：忘记密码时用它重置，由用户提前设置。 */
-    public static String getF2a(Context c) {
-        return sp(c).getString("f2a", "");
-    }
-
-    public static void setF2a(Context c, String code) {
-        sp(c).edit().putString("f2a", code == null ? "" : code).apply();
-    }
-
-    public static boolean hasF2a(Context c) {
-        return !getF2a(c).isEmpty();
-    }
-
-    /** 清空本模块记录的全部隐私设置。 */
-    public static void clearAll(Context c) {
-        sp(c).edit().clear().apply();
-    }
 }
+

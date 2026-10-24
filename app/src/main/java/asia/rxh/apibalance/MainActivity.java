@@ -234,9 +234,15 @@ public class MainActivity extends Activity {
 
         // 桌面快捷方式"一键查余额"：直接进入余额页（有 key 时）
         if ("QUICK_QUERY".equals(getIntent() != null ? getIntent().getAction() : null)) {
-            String qk = CryptoManager.read(this, getProviderKeyName(ProviderConfig.PROVIDER_DEEPSEEK));
+            int quickPid = getSharedPreferences(PREFS_NAME, MODE_PRIVATE)
+                    .getInt(KEY_PROVIDER, ProviderConfig.PROVIDER_DEEPSEEK);
+            String qk = CryptoManager.read(this, getProviderKeyName(quickPid));
+            if (qk == null || qk.isEmpty()) {
+                quickPid = ProviderConfig.PROVIDER_DEEPSEEK;
+                qk = CryptoManager.read(this, getProviderKeyName(quickPid));
+            }
             if (qk != null && !qk.isEmpty()) {
-                currentProviderId = ProviderConfig.PROVIDER_DEEPSEEK;
+                currentProviderId = quickPid;
                 currentApiKey = qk;
                 // 安全：启用密码/指纹锁时，快捷方式也必须先验证，不得直接进余额页
                 if (PrivacyPrefs.isLockEnabled(this)) {
@@ -282,12 +288,12 @@ public class MainActivity extends Activity {
 
     @Override
     protected void onResume() {
+        super.onResume();
         // 语言在别处（引导页/设置页）被改过：重建自身让新语言立刻生效
         if (appliedLang >= 0 && AppPrefs.getLanguage(this) != appliedLang) {
             recreate();
             return;
         }
-        super.onResume();
         try {
             highlightTab((android.widget.LinearLayout) findViewById(R.id.bottom_nav), currentTab);
         } catch (Throwable ignored) {
@@ -332,9 +338,15 @@ public class MainActivity extends Activity {
         super.onNewIntent(intent);
         setIntent(intent);
         if (intent != null && "QUICK_QUERY".equals(intent.getAction())) {
-            String qk = CryptoManager.read(this, getProviderKeyName(ProviderConfig.PROVIDER_DEEPSEEK));
+            int quickPid = getSharedPreferences(PREFS_NAME, MODE_PRIVATE)
+                    .getInt(KEY_PROVIDER, ProviderConfig.PROVIDER_DEEPSEEK);
+            String qk = CryptoManager.read(this, getProviderKeyName(quickPid));
+            if (qk == null || qk.isEmpty()) {
+                quickPid = ProviderConfig.PROVIDER_DEEPSEEK;
+                qk = CryptoManager.read(this, getProviderKeyName(quickPid));
+            }
             if (qk != null && !qk.isEmpty()) {
-                currentProviderId = ProviderConfig.PROVIDER_DEEPSEEK;
+                currentProviderId = quickPid;
                 currentApiKey = qk;
                 if (PrivacyPrefs.isLockEnabled(this)) {
                     showLockFragment();
@@ -693,7 +705,7 @@ public class MainActivity extends Activity {
         android.app.PendingIntent pi = android.app.PendingIntent.getBroadcast(this, 0, i,
                 android.app.PendingIntent.FLAG_UPDATE_CURRENT | android.app.PendingIntent.FLAG_IMMUTABLE);
         if (enable) {
-            long interval = AppPrefs.getRefreshIntervalSec(this) * 1000L;
+            long interval = Math.max(60, AppPrefs.getRefreshIntervalSec(this)) * 1000L;
             long first = System.currentTimeMillis() + 60 * 1000L; // 1 分钟后首次
             am.setInexactRepeating(android.app.AlarmManager.RTC_WAKEUP, first, interval, pi);
         } else {
@@ -705,10 +717,17 @@ public class MainActivity extends Activity {
     public void showStickyNotify() {
         java.util.List<BalanceHistoryStore.HistoryItem> items =
                 BalanceHistoryStore.getAll(this);
-        if (!items.isEmpty()) {
-            BalanceHistoryStore.HistoryItem last = items.get(items.size() - 1);
+        BalanceHistoryStore.HistoryItem last = null;
+        for (int i = items.size() - 1; i >= 0; i--) {
+            if (items.get(i).providerId == currentProviderId) {
+                last = items.get(i);
+                break;
+            }
+        }
+        if (last == null && !items.isEmpty()) last = items.get(items.size() - 1);
+        if (last != null) {
             String symbol = "CNY".equals(last.currency) ? "¥" : "$";
-            Notifier.showSticky(this, ProviderConfig.get(last.providerId).name,
+            Notifier.showSticky(this, ProviderConfig.get(this, last.providerId).name,
                     symbol + String.format("%.2f", last.total));
         } else {
             Notifier.showSticky(this, "APIBalance", getString(R.string.j_139));

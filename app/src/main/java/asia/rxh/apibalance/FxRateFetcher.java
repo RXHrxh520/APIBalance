@@ -40,17 +40,24 @@ public final class FxRateFetcher {
     public static double fetch(Context ctx) {
         String url = AppPrefs.getRateUrl(ctx);
         if (url == null || url.trim().isEmpty()) return -1;
+        url = url.trim();
+        if (!url.startsWith("https://")) return -1;
         HttpURLConnection conn = null;
         try {
-            conn = (HttpURLConnection) new URL(url.trim()).openConnection();
+            conn = (HttpURLConnection) new URL(url).openConnection();
             conn.setRequestMethod("GET");
             conn.setConnectTimeout(10000);
             conn.setReadTimeout(10000);
+            conn.setRequestProperty("User-Agent", "APIBalance/" + BuildConfig.VERSION_NAME);
             if (conn.getResponseCode() != 200) return -1;
+            if (!"https".equalsIgnoreCase(conn.getURL().getProtocol())) return -1;
             BufferedReader rd = new BufferedReader(new InputStreamReader(conn.getInputStream(), "UTF-8"));
             StringBuilder sb = new StringBuilder();
             String line;
-            while ((line = rd.readLine()) != null) sb.append(line);
+            while ((line = rd.readLine()) != null) {
+                if (sb.length() + line.length() > 256 * 1024) return -1;
+                sb.append(line);
+            }
             rd.close();
             org.json.JSONObject o = new org.json.JSONObject(sb.toString());
             double rate = o.optDouble("usd_cny", 0);

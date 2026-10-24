@@ -328,7 +328,7 @@
     <string name="j_155">近 30 天</string>
     <string name="j_156">近 90 天</string>
     <string name="j_157">按时间筛</string>
-    <string name="j_158">总额 %.2f %s    赠金 %.2f    充值 %.2f</string>
+    <string name="j_158" formatted="false">总额 %.2f %s    赠金 %.2f    充值 %.2f</string>
     <string name="j_159">往事读不出来:…</string>
     <string name="j_160">赠金余额</string>
     <string name="j_161">充值余额</string>

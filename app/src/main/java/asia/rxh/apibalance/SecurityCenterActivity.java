@@ -76,8 +76,8 @@ public class SecurityCenterActivity extends Activity {
                         else unk++;
                     }
                     if (status != null) {
-                        status.setText(getString(R.string.sec_done) + "  \\u2713 " + ok
-                                + "   \\u2717 " + warn + "   ? " + unk);
+                        status.setText(getString(R.string.sec_done) + "  ✓ " + ok
+                                + "   ✗ " + warn + "   ? " + unk);
                     }
                 }
             }, 60L * i);

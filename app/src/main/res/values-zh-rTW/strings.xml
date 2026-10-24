@@ -328,7 +328,7 @@
     <string name="j_155">近 30 天</string>
     <string name="j_156">近 90 天</string>
     <string name="j_157">按時間篩選</string>
-    <string name="j_158">總額 %.2f %s    贈金 %.2f    充值 %.2f</string>
+    <string name="j_158" formatted="false">總額 %.2f %s    贈金 %.2f    充值 %.2f</string>
     <string name="j_159">歷史數據加載失敗: </string>
     <string name="j_160">贈金餘額</string>
     <string name="j_161">充值餘額</string>
