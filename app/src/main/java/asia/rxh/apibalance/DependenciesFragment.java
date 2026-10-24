@@ -43,24 +43,24 @@ public class DependenciesFragment extends Fragment {
         sb.append("• v" + BuildConfig.VERSION_NAME + " (code " + BuildConfig.VERSION_CODE + ")\n\n");
         // ===== 构建工具链 =====
         sb.append(getString(R.string.dep_section_build)).append("\n");
-        sb.append("• JDK 21 (Temurin, aarch64)\n");
-        sb.append("• Gradle 8.14.3\n");
-        sb.append("• Android Gradle Plugin 8.10.0\n");
-        sb.append("• Android SDK build-tools 36.0.0（aapt2 / d8 / zipalign）\n");
+        sb.append("• JDK 27 (Temurin, aarch64)\n");
+        sb.append("• Gradle 9.8.2\n");
+        sb.append("• Android Gradle Plugin 9.4.0\n");
+        sb.append("• Android SDK build-tools 37.0.0（aapt2 / d8 / zipalign）\n");
         sb.append("• R8 / ProGuard（release 混淆与裁剪）\n\n");
 
         // ===== 运行时依赖 =====
         sb.append(getString(R.string.dep_section_runtime)).append("\n");
-        sb.append("• OkHttp 4.12.0（Apache License 2.0）——HTTP 客户端\n");
-        sb.append("• Gson 2.10.1（Apache License 2.0）——JSON 解析\n");
+        sb.append("• OkHttp 4.12.1（Apache License 2.0）——HTTP 客户端\n");
+        sb.append("• Gson 2.14.0（Apache License 2.0）——JSON 解析\n");
         sb.append("• 其余功能（图表、图表动画、骨架屏、主题）均为本项目自绘，无第三方 UI 库\n\n");
 
         // ===== 平台能力 =====
         sb.append(getString(R.string.dep_section_platform)).append("\n");
-        sb.append("• Android API 36（minSdk 26 / targetSdk 34 / compileSdk 36）\n");
+        sb.append("• Android API 37（minSdk 26 / targetSdk 37 / compileSdk 37）\n");
         sb.append("• Android Keystore + AES/GCM（API Key 本地加密存储）\n");
-        sb.append("• BiometricPrompt（指纹/人脸解锁）\n");
-        sb.append("• AlarmManager / JobScheduler（定时刷新）\n");
+        sb.append("• 平台 BiometricPrompt（指纹/人脸解锁，API 28+）\n");
+        sb.append("• AlarmManager（定时刷新，系统可能延迟）\n");
         sb.append("• MediaStore / ShortcutManager / WindowManager / NotificationManager\n\n");
 
         // ===== 服务商接口 =====

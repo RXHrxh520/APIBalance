@@ -96,7 +96,7 @@ public class BalanceFragment extends Fragment {
         TextView tvPeakBadge = view.findViewById(R.id.tv_peak_badge);
 
         // 标题显示当前服务商，点击快捷切换
-        tvProviderTitle.setText(ProviderConfig.get(providerId).name + getString(R.string.j_104));
+        tvProviderTitle.setText(ProviderConfig.get(getActivity(), providerId).name + getString(R.string.j_104));
         tvProviderTitle.setTextColor(ThemePrefs.getColor(getActivity()));
 
         // 峰谷卡片：仅 DeepSeek 展示（其它服务商无此定价规则）
@@ -220,7 +220,7 @@ public class BalanceFragment extends Fragment {
                     double threshold = AppPrefs.getAlertThreshold(getActivity());
                     if (result.totalBalance < threshold) {
                         Notifier.notifyBalance(getActivity(), getString(R.string.j_116),
-                                ProviderConfig.get(pid).name + getString(R.string.j_117)
+                                ProviderConfig.get(getActivity(), pid).name + getString(R.string.j_117)
                                         + PrivacyPrefs.maskBalance(getActivity(), String.format("%.2f %s", result.totalBalance, result.currency))
                                         + getString(R.string.j_118) + PrivacyPrefs.maskBalance(getActivity(), String.format("%.2f", threshold)));
                     }
@@ -305,16 +305,16 @@ public class BalanceFragment extends Fragment {
             boolean up = newTotal > lastTotal;
             int color = up ? 0xFF2E7D32 : 0xFFC62828;
             tvProviderTitle.setTextColor(color);
-            tvProviderTitle.setText(ProviderConfig.get(providerId).name + getString(R.string.j_119) + (up ? "↑" : "↓"));
+            tvProviderTitle.setText(ProviderConfig.get(getActivity(), providerId).name + getString(R.string.j_119) + (up ? "↑" : "↓"));
             tvProviderTitle.postDelayed(() -> {
                 if (tvProviderTitle != null && getActivity() != null) {
                     tvProviderTitle.setTextColor(ThemePrefs.getColor(getActivity()));
-                    tvProviderTitle.setText(ProviderConfig.get(providerId).name + getString(R.string.j_104));
+                    tvProviderTitle.setText(ProviderConfig.get(getActivity(), providerId).name + getString(R.string.j_104));
                 }
             }, 2500);
         } else if (getActivity() != null) {
             tvProviderTitle.setTextColor(ThemePrefs.getColor(getActivity()));
-            tvProviderTitle.setText(ProviderConfig.get(providerId).name + getString(R.string.j_104));
+            tvProviderTitle.setText(ProviderConfig.get(getActivity(), providerId).name + getString(R.string.j_104));
         }
 
         if (PrivacyPrefs.isHideBalance(getActivity())) {
@@ -368,7 +368,8 @@ public class BalanceFragment extends Fragment {
     }
 
     private String formatBalance(double d) {
-        if (PrivacyPrefs.isHideBalance(getActivity())) {
+        android.content.Context ctx = getContext();
+        if (ctx != null && PrivacyPrefs.isHideBalance(ctx)) {
             return "****";
         }
         return String.format("%.2f", d);

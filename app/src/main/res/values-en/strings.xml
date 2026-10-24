@@ -403,6 +403,8 @@ For learning only. Author is not liable for API misuse.</string>
     <string name="update_install_hint">Tap “Download &amp; Install” to download the APK and install it.</string>
     <string name="update_download_install">Download &amp; Install</string>
     <string name="update_downloading">Downloading update...</string>
+    <string name="update_sig_mismatch">APK signature does not match the official certificate. Installation refused.</string>
+    <string name="update_bad_url">Update URL is not GitHub. Download refused.</string>
     <string name="update_fail">Download failed</string>
     <string name="update_saved_to">Update package saved: </string>
     <string name="update_manual_install">Install the update from your Downloads folder</string>
@@ -722,6 +724,7 @@ For learning only. Author is not liable for API misuse.</string>
     <string name="lock_forgot_code">Reset with a recovery code</string>
     <string name="lock_forgot_code_hint">Enter the F2a recovery code you set</string>
     <string name="lock_forgot_wrong">Wrong recovery code</string>
+    <string name="lock_forgot_no_code">No recovery code is set. Clear all data, or set one in Settings first.</string>
     <string name="lock_reset_done">Password reset. Please set a new one.</string>
     <string name="lock_clear_confirm">Clear all data?</string>
     <string name="lock_clear_done">All data cleared</string>
@@ -876,6 +879,7 @@ For learning only. Author is not liable for API misuse.</string>
     <string name="backup_need_pwd_desc">Set one now to protect backups</string>
     <string name="backup_saved">Backup exported</string>
     <string name="backup_failed">Backup failed</string>
+    <string name="backup_restoring">Restoring, please wait…</string>
     <string name="backup_restored">Restore complete</string>
     <string name="backup_restore_failed">Restore failed</string>
     <string name="backup_downgrade">Downgrade detected</string>
@@ -972,4 +976,6 @@ For learning only. Author is not liable for API misuse.</string>
     <string name="verify_pwd_wrong">Wrong password</string>
     <string name="backup_starting">Preparing export…</string>
     <string name="backup_pwd_short">Backup password must be at least 4 characters</string>
+    <string name="float_channel">Balance overlay</string>
+    <string name="float_running">Balance overlay is running</string>
 </resources>

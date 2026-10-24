@@ -31,15 +31,15 @@ def rxhSigningValue = { String key ->
 
 android {
     namespace 'asia.rxh.apibalance'
-    compileSdk 36
-    buildToolsVersion '36.0.0'
+    compileSdk 37
+    buildToolsVersion '37.0.0'
 
     defaultConfig {
         applicationId 'asia.rxh.apibalance'
         minSdk 26
-        targetSdk 34
-        versionCode 7
-        versionName '1.5'
+        targetSdk 37
+        versionCode 8
+        versionName '1.5.1'
         buildConfigField "String", "BUILD_TIME", "\"" + new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm").format(new java.util.Date()) + "\""
     }
 
@@ -56,6 +56,10 @@ android {
             storePassword rxhSigningValue('RXH_STORE_PASS')
             keyAlias rxhSigningValueOr('RXH_KEY_ALIAS', 'key0')
             keyPassword rxhSigningValue('RXH_KEY_PASS')
+            enableV1Signing true
+            enableV2Signing true
+            enableV3Signing true
+            enableV4Signing true
         }
     }
 
@@ -88,6 +92,6 @@ dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar', '*.aar'])
     addGeneratedAppDependencies(project)
     // 现代网络 / JSON 依赖
-    implementation 'com.squareup.okhttp3:okhttp:4.12.0'
-    implementation 'com.google.code.gson:gson:2.10.1'
+    implementation 'com.squareup.okhttp3:okhttp:4.12.1'
+    implementation 'com.google.code.gson:gson:2.14.0'
 }

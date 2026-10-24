@@ -410,6 +410,8 @@
     <string name="update_install_hint">点击「下载安装」将直接下载 APK 并安装。</string>
     <string name="update_download_install">下载安装</string>
     <string name="update_downloading">开始下载更新包…</string>
+    <string name="update_sig_mismatch">安装包签名与官方证书不一致，已拒绝安装。</string>
+    <string name="update_bad_url">更新地址不是 GitHub，已拒绝下载。</string>
     <string name="update_fail">下载失败</string>
     <string name="update_saved_to">更新包已保存：</string>
     <string name="update_manual_install">请到通知/下载目录手动安装更新包</string>
@@ -729,6 +731,7 @@
     <string name="lock_forgot_code">使用验证代码重置</string>
     <string name="lock_forgot_code_hint">输入你预留的 F2a 验证代码</string>
     <string name="lock_forgot_wrong">验证代码不正确</string>
+    <string name="lock_forgot_no_code">未设置恢复代码，只能清除所有数据。请先在设置中设置恢复代码。</string>
     <string name="lock_reset_done">密码已重置，请重新设置</string>
     <string name="lock_clear_confirm">确定要清空所有数据吗？</string>
     <string name="lock_clear_done">数据已清空</string>
@@ -887,6 +890,7 @@
     <string name="backup_need_pwd_desc">备份会用你设置的加密密码保护，现在去设置一个？</string>
     <string name="backup_saved">备份已导出</string>
     <string name="backup_failed">备份失败</string>
+    <string name="backup_restoring">正在恢复，请稍候…</string>
     <string name="backup_restored">恢复完成</string>
     <string name="backup_restore_failed">恢复失败，文件可能已损坏</string>
     <string name="backup_downgrade">检测到版本回退</string>
@@ -1036,4 +1040,6 @@
     <string name="share_style_minimal">极简白</string>
     <string name="share_style_theme">跟随主题强调色</string>
     <string name="share_style_saved">已更新卡片配色</string>
+    <string name="float_channel">余额悬浮窗</string>
+    <string name="float_running">余额悬浮窗运行中</string>
 </resources>

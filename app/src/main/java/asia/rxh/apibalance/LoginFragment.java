@@ -235,13 +235,18 @@ public class LoginFragment extends Fragment {
         for (int i = 0; i < ids.length; i++) {
             opts[i] = (ids[i] >= 0 && ids[i] < base.length) ? base[ids[i]] : "";
         }
-        opts[ids.length] = getString(R.string.onb_custom_entry);
+        opts[ids.length] = AppPrefs.hasCustomProvider(getActivity())
+                ? AppPrefs.getCustomProviderName(getActivity())
+                : getString(R.string.onb_custom_entry);
         int cur = 0;
         for (int i = 0; i < ids.length; i++) {
             if (ids[i] == providerId) cur = i;
         }
+        if (providerId == ProviderConfig.PROVIDER_CUSTOM && AppPrefs.hasCustomProvider(getActivity())) {
+            cur = ids.length;
+        }
         final int init = cur;
-        providerId = ids[init];
+        if (init < ids.length) providerId = ids[init];
         final int[] sel = { init };
         if (tvProvider == null) return;
         tvProvider.setText(opts[init]);
@@ -252,7 +257,13 @@ public class LoginFragment extends Fragment {
         tvProvider.setOnClickListener(v -> UiDialog.showPicker(getActivity(),
                 getString(R.string.onb_provider_title), opts, sel[0], pos -> {
                     if (pos == ids.length) {
-                        showCustomProviderEditor();
+                        if (!AppPrefs.hasCustomProvider(getActivity())) {
+                            showCustomProviderEditor();
+                            return;
+                        }
+                        sel[0] = pos;
+                        providerId = ProviderConfig.PROVIDER_CUSTOM;
+                        tvProvider.setText(opts[pos]);
                         return;
                     }
                     sel[0] = pos;

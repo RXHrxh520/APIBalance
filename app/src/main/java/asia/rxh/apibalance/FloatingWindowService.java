@@ -60,10 +60,46 @@ public class FloatingWindowService extends Service {
             stopSelf();
             return START_NOT_STICKY;
         }
+        startForegroundCompat();
         if (floatBall == null) {
             createFloatBall();
         }
         return START_STICKY;
+    }
+
+
+    /** Android 8+ 后台服务需要前台通知；Android 14+ 由清单声明 specialUse 类型。 */
+    private void startForegroundCompat() {
+        try {
+            final String channelId = "floating_balance";
+            if (Build.VERSION.SDK_INT >= 26) {
+                android.app.NotificationManager nm =
+                        getSystemService(android.app.NotificationManager.class);
+                if (nm != null) {
+                    android.app.NotificationChannel ch = new android.app.NotificationChannel(
+                            channelId, getString(R.string.float_channel),
+                            android.app.NotificationManager.IMPORTANCE_LOW);
+                    nm.createNotificationChannel(ch);
+                }
+            }
+            android.content.Intent open = new android.content.Intent(this, MainActivity.class);
+            open.addFlags(android.content.Intent.FLAG_ACTIVITY_NEW_TASK);
+            android.app.PendingIntent pi = android.app.PendingIntent.getActivity(
+                    this, 0, open,
+                    android.app.PendingIntent.FLAG_UPDATE_CURRENT
+                            | android.app.PendingIntent.FLAG_IMMUTABLE);
+            android.app.Notification.Builder b = Build.VERSION.SDK_INT >= 26
+                    ? new android.app.Notification.Builder(this, channelId)
+                    : new android.app.Notification.Builder(this);
+            android.app.Notification n = b.setSmallIcon(R.drawable.ic_wallet)
+                    .setContentTitle(getString(R.string.float_running))
+                    .setContentIntent(pi)
+                    .setOngoing(true)
+                    .build();
+            startForeground(1003, n);
+        } catch (Throwable t) {
+            stopSelf();
+        }
     }
 
     private void createFloatBall() {
@@ -245,7 +281,7 @@ public class FloatingWindowService extends Service {
                 BalanceHistoryStore.HistoryItem last = items.get(items.size() - 1);
                 String symbol = "CNY".equals(last.currency) ? "¥" : "$";
                 tvBalance.setText(PrivacyPrefs.maskBalance(this, symbol + String.format("%.2f", last.total)));
-                tvProvider.setText(ProviderConfig.get(last.providerId).name);
+                tvProvider.setText(ProviderConfig.get(this, last.providerId).name);
             } else {
                 tvBalance.setText(PrivacyPrefs.maskBalance(this, getString(R.string.j_139)));
                 tvProvider.setText(getString(R.string.j_184));

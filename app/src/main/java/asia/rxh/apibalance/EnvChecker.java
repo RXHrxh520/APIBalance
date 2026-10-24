@@ -39,7 +39,7 @@ import java.util.List;
 public final class EnvChecker {
 
     /** 正式发布证书的 SHA-256 指纹。只要装到的不是这个证书签的包，就是被人重新打包过。 */
-    private static final String OFFICIAL_CERT_SHA256 =
+    static final String OFFICIAL_CERT_SHA256 =
             "08:8E:E5:FA:C5:2E:7F:9A:8B:89:7D:6E:D9:E9:9E:E2:22:B1:F8:46:18:4D:74:19:22:DE:A6:6D:DA:BB:92:9A";
 
     /** 当前安装包实际的签名指纹（SHA-256）。 */

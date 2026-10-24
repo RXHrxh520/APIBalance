@@ -86,8 +86,16 @@ public final class CryptoManager {
             cipher.init(Cipher.DECRYPT_MODE, key, new GCMParameterSpec(GCM_TAG_BITS, iv));
             return new String(cipher.doFinal(enc), StandardCharsets.UTF_8);
         } catch (Exception e) {
+            android.util.Log.w("CryptoManager", "decrypt failed: " + providerKey);
             return null;
         }
+    }
+
+    /** 是否存在密文（用于区分“从未保存”和“密钥库失效”）。 */
+    public static boolean hasStored(Context ctx, String providerKey) {
+        SharedPreferences sp = ctx.getSharedPreferences(PREFS, Context.MODE_PRIVATE);
+        return sp.contains(providerKey + "_" + KEY_CIPHER)
+                && sp.contains(providerKey + "_" + KEY_IV);
     }
 
     /** 清除某个服务商保存的密钥。 */

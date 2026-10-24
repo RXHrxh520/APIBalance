@@ -97,7 +97,7 @@ public class SettingsFragment extends Fragment {
             btnF2a.setOnClickListener(v -> {
                 final Runnable doSet = () -> UiDialog.showInputWithDesc(getActivity(),
                         getString(R.string.f2a_set_title), getString(R.string.f2a_set_hint),
-                        getString(R.string.f2a_set_hint), PrivacyPrefs.getF2a(getActivity()), code -> {
+                        getString(R.string.f2a_set_hint), "", code -> {
                             PrivacyPrefs.setF2a(getActivity(), code == null ? "" : code.trim());
                             showF2a(tvF2a);
                         });
@@ -622,14 +622,6 @@ public class SettingsFragment extends Fragment {
                             == android.content.pm.PackageManager.PERMISSION_GRANTED;
                 }
                 boolean overlayOk = android.provider.Settings.canDrawOverlays(ctx);
-                boolean alarmOk = true;
-                if (android.os.Build.VERSION.SDK_INT >= 31) {
-                    try {
-                        android.app.AlarmManager am = (android.app.AlarmManager) ctx.getSystemService(android.content.Context.ALARM_SERVICE);
-                        alarmOk = am == null || am.canScheduleExactAlarms();
-                    } catch (Throwable ignored) {
-                    }
-                }
                 boolean installOk = true;
                 if (android.os.Build.VERSION.SDK_INT >= 26) {
                     installOk = ctx.getPackageManager().canRequestPackageInstalls();
@@ -643,7 +635,6 @@ public class SettingsFragment extends Fragment {
                 final java.util.List<Integer> kinds = new java.util.ArrayList<Integer>();
                 if (!notifOk) { labels.add(getString(R.string.perm_notif)); kinds.add(0); }
                 if (!overlayOk) { labels.add(getString(R.string.perm_overlay)); kinds.add(1); }
-                if (!alarmOk) { labels.add(getString(R.string.perm_alarm)); kinds.add(2); }
                 if (!installOk) { labels.add(getString(R.string.perm_install)); kinds.add(3); }
                 if (labels.isEmpty()) {
                     UiDialog.showConfirm(ctx, getString(R.string.perm_center_title), sb.toString(),
@@ -982,8 +973,8 @@ public class SettingsFragment extends Fragment {
                                     UiDialog.showInput(act, getString(R.string.j_066), getString(R.string.j_067),
                                             String.valueOf(AppPrefs.getRefreshIntervalSec(act)), s -> {
                                         try {
-                                            int sec = Integer.parseInt(s);
-                                            if (sec >= 30) {
+                                            int sec = Math.max(60, Integer.parseInt(s));
+                                            if (sec > 0) {
                                                 AppPrefs.setRefreshIntervalSec(act, sec);
                                                 AppPrefs.setAutoRefresh(act, true);
                                                 if (ma != null) ma.scheduleAutoRefresh(true);
@@ -1033,24 +1024,7 @@ public class SettingsFragment extends Fragment {
                 UiDialog.showConfirm(act, getString(R.string.j_076),
                         getString(R.string.j_077),
                         getString(R.string.j_078), getString(R.string.j_016),
-                        () -> {
-                            // 历史 + 多账户（含其加密 key）+ 全部加密数据（含 Keystore 密钥）
-                            BalanceHistoryStore.clear(act);
-                            AccountManager.clearAll(act);
-                            CryptoManager.clearAll(act);
-                            // 全部 prefs 文件
-                            act.getSharedPreferences("ds_balance_prefs", 0).edit().clear().apply();
-                            act.getSharedPreferences("ds_settings", 0).edit().clear().apply();
-                            act.getSharedPreferences("ds_privacy", 0).edit().clear().apply();
-                            act.getSharedPreferences("ds_theme", 0).edit().clear().apply();
-                            act.getSharedPreferences("ds_crash_prefs", 0).edit().clear().apply();
-                            act.getSharedPreferences("ds_debug_prefs", 0).edit().clear().apply();
-                            act.getSharedPreferences("ds_accounts", 0).edit().clear().apply();
-                            act.getSharedPreferences("ds_secure_prefs", 0).edit().clear().apply();
-                            // 移除当前加密 key（CryptoManager.clearAll 已清整个 prefs，此步兜底）
-                            CryptoManager.remove(act, act.getProviderKeyName(act.getCurrentProviderId()));
-                            act.onChangeKey();
-                        }, null);
+                        () -> act.wipeAndRestart(), null);
             });
         }
 
