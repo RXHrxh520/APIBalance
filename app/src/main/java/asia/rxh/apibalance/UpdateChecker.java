@@ -26,6 +26,8 @@ public final class UpdateChecker {
 
     private static final String REPO_API = "https://api.github.com/repos/RXHrxh520/APIBalance/releases/latest";
     private static final String REPO_URL = "https://github.com/RXHrxh520/APIBalance";
+    /** 国内加速镜像；只做传输，下载后仍然强制校验签名。 */
+    private static final String MIRROR_PRIMARY = "https://gh-proxy.com/";
     private static final long MAX_APK_BYTES = 200L * 1024 * 1024;
 
     private UpdateChecker() {
@@ -124,6 +126,9 @@ public final class UpdateChecker {
                     android.widget.Toast.LENGTH_LONG).show();
             return;
         }
+        // 国内直连 GitHub 经常很慢；优先走镜像，失败后仍可回退原始地址。
+        final String downloadUrl = url.startsWith("https://github.com/")
+                ? MIRROR_PRIMARY + url : url;
         final float density = act.getResources().getDisplayMetrics().density;
         final android.app.Dialog dlg = new android.app.Dialog(act);
         android.widget.LinearLayout col = new android.widget.LinearLayout(act);
@@ -167,7 +172,7 @@ public final class UpdateChecker {
         new Thread(() -> {
             File apk = new File(act.getCacheDir(), "update.apk");
             try {
-                HttpURLConnection conn = (HttpURLConnection) new URL(url).openConnection();
+                HttpURLConnection conn = (HttpURLConnection) new URL(downloadUrl).openConnection();
                 conn.setConnectTimeout(20000);
                 conn.setReadTimeout(20000);
                 conn.setInstanceFollowRedirects(true);
@@ -243,7 +248,9 @@ public final class UpdateChecker {
             host = host.toLowerCase(java.util.Locale.US);
             return host.equals("github.com")
                     || host.equals("objects.githubusercontent.com")
-                    || host.endsWith(".githubusercontent.com");
+                    || host.endsWith(".githubusercontent.com")
+                    || host.equals("gh-proxy.com")
+                    || host.equals("ghfast.top");
         } catch (Throwable t) {
             return false;
         }

@@ -399,6 +399,7 @@ public final class AppPrefs {
     // ---- 自定义汇率（URL + 约定 JSON，用户提供地址）----
     private static final String KEY_RATE_JSON = "rate_json";
     private static final String KEY_RATE_URL = "rate_url";
+    private static final String KEY_RATE_HTTP = "rate_http";
 
     /** 用户自定义汇率 JSON（从用户提供的 URL 拉取缓存），如 {"usd_cny": 7.20}。 */
     public static String getRateJson(Context c) {
@@ -416,6 +417,15 @@ public final class AppPrefs {
 
     public static void setRateUrl(Context c, String url) {
         sp(c).edit().putString(KEY_RATE_URL, url).apply();
+    }
+
+    /** 调试开关：只允许汇率请求使用 HTTP，默认关闭。 */
+    public static boolean isRateHttpAllowed(Context c) {
+        return sp(c).getBoolean(KEY_RATE_HTTP, false);
+    }
+
+    public static void setRateHttpAllowed(Context c, boolean allowed) {
+        sp(c).edit().putBoolean(KEY_RATE_HTTP, allowed).apply();
     }
 
     /** 解析用户汇率（USD→CNY）。JSON 无效或缺失时返回默认 7.2。 */

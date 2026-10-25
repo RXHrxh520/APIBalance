@@ -38,6 +38,7 @@ public class LockFragment extends Fragment {
     private final StringBuilder input = new StringBuilder();
     private String firstPass = "";
     private boolean autoTried;
+    private android.os.CancellationSignal biometricCancel;
 
     private TextView tvTitle;
     private TextView tvError;
@@ -72,6 +73,10 @@ public class LockFragment extends Fragment {
         mode = PrivacyPrefs.hasPassword(getActivity()) ? MODE_VERIFY : MODE_SET_FIRST;
         updateTitle();
         renderDots();
+        ThemeUtils.apply(view);
+        if (tvFinger != null) tvFinger.setTextColor(ThemeUtils.accent(getActivity()));
+        if (tvForgot != null) tvForgot.setTextColor(ThemeUtils.textSecondary(getActivity()));
+        if (tvError != null) tvError.setTextColor(0xFFEF4444);
         return view;
     }
 
@@ -192,7 +197,15 @@ public class LockFragment extends Fragment {
             Toast.makeText(act, getString(R.string.lock_fp_none), Toast.LENGTH_SHORT).show();
             return;
         }
+        // 先确认本机有指纹硬件，避免点下去毫无反应。
+        if (!act.getPackageManager().hasSystemFeature(
+                android.content.pm.PackageManager.FEATURE_FINGERPRINT)) {
+            Toast.makeText(act, getString(R.string.lock_fp_none), Toast.LENGTH_SHORT).show();
+            return;
+        }
         try {
+            if (biometricCancel != null) biometricCancel.cancel();
+            biometricCancel = new android.os.CancellationSignal();
             android.hardware.biometrics.BiometricPrompt prompt =
                     new android.hardware.biometrics.BiometricPrompt.Builder(act)
                             .setTitle(getString(R.string.lock_enter))
@@ -200,13 +213,21 @@ public class LockFragment extends Fragment {
                                     act.getMainExecutor(), (dialog, which) -> {
                                     })
                             .build();
-            prompt.authenticate(new android.os.CancellationSignal(), act.getMainExecutor(),
+            prompt.authenticate(biometricCancel, act.getMainExecutor(),
                     new android.hardware.biometrics.BiometricPrompt.AuthenticationCallback() {
                         @Override
                         public void onAuthenticationSucceeded(
                                 android.hardware.biometrics.BiometricPrompt.AuthenticationResult result) {
                             if (getActivity() != null) {
                                 getActivity().runOnUiThread(LockFragment.this::unlock);
+                            }
+                        }
+
+                        @Override
+                        public void onAuthenticationError(int errorCode, CharSequence errString) {
+                            if (getActivity() != null) {
+                                Toast.makeText(getActivity(), getString(R.string.lock_fp_fail),
+                                        Toast.LENGTH_SHORT).show();
                             }
                         }
                     });

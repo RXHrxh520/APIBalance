@@ -38,8 +38,8 @@ android {
         applicationId 'asia.rxh.apibalance'
         minSdk 26
         targetSdk 37
-        versionCode 8
-        versionName '1.5.1'
+        versionCode 9
+        versionName '1.5.2'
         buildConfigField "String", "BUILD_TIME", "\"" + new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm").format(new java.util.Date()) + "\""
     }
 

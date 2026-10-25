@@ -4,8 +4,8 @@
 
 一个支持 **DeepSeek / Kimi (Moonshot) / 智谱 GLM / Anthropic** 四家大模型服务商余额查询的 Android 应用。密钥经系统级加密（Android Keystore + AES/GCM）仅保存在本机，不经过任何私人服务器，只调用各家官方余额 API。
 
-**项目地址**：<https://github.com/RXHrxh520/APIBalance>
-**交流群**：235492286
+- **项目地址**：<https://github.com/RXHrxh520/APIBalance>
+- **交流群**：235492286
 
 ---
 
@@ -95,9 +95,9 @@
 ## 📦 构建
 
 ### 环境要求
-- Android SDK 36 (platform android-36, build-tools 36.0.0)
-- JDK 21
-- Gradle 8.14.3（AGP 8.10.0）
+- Android SDK 37（platform android-37，build-tools 37.0.0）
+- JDK 27
+- Gradle 9.8.2（AGP 9.4.0）
 
 ### 构建命令
 ```bash
@@ -105,8 +105,8 @@
 ```
 产出：`app/build/outputs/apk/release/app-release.apk`
 
-> 说明：工程已显式开启 `buildConfig`（AGP 8 起默认关闭）。若本机是 arm64 架构，需自备 arm64 版 aapt2，并追加
-> `-Pandroid.aapt2FromMavenOverride=<SDK>/build-tools/36.0.0/aapt2` 与 `-Pandroid.builder.sdkDownload=false`。
+> 说明：工程已显式开启 `buildConfig`。若本机是 arm64 架构，需自备 arm64 版 aapt2，并追加
+> `-Pandroid.aapt2FromMavenOverride=<SDK>/build-tools/37.0.0/aapt2` 与 `-Pandroid.builder.sdkDownload=false`。
 
 ### 签名
 签名信息不保存在仓库中。构建时按 keystore.properties、环境变量、`-P` 参数的顺序读取
@@ -218,7 +218,19 @@ app/src/main/java/asia/rxh/apibalance/
 
 ## 📜 版本历史
 
-### v1.5.1（当前）
+### v1.5.2（当前）
+- 修复：设置首页分类索引错位，点“主题/隐私/通知”会打开别的分类
+- 修复：设置与趋势根页按系统返回直接退桌面；主题中心切换不再清空任务栈
+- 修复：Material You 跟随系统深色；锁屏重建/刷新不再重复要求输入密码
+- 修复：密码键盘椭圆按键、指纹按钮不可点；锁屏跟随主题配色
+- 修复：主题切换后按钮颜色突变、部分页面不刷新；主题中心标题勾选乱码
+- 修复：智谱 GLM 旧版 Key（非 sk 开头）被误判；接入可用的余额查询与字段解析
+- 新增：更新下载国内镜像，下载后仍校验官方证书指纹
+- 新增：调试页「允许汇率使用 HTTP」开关，仅汇率生效，其他接口仍强制 HTTPS
+- 移除：安装包内置的开发者头像/背景两张图，改为在线加载
+- 工程：versionCode 9 / versionName 1.5.2
+
+### v1.5.1
 - 安全：备份升级为 PBKDF2-SHA256（210000 次）+ AES-GCM，旧备份兼容；备份包含多账户 Key
 - 安全：锁屏恢复代码不允许在锁屏页现场新建，修复绕过；指纹改用系统 BiometricPrompt
 - 安全：更新包只解析 GitHub Release 资产、只允许 GitHub 域名、安装前校验官方证书指纹

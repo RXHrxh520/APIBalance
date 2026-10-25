@@ -41,9 +41,8 @@ public final class ThemeUtils {
 
     /** 是否深色主题（供历史页等自行着色判断）。 */
     public static boolean isDarkTheme(Context c) {
-        int st = ThemePrefs.getStyle(c);
-        if (st == ThemePrefs.STYLE_Y2K || st == ThemePrefs.STYLE_CODE) return true;
-        return AndroidThemeManager.isDark(c);
+        // 以真正刷到界面上的调色板为准：Y2K 是银灰亮色，不能在这里误判成深色。
+        return isDark(c);
     }
 
     /** 当前强调色（忽略风格，统一取安卓主题或 CLI/Y2K 强调色）。 */
@@ -52,11 +51,9 @@ public final class ThemeUtils {
         try {
             int st = ThemePrefs.getStyle(c);
             if (st == ThemePrefs.STYLE_CODE) return true;
-            if (st == ThemePrefs.STYLE_PINK) return false;
-            int t = AndroidThemeManager.get(c);
-            return t == AndroidThemeManager.THEME_OREO
-                    || t == AndroidThemeManager.THEME_LOLLIPOP
-                    || t == AndroidThemeManager.THEME_HORROR;
+            if (st == ThemePrefs.STYLE_Y2K || st == ThemePrefs.STYLE_PINK) return false;
+            // 默认主题跟随系统深浅（Material You 深色 palette）。
+            return AndroidThemeManager.palette(c).dark;
         } catch (Throwable e) {
             return false;
         }

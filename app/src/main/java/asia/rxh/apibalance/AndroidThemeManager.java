@@ -21,6 +21,7 @@ package asia.rxh.apibalance;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.content.res.Configuration;
 
 /**
  * 安卓主题设置：四套「当年真实系统」的完整调色板，色值取自 AOSP framework-res
@@ -156,8 +157,27 @@ public final class AndroidThemeManager {
     }
 
     public static Palette palette(Context c) {
-        return palette(get(c));
+        int t = get(c);
+        // Material You 是唯一一套需要跟随系统深浅的主题；
+        // 经典 KitKat / Lollipop / Oreo 保持各自固定的历史配色。
+        if (t == THEME_MATERIAL_YOU && isSystemDark(c)) {
+            return MATERIAL_YOU_DARK;
+        }
+        return palette(t);
     }
+
+    /** 系统当前是否处于深色模式。 */
+    private static boolean isSystemDark(Context c) {
+        return (c.getResources().getConfiguration().uiMode & Configuration.UI_MODE_NIGHT_MASK)
+                == Configuration.UI_MODE_NIGHT_YES;
+    }
+
+    /** Material You 深色：AOSP system_background / surface 系列。 */
+    private static final Palette MATERIAL_YOU_DARK = new Palette(
+            0xFFD0BCFF, 0xFF1C1B1F, 0xFF1C1B1F,
+            0xFF1C1B1F, 0xFF2B2930, 28f,
+            0xFFE6E1E5, 0xFFCAC4D0,
+            0xFF36343B, 0xFF49454F, true, 0xFF2B2930);
 
     /** 强调色。 */
     public static int accent(int t) {

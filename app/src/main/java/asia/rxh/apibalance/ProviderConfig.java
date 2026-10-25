@@ -35,7 +35,7 @@ import java.util.regex.Pattern;
  * 服务商与查询形态：
  *  - DeepSeek   预存余额   GET /user/balance（字段为字符串，货币 CNY/USD）
  *  - Kimi       预存余额   GET /v1/users/me/balance（币种为人民币元）
- *  - 智谱 GLM   预存余额   GET /api/paas/v4/balance（data.balance / data.grantBalance）
+ *  - 智谱 GLM   预存余额   GET /api/biz/account/query-customer-account-report（data.availableBalance / giveAmount）
  *  - OpenAI     无公开余额 API（dashboard/billing 已废弃，需网页 session key），标记为不支持
  *  - Anthropic  后付费成本 GET /v1/organizations/cost_report（需管理员 key，x-api-key 认证）
  */
@@ -67,9 +67,12 @@ public final class ProviderConfig {
         new Provider(
             PROVIDER_KIMI, "Kimi", new String[]{"sk-"},
             "https://api.moonshot.cn/v1/users/me/balance", AUTH_BEARER, "CNY", TYPE_BALANCE, null),
+        // 智谱 Key 有两代：旧版是 <id>.<secret>，新版可能是 sk- 开头。
+        // 不能只认 "sk-" 或字面量 "id."，否则旧版合法 Key 会被误判。
+        // 余额端点官方文档未列出，但服务商入口必须保留；下面会继续探测可用路径。
         new Provider(
-            PROVIDER_GLM, "智谱GLM", new String[]{"sk-", "id."},
-            "https://open.bigmodel.cn/api/paas/v4/balance", AUTH_BEARER, "CNY", TYPE_BALANCE, null),
+            PROVIDER_GLM, "智谱GLM", new String[]{},
+            "https://open.bigmodel.cn/api/biz/account/query-customer-account-report", AUTH_BEARER, "CNY", TYPE_BALANCE, null),
         new Provider(
             PROVIDER_OPENAI, "OpenAI", new String[]{"sk-"},
             "https://api.openai.com/v1/dashboard/billing/subscription", AUTH_BEARER, "USD", TYPE_UNSUPPORTED, null),
@@ -252,15 +255,16 @@ public final class ProviderConfig {
             return new BalanceResult("CNY", available, voucher, cash);
         }
 
-        /** 智谱：data{balance, grantBalance}（人民币元）。充值为 balance - grant。 */
+        /** 智谱：data{availableBalance, balance, giveAmount, rechargeAmount}（人民币元）。 */
         private BalanceResult parseGlm(android.content.Context ctx, JsonObject root) throws Exception {
             JsonElement dataEl = root.get("data");
             if (dataEl == null || !dataEl.isJsonObject()) throw new IllegalStateException(ctx.getString(R.string.g_014));
             JsonObject data = dataEl.getAsJsonObject();
-            double balance = dbl(data, "balance", 0);
-            double grant = dbl(data, "grantBalance", dbl(data, "grant_balance", 0));
-            double topped = Math.max(0, balance - grant);
-            return new BalanceResult("CNY", balance, grant, topped);
+            double available = dbl(data, "availableBalance", dbl(data, "balance", 0));
+            double grant = dbl(data, "giveAmount", 0);
+            double recharge = dbl(data, "rechargeAmount", 0);
+            double topped = recharge > 0 ? recharge : Math.max(0, available - grant);
+            return new BalanceResult("CNY", available, grant, topped);
         }
 
         /** Anthropic cost_report：递归汇总所有 amount 字段（USD）。 */
