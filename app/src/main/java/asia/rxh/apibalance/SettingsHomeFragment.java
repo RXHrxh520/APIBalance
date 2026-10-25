@@ -29,9 +29,12 @@ public class SettingsHomeFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_settings_home, container, false);
+        // 布局顺序是 通用/隐私/网络/外观/账号/通知/进阶/关于，
+        // 但 GROUPS 的顺序是 通用/外观/网络/账号/通知/隐私/进阶/关于。
+        // 这里必须按 id 映射到正确的分组，不能拿布局下标直接当 GROUPS 下标。
         int[][] pairs = {
-                {R.id.cat_general, 0}, {R.id.cat_privacy, 1}, {R.id.cat_network, 2},
-                {R.id.cat_appearance, 3}, {R.id.cat_account, 4}, {R.id.cat_notify, 5},
+                {R.id.cat_general, 0}, {R.id.cat_appearance, 1}, {R.id.cat_network, 2},
+                {R.id.cat_account, 3}, {R.id.cat_notify, 4}, {R.id.cat_privacy, 5},
                 {R.id.cat_advanced, 6}, {R.id.cat_about, 7}};
         for (int[] p : pairs) {
             final String group = SettingsFragment.GROUPS[p[1]];

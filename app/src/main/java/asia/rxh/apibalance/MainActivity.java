@@ -59,6 +59,8 @@ public class MainActivity extends Activity {
 
     /** 记录当前已生效的语言，用于检测设置变化后自动重建。 */
     private int appliedLang = -1;
+    /** 记录当前已生效的主题签名，用于切换主题/深浅色后自动重建。 */
+    private String appliedThemeSig;
 
     @Override
     protected void attachBaseContext(Context base) {
@@ -113,6 +115,9 @@ public class MainActivity extends Activity {
         }
 
         super.onCreate(savedInstanceState);
+        // 配置变更/主题重建不算“离开应用”，不能因此重新锁屏。
+        if (savedInstanceState != null) pausedAt = 0;
+        appliedThemeSig = themeSignature();
         unlocked = sessionUnlocked || !PrivacyPrefs.isLockEnabled(this);
 
         // 字体大小
@@ -245,7 +250,7 @@ public class MainActivity extends Activity {
                 currentProviderId = quickPid;
                 currentApiKey = qk;
                 // 安全：启用密码/指纹锁时，快捷方式也必须先验证，不得直接进余额页
-                if (PrivacyPrefs.isLockEnabled(this)) {
+                if (PrivacyPrefs.isLockEnabled(this) && !sessionUnlocked) {
                     showLockFragment();
                 } else {
                     showBalanceFragment(qk, currentProviderId, false);
@@ -269,8 +274,8 @@ public class MainActivity extends Activity {
 
         if (autoLogin && savedKey != null && !savedKey.isEmpty()) {
             currentApiKey = savedKey;
-            if (PrivacyPrefs.isLockEnabled(this)) {
-                // 有锁：先显示锁屏，解锁后进入余额页
+            if (PrivacyPrefs.isLockEnabled(this) && !sessionUnlocked) {
+                // 有锁且本进程还没解锁：先显示锁屏，解锁后进入余额页
                 showLockFragment();
             } else {
                 showBalanceFragment(savedKey, currentProviderId, false);
@@ -283,14 +288,24 @@ public class MainActivity extends Activity {
     @Override
     protected void onPause() {
         super.onPause();
-        pausedAt = System.currentTimeMillis();
+        if (!isChangingConfigurations()) {
+            pausedAt = System.currentTimeMillis();
+        }
     }
 
     @Override
     protected void onResume() {
         super.onResume();
+        // recreate() 不是用户离开应用，直接跳过自动锁判断。
+        if (isChangingConfigurations()) return;
         // 语言在别处（引导页/设置页）被改过：重建自身让新语言立刻生效
         if (appliedLang >= 0 && AppPrefs.getLanguage(this) != appliedLang) {
+            recreate();
+            return;
+        }
+        String themeSig = themeSignature();
+        if (appliedThemeSig != null && !appliedThemeSig.equals(themeSig)) {
+            appliedThemeSig = themeSig;
             recreate();
             return;
         }
@@ -348,7 +363,7 @@ public class MainActivity extends Activity {
             if (qk != null && !qk.isEmpty()) {
                 currentProviderId = quickPid;
                 currentApiKey = qk;
-                if (PrivacyPrefs.isLockEnabled(this)) {
+                if (PrivacyPrefs.isLockEnabled(this) && !sessionUnlocked) {
                     showLockFragment();
                 } else {
                     showBalanceFragment(qk, currentProviderId, true);
@@ -1056,6 +1071,17 @@ public class MainActivity extends Activity {
         }
     }
 
+    /** 主题相关设置签名：任何一项变化都重建，避免“切了主题只有部分页面变色”。 */
+    private String themeSignature() {
+        return getSharedPreferences(PREFS_NAME, MODE_PRIVATE).getInt(KEY_THEME, 0) + "|"
+                + ThemePrefs.getStyle(this) + "|"
+                + AndroidThemeManager.get(this) + "|"
+                + ThemePrefs.getColorIndex(this) + "|"
+                + AppPrefs.isExperimentalMd3(this) + "|"
+                + (getResources().getConfiguration().uiMode
+                    & android.content.res.Configuration.UI_MODE_NIGHT_MASK);
+    }
+
     @Override
     public void onBackPressed() {
         android.app.FragmentManager fm = getFragmentManager();
@@ -1063,8 +1089,13 @@ public class MainActivity extends Activity {
             fm.popBackStack();
             return;
         }
-        // 栈空了就正常退出。之前这里会强行 switchTab(0)，
-        // 导致不管在哪个界面按返回，都被拽回余额页。
+        // 设置/趋势的根页面是用底部导航 replace 进来的，没有回退栈。
+        // 如果直接 super.onBackPressed() 会 finish 掉 Activity，看起来就是“按返回退回桌面”。
+        // 这里先回到余额页；只有余额页本身才允许退出。
+        if (currentTab != 0) {
+            switchTab(0);
+            return;
+        }
         super.onBackPressed();
     }
 }

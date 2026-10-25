@@ -41,7 +41,9 @@ public final class FxRateFetcher {
         String url = AppPrefs.getRateUrl(ctx);
         if (url == null || url.trim().isEmpty()) return -1;
         url = url.trim();
-        if (!url.startsWith("https://")) return -1;
+        final boolean allowHttp = AppPrefs.isRateHttpAllowed(ctx);
+        if (!url.startsWith("https://")
+                && !(allowHttp && url.startsWith("http://"))) return -1;
         HttpURLConnection conn = null;
         try {
             conn = (HttpURLConnection) new URL(url).openConnection();
@@ -50,7 +52,9 @@ public final class FxRateFetcher {
             conn.setReadTimeout(10000);
             conn.setRequestProperty("User-Agent", "APIBalance/" + BuildConfig.VERSION_NAME);
             if (conn.getResponseCode() != 200) return -1;
-            if (!"https".equalsIgnoreCase(conn.getURL().getProtocol())) return -1;
+            String proto = conn.getURL().getProtocol();
+            if (!"https".equalsIgnoreCase(proto)
+                    && !(allowHttp && "http".equalsIgnoreCase(proto))) return -1;
             BufferedReader rd = new BufferedReader(new InputStreamReader(conn.getInputStream(), "UTF-8"));
             StringBuilder sb = new StringBuilder();
             String line;

@@ -740,6 +740,9 @@
     <string name="lock_method_system">系统原生验证</string>
     <string name="lock_fp_start">指纹解锁</string>
     <string name="lock_fp_none">本机未录入指纹或指纹不可用</string>
+    <string name="lock_fp_fail">指纹验证未完成，请重试或使用密码</string>
+    <string name="debug_rate_http">允许汇率使用 HTTP</string>
+    <string name="debug_rate_http_desc">仅调试：只对汇率请求放行明文，其他接口仍强制 HTTPS</string>
     <string name="lock_enter">请输入密码</string>
     <string name="lock_confirm_title">确认密码</string>
     <string name="lock_confirm_hint">请再次输入</string>

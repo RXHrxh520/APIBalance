@@ -28,11 +28,12 @@ public class ThemeCenterActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_theme_center);
-        ThemeUtils.apply(findViewById(android.R.id.content));
         View back = findViewById(R.id.tc_back);
         if (back != null) back.setOnClickListener(v -> finish());
         body = findViewById(R.id.tc_body);
         build();
+        // build() 动态加进来的卡片也要刷主题，否则深色模式下是白卡+浅字。
+        ThemeUtils.apply(findViewById(android.R.id.content));
     }
 
     private void build() {
@@ -142,7 +143,7 @@ public class ThemeCenterActivity extends Activity {
         card.addView(t, new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 1f));
 
         TextView mk = new TextView(this);
-        mk.setText(selected ? "\\u2713" : "");
+        mk.setText(selected ? "✓" : "");
         mk.setTextColor(ThemeUtils.accent(this));
         mk.setTextSize(17);
         card.addView(mk);
@@ -281,10 +282,9 @@ public class ThemeCenterActivity extends Activity {
     }
 
     private void restart() {
-        Intent it = new Intent(this, MainActivity.class);
-        it.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-        startActivity(it);
-        finish();
+        // 只重建主题中心，保留任务栈；返回主界面时 MainActivity.onResume 会检测主题签名并重建。
+        // 以前这里 CLEAR_TASK 会把设置页/返回栈一起清掉，看起来就像“切个主题就被踢回桌面”。
+        recreate();
     }
 
     private int dp(int v) {

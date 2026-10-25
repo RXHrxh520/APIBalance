@@ -55,6 +55,13 @@ public class DebugFragment extends Fragment {
             btnCrashView.setOnClickListener(v -> showCrashReport());
         }
 
+        android.widget.Switch swRateHttp = view.findViewById(R.id.sw_rate_http);
+        if (swRateHttp != null) {
+            swRateHttp.setChecked(AppPrefs.isRateHttpAllowed(getActivity()));
+            swRateHttp.setOnCheckedChangeListener((button, checked) ->
+                    AppPrefs.setRateHttpAllowed(getActivity(), checked));
+        }
+
         TextView btnCrashClear = view.findViewById(R.id.btn_crash_clear);
         if (btnCrashClear != null) {
             btnCrashClear.setOnClickListener(v -> {

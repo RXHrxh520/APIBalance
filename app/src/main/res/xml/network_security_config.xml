@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <network-security-config>
-    <!-- 全部请求只走 HTTPS；信任系统根证书，不信任用户安装的证书 -->
-    <base-config cleartextTrafficPermitted="false">
+    <!-- 默认仍由代码强制 HTTPS；仅调试开关下的汇率请求允许明文，其他接口不允许 -->
+    <base-config cleartextTrafficPermitted="true">
         <trust-anchors>
             <certificates src="system" />
         </trust-anchors>
