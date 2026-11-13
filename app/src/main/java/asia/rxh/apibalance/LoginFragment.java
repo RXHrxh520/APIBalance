@@ -110,7 +110,7 @@ public class LoginFragment extends Fragment {
                 return;
             }
             if (!ProviderConfig.isValidKey(providerId, apiKey)) {
-                showError(getString(R.string.err_bad_key));
+                showError(getString(R.string.err_bad_key) + " " + keyHint());
                 return;
             }
             // If captcha not shown yet → show it first
@@ -227,6 +227,29 @@ public class LoginFragment extends Fragment {
         });
     }
 
+    /** 不同服务商的密钥形态差异很大，输入框直接给出对应提示。 */
+    private void applyKeyHint() {
+        if (etApiKey == null) return;
+        etApiKey.setHint(keyHint());
+    }
+
+    private String keyHint() {
+        switch (providerId) {
+            case ProviderConfig.PROVIDER_VOLCENGINE:
+                return getString(R.string.key_hint_volc);
+            case ProviderConfig.PROVIDER_CODEX:
+                return getString(R.string.key_hint_codex);
+            case ProviderConfig.PROVIDER_KIMI_CODE:
+                return getString(R.string.key_hint_kimi_code);
+            case ProviderConfig.PROVIDER_GLM_CODE:
+                return getString(R.string.key_hint_glm_code);
+            case ProviderConfig.PROVIDER_ANTHROPIC:
+                return getString(R.string.key_hint_anthropic);
+            default:
+                return getString(R.string.key_hint_default);
+        }
+    }
+
     /** 下拉选择器：列出可选服务商，末尾带「配置自定义服务商」入口。 */
     private void setupProviderSpinner() {
         final String[] base = ProviderConfig.names(getActivity());
@@ -250,6 +273,7 @@ public class LoginFragment extends Fragment {
         final int[] sel = { init };
         if (tvProvider == null) return;
         tvProvider.setText(opts[init]);
+        applyKeyHint();
         android.graphics.drawable.Drawable chev = getResources().getDrawable(R.drawable.ic_chevron_down);
         if (chev != null) chev.setTint(ThemeUtils.textSecondary(getActivity()));
         tvProvider.setCompoundDrawablesWithIntrinsicBounds(null, null, chev, null);
@@ -269,6 +293,7 @@ public class LoginFragment extends Fragment {
                     sel[0] = pos;
                     providerId = ids[pos];
                     tvProvider.setText(opts[pos]);
+                    applyKeyHint();
                 }));
     }
 

@@ -61,6 +61,10 @@ public class FloatingWindowService extends Service {
             return START_NOT_STICKY;
         }
         startForegroundCompat();
+        if (intent != null && "float_bg".equals(intent.getAction())) {
+            applyPanelBackground();
+            return START_STICKY;
+        }
         if (floatBall == null) {
             createFloatBall();
         }
@@ -167,7 +171,12 @@ public class FloatingWindowService extends Service {
                         }
                         return true;
                     case MotionEvent.ACTION_UP:
-                        if (!isDragging && System.currentTimeMillis() - downTime < 300) {
+                        long held = System.currentTimeMillis() - downTime;
+                        if (!isDragging && held >= 700) {
+                            openFloatBgPicker();
+                            return true;
+                        }
+                        if (!isDragging && held < 300) {
                             refreshAndUpdate();
                             togglePanel();
                         }
@@ -180,6 +189,11 @@ public class FloatingWindowService extends Service {
 
     /** 从最近历史取余额，紧凑显示（如 ¥12.34）。 */
     private String compactBalance() {
+        int currentPid = getSharedPreferences("ds_balance_prefs", 0)
+                .getInt("provider_id", ProviderConfig.PROVIDER_DEEPSEEK);
+        ProviderConfig.Provider cp = ProviderConfig.get(this, currentPid);
+        if (cp.isQuotaMode()) return "配额";
+        if (cp.isCostMode()) return "成本";
         List<BalanceHistoryStore.HistoryItem> items = BalanceHistoryStore.getAll(this);
         if (items.isEmpty()) return "¥?";
         BalanceHistoryStore.HistoryItem last = items.get(items.size() - 1);
@@ -202,8 +216,10 @@ public class FloatingWindowService extends Service {
         new Thread(() -> {
             try {
                 ProviderConfig.BalanceResult result = NetworkClient.fetch(this, pid, key);
-                BalanceHistoryStore.add(this, pid, result);
-                BalanceWidgetProvider.updateAll(this);
+                if (!result.isQuota()) {
+                    BalanceHistoryStore.add(this, pid, result);
+                    BalanceWidgetProvider.updateAll(this);
+                }
                 new android.os.Handler(android.os.Looper.getMainLooper()).post(() -> {
                     if (floatBall != null) {
                         ((TextView) floatBall).setText(compactBalance());
@@ -217,6 +233,36 @@ public class FloatingWindowService extends Service {
                 });
             }
         }).start();
+    }
+
+    /** 长按悬浮球打开背景选择器。 */
+    private void openFloatBgPicker() {
+        try {
+            android.content.Intent i = new android.content.Intent(this, FloatBgPickerActivity.class);
+            i.addFlags(android.content.Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(i);
+        } catch (Throwable ignored) {
+        }
+    }
+
+    /** 面板背景优先使用用户选的图片，数字和控件仍由原布局渲染。 */
+    private void applyPanelBackground() {
+        if (floatPanel == null) return;
+        String uri = AppPrefs.getFloatBgUri(this);
+        if (uri == null || uri.trim().isEmpty()) {
+            floatPanel.setBackgroundResource(R.drawable.bg_dialog);
+            return;
+        }
+        try (java.io.InputStream in = getContentResolver().openInputStream(android.net.Uri.parse(uri))) {
+            android.graphics.drawable.Drawable d = android.graphics.drawable.Drawable.createFromStream(in, "float_bg");
+            if (d != null) {
+                floatPanel.setBackground(d);
+            } else {
+                floatPanel.setBackgroundResource(R.drawable.bg_dialog);
+            }
+        } catch (Throwable t) {
+            floatPanel.setBackgroundResource(R.drawable.bg_dialog);
+        }
     }
 
     private void togglePanel() {
@@ -240,6 +286,7 @@ public class FloatingWindowService extends Service {
         panelParams.y = ballParams.y + dp(56);
 
         floatPanel = LayoutInflater.from(this).inflate(R.layout.float_panel, null);
+        applyPanelBackground();
         fillPanel();
 
         View btnRefresh = floatPanel.findViewById(R.id.btn_float_refresh);

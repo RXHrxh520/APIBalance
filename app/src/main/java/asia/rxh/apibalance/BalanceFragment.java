@@ -42,10 +42,12 @@ public class BalanceFragment extends Fragment {
     private TextView tvProviderTitle;
     private TextView tvCurrencySymbol, tvTotalBalance, tvCurrency;
     private TextView tvGrantedBalance, tvToppedUpBalance, tvRefreshLabel;
+    private TextView tvTotalLabel, tvGrantedLabel, tvToppedLabel, tvAppNotice;
     private TextView tvBalanceError;
     private ImageView ivBalanceLogo;
     private LinearLayout layoutLoading;
-    private LinearLayout cardTotal, cardGranted, cardTopped, btnRefresh;
+    private LinearLayout cardTotal, cardGranted, cardTopped, cardDetails, btnRefresh;
+    private View cardPeak;
     private Handler handler;
     private boolean isFirstLoad = true;
     private String lastCurrency = "";
@@ -80,24 +82,40 @@ public class BalanceFragment extends Fragment {
         tvCurrency = view.findViewById(R.id.tv_currency);
         tvGrantedBalance = view.findViewById(R.id.tv_granted_balance);
         tvToppedUpBalance = view.findViewById(R.id.tv_topped_up_balance);
+        tvTotalLabel = view.findViewById(R.id.tv_total_label);
+        tvGrantedLabel = view.findViewById(R.id.tv_granted_label);
+        tvToppedLabel = view.findViewById(R.id.tv_topped_label);
+        tvAppNotice = view.findViewById(R.id.tv_app_notice);
         tvBalanceError = view.findViewById(R.id.tv_balance_error);
         layoutLoading = view.findViewById(R.id.layout_loading);
         cardTotal = view.findViewById(R.id.card_total);
         cardGranted = view.findViewById(R.id.card_granted);
         cardTopped = view.findViewById(R.id.card_topped);
+        cardDetails = view.findViewById(R.id.card_details);
         btnRefresh = view.findViewById(R.id.btn_refresh);
         tvRefreshLabel = view.findViewById(R.id.tv_refresh_label);
         ivBalanceLogo = view.findViewById(R.id.iv_balance_logo);
         // 应用自定义应用图标（主界面图标），无自定义则保留默认
         AppIconManager.applyIconTo(ivBalanceLogo, getActivity());
-        View cardPeak = view.findViewById(R.id.card_peak);
+        cardPeak = view.findViewById(R.id.card_peak);
         TextView tvPeakName = view.findViewById(R.id.tv_peak_name);
         TextView tvPeakQuip = view.findViewById(R.id.tv_peak_quip);
         TextView tvPeakBadge = view.findViewById(R.id.tv_peak_badge);
 
-        // 标题显示当前服务商，点击快捷切换
-        tvProviderTitle.setText(ProviderConfig.get(getActivity(), providerId).name + getString(R.string.j_104));
+        // 标题和金额区按服务商类型显示，避免把套餐、成本说成余额。
+        ProviderConfig.Provider startProvider = ProviderConfig.get(getActivity(), providerId);
+        tvProviderTitle.setText(startProvider.name + " · " + startProvider.modeLabel);
         tvProviderTitle.setTextColor(ThemePrefs.getColor(getActivity()));
+        if (tvTotalLabel != null) {
+            tvTotalLabel.setText(startProvider.isQuotaMode() ? "套餐剩余"
+                    : startProvider.isCostMode() ? "累计成本"
+                    : getString(R.string.str_012));
+        }
+        if (startProvider.isCostMode() || startProvider.isQuotaMode()) {
+            if (cardDetails != null) cardDetails.setVisibility(View.GONE);
+            if (cardPeak != null) cardPeak.setVisibility(View.GONE);
+        }
+        bindRemoteNotice();
 
         // 峰谷卡片：仅 DeepSeek 展示（其它服务商无此定价规则）
         boolean showPeak = PeakOffpeak.isApplicable(providerId);
@@ -139,8 +157,15 @@ public class BalanceFragment extends Fragment {
         tvProviderTitle.setOnClickListener(v -> {
             MainActivity act = (MainActivity) getActivity();
             if (act == null) return;
-            UiDialog.showPicker(act, getString(R.string.j_105), ProviderConfig.names(), providerId, w -> {
-                if (w != providerId) act.switchProviderQuick(w);
+            final int[] ids = ProviderConfig.pickableIds();
+            final String[] opts = new String[ids.length];
+            int current = 0;
+            for (int i = 0; i < ids.length; i++) {
+                opts[i] = ProviderConfig.get(act, ids[i]).name;
+                if (ids[i] == providerId) current = i;
+            }
+            UiDialog.showPicker(act, getString(R.string.j_105), opts, current, w -> {
+                if (w >= 0 && w < ids.length && ids[w] != providerId) act.switchProviderQuick(ids[w]);
             });
         });
 
@@ -210,13 +235,15 @@ public class BalanceFragment extends Fragment {
             @Override
             public void onSuccess(int pid, ProviderConfig.BalanceResult result) {
                 if (getActivity() == null) return;
-                // 记录历史
-                BalanceHistoryStore.add(getActivity().getApplicationContext(), pid, result);
-                BalanceWidgetProvider.updateAll(getActivity().getApplicationContext());
+                // 套餐配额没有金额，不写余额历史，避免趋势图被 0 污染。
+                if (!result.isQuota()) {
+                    BalanceHistoryStore.add(getActivity().getApplicationContext(), pid, result);
+                    BalanceWidgetProvider.updateAll(getActivity().getApplicationContext());
+                }
                 MainActivity act = (MainActivity) getActivity();
                 if (act != null && AppPrefs.isStickyNotify(act)) act.showStickyNotify();
                 // 余额提醒
-                if (AppPrefs.isAlertEnabled(getActivity())) {
+                if (!result.isQuota() && AppPrefs.isAlertEnabled(getActivity())) {
                     double threshold = AppPrefs.getAlertThreshold(getActivity());
                     if (result.totalBalance < threshold) {
                         Notifier.notifyBalance(getActivity(), getString(R.string.j_116),
@@ -247,39 +274,47 @@ public class BalanceFragment extends Fragment {
         });
     }
 
-    /** First load: full animations */
+    /** 首次加载：根据余额、成本或套餐切换整块内容。 */
     private void updateUIFirst(ProviderConfig.BalanceResult result) {
         hideLoading();
+        if (result.isQuota()) {
+            showQuota(result);
+            animateLogo();
+            MainActivity activity = (MainActivity) getActivity();
+            if (activity != null) activity.animateCardEntrance(cardTotal, 100);
+            return;
+        }
+        ProviderConfig.Provider provider = ProviderConfig.get(getActivity(), providerId);
+        tvCurrencySymbol.setVisibility(View.VISIBLE);
+        tvTotalLabel.setText(provider.isCostMode() ? "累计成本" : getString(R.string.str_012));
+        tvGrantedLabel.setText(provider.isCostMode() ? "说明" : getString(R.string.str_018));
+        tvToppedLabel.setText(provider.isCostMode() ? "说明" : getString(R.string.str_019));
+        if (cardDetails != null) cardDetails.setVisibility(provider.isCostMode() ? View.GONE : View.VISIBLE);
+        if (cardPeak != null && provider.isCostMode()) cardPeak.setVisibility(View.GONE);
+
         double[] conv = convertBalance(result);
         lastCurrency = currencyLabel(result.currency);
         lastTotal = conv[0];
         lastGranted = conv[1];
         lastTopped = conv[2];
 
-        tvCurrency.setText(currencyLabel(result.currency));
+        tvCurrency.setText(provider.isCostMode() ? "本月至今 · " + lastCurrency : currencyLabel(result.currency));
         String symbol = lastCurrency.contains("CNY") ? "¥" : "$";
         tvCurrencySymbol.setText(symbol);
 
-        // Animate logo entrance
-        ivBalanceLogo.setAlpha(0f);
-        ivBalanceLogo.setScaleX(0f);
-        ivBalanceLogo.setScaleY(0f);
-        ivBalanceLogo.animate()
-                .alpha(1f)
-                .scaleX(1f)
-                .scaleY(1f)
-                .setDuration(500)
-                .setInterpolator(android.view.animation.AnimationUtils.loadInterpolator(getActivity(), R.interpolator.overshoot))
-                .start();
+        animateLogo();
 
-        // Animate cards entrance
         MainActivity activity = (MainActivity) getActivity();
         if (activity != null) {
             activity.animateCardEntrance(cardTotal, 100);
-            activity.animateCardEntrance(cardGranted, 250);
-            activity.animateCardEntrance(cardTopped, 350);
+            if (!provider.isCostMode()) {
+                activity.animateCardEntrance(cardGranted, 250);
+                activity.animateCardEntrance(cardTopped, 350);
+            }
             if (PrivacyPrefs.isHideBalance(getActivity())) {
                 tvTotalBalance.setText("****");
+            } else if (lastTotal < 0) {
+                tvTotalBalance.setText(formatBalance(lastTotal));
             } else {
                 activity.animateNumberCount(tvTotalBalance, 0, lastTotal, "", "");
             }
@@ -288,11 +323,39 @@ public class BalanceFragment extends Fragment {
         tvToppedUpBalance.setText(formatBalance(lastTopped));
     }
 
-    /** Subsequent refresh: silent update, animate only changed numbers */
+    private void animateLogo() {
+        ivBalanceLogo.setAlpha(0f);
+        ivBalanceLogo.setScaleX(0f);
+        ivBalanceLogo.setScaleY(0f);
+        ivBalanceLogo.animate()
+                .alpha(1f)
+                .scaleX(1f)
+                .scaleY(1f)
+                .setDuration(500)
+                .setInterpolator(android.view.animation.AnimationUtils.loadInterpolator(
+                        getActivity(), R.interpolator.overshoot))
+                .start();
+    }
+
+    /** 后续刷新：只更新该服务商真正有意义的数字。 */
     private void updateUIQuiet(ProviderConfig.BalanceResult result) {
         hideLoading();
+        if (result.isQuota()) {
+            showQuota(result);
+            hideError();
+            return;
+        }
+        ProviderConfig.Provider provider = ProviderConfig.get(getActivity(), providerId);
+        tvCurrencySymbol.setVisibility(View.VISIBLE);
+        tvTotalLabel.setText(provider.isCostMode() ? "累计成本" : getString(R.string.str_012));
+        tvGrantedLabel.setText(provider.isCostMode() ? "说明" : getString(R.string.str_018));
+        tvToppedLabel.setText(provider.isCostMode() ? "说明" : getString(R.string.str_019));
+        if (cardDetails != null) {
+            cardDetails.setVisibility(provider.isCostMode() ? View.GONE : View.VISIBLE);
+        }
         double[] conv = convertBalance(result);
-        tvCurrency.setText(currencyLabel(result.currency));
+        tvCurrency.setText(provider.isCostMode() ? "本月至今 · " + currencyLabel(result.currency)
+                : currencyLabel(result.currency));
         String symbol = currencyLabel(result.currency).contains("CNY") ? "¥" : "$";
         tvCurrencySymbol.setText(symbol);
 
@@ -300,25 +363,26 @@ public class BalanceFragment extends Fragment {
         double newGranted = conv[1];
         double newTopped = conv[2];
 
-        // 涨跌动效：总额变化时给标题上色 + 箭头
         if (!isFirstLoad && Math.abs(newTotal - lastTotal) > 0.0001) {
             boolean up = newTotal > lastTotal;
             int color = up ? 0xFF2E7D32 : 0xFFC62828;
             tvProviderTitle.setTextColor(color);
-            tvProviderTitle.setText(ProviderConfig.get(getActivity(), providerId).name + getString(R.string.j_119) + (up ? "↑" : "↓"));
+            tvProviderTitle.setText(provider.name + (up ? " ↑" : " ↓"));
             tvProviderTitle.postDelayed(() -> {
                 if (tvProviderTitle != null && getActivity() != null) {
                     tvProviderTitle.setTextColor(ThemePrefs.getColor(getActivity()));
-                    tvProviderTitle.setText(ProviderConfig.get(getActivity(), providerId).name + getString(R.string.j_104));
+                    tvProviderTitle.setText(provider.name + " · " + provider.modeLabel);
                 }
             }, 2500);
         } else if (getActivity() != null) {
             tvProviderTitle.setTextColor(ThemePrefs.getColor(getActivity()));
-            tvProviderTitle.setText(ProviderConfig.get(getActivity(), providerId).name + getString(R.string.j_104));
+            tvProviderTitle.setText(provider.name + " · " + provider.modeLabel);
         }
 
         if (PrivacyPrefs.isHideBalance(getActivity())) {
             tvTotalBalance.setText("****");
+        } else if (newTotal < 0) {
+            tvTotalBalance.setText(formatBalance(newTotal));
         } else if (Math.abs(newTotal - lastTotal) > 0.001) {
             MainActivity activity = (MainActivity) getActivity();
             if (activity != null) activity.animateNumberCount(tvTotalBalance, lastTotal, newTotal, "", "");
@@ -333,6 +397,50 @@ public class BalanceFragment extends Fragment {
         lastTopped = newTopped;
 
         hideError();
+    }
+
+    /** 套餐配额不伪装成金额，直接展示窗口剩余百分比与重置时间。 */
+    private void showQuota(ProviderConfig.BalanceResult result) {
+        ProviderConfig.Provider provider = ProviderConfig.get(getActivity(), providerId);
+        tvProviderTitle.setTextColor(ThemePrefs.getColor(getActivity()));
+        tvProviderTitle.setText(provider.name + " · " + provider.modeLabel);
+        tvTotalLabel.setText(result.mainLabel == null ? "套餐剩余" : result.mainLabel);
+        tvTotalBalance.setText(result.mainValue == null ? "—" : result.mainValue);
+        tvCurrencySymbol.setVisibility(View.GONE);
+        tvCurrency.setText(result.footer == null || result.footer.isEmpty()
+                ? "套餐配额" : result.footer);
+        if (cardDetails != null) cardDetails.setVisibility(View.VISIBLE);
+        if (tvGrantedLabel != null) tvGrantedLabel.setText(result.subLabel == null ? "下一窗口" : result.subLabel);
+        if (tvGrantedBalance != null) tvGrantedBalance.setText(result.subValue == null ? "—" : result.subValue);
+        if (tvToppedLabel != null) tvToppedLabel.setText("状态");
+        if (tvToppedUpBalance != null) tvToppedUpBalance.setText("套餐");
+        if (cardPeak != null) cardPeak.setVisibility(View.GONE);
+        lastTotal = 0;
+        lastGranted = 0;
+        lastTopped = 0;
+    }
+
+    private void bindRemoteNotice() {
+        if (tvAppNotice == null || getActivity() == null) return;
+        RemoteConfig.get(getActivity(), config -> {
+            if (getActivity() == null || tvAppNotice == null) return;
+            String notice = config == null ? "" : config.notice;
+            if (notice == null || notice.trim().isEmpty()) {
+                tvAppNotice.setVisibility(View.GONE);
+                return;
+            }
+            tvAppNotice.setText(notice);
+            tvAppNotice.setVisibility(View.VISIBLE);
+            tvAppNotice.setOnClickListener(v -> {
+                if (config.noticeUrl != null && !config.noticeUrl.isEmpty()) {
+                    try {
+                        startActivity(new android.content.Intent(android.content.Intent.ACTION_VIEW,
+                                android.net.Uri.parse(config.noticeUrl)));
+                    } catch (Throwable ignored) {
+                    }
+                }
+            });
+        });
     }
 
     private void hideError() {
@@ -372,7 +480,20 @@ public class BalanceFragment extends Fragment {
         if (ctx != null && PrivacyPrefs.isHideBalance(ctx)) {
             return "****";
         }
-        return String.format("%.2f", d);
+        if (Double.isNaN(d) || Double.isInfinite(d)) return "0.00";
+        try {
+            java.math.BigDecimal value = java.math.BigDecimal.valueOf(d)
+                    .setScale(2, java.math.RoundingMode.HALF_UP);
+            // 欠费几分钱时，四舍五入会变成 -0.00；此时保留更多小数，显示真实欠费。
+            if (value.signum() == 0 && d < 0) {
+                return java.math.BigDecimal.valueOf(d)
+                        .setScale(4, java.math.RoundingMode.HALF_UP)
+                        .stripTrailingZeros().toPlainString();
+            }
+            return value.toPlainString();
+        } catch (Throwable ignored) {
+            return String.format(java.util.Locale.US, "%.2f", d);
+        }
     }
 
     private void showLoading() {

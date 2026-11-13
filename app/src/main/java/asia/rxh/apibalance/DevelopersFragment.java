@@ -42,6 +42,7 @@ public class DevelopersFragment extends Fragment {
         ImageView bg = view.findViewById(R.id.iv_dev_bg);
         // 不再申请文件权限，读不到就让用户点一下自己选
         loadDeveloperAvatar(avatar);
+        loadGithubProfile(view);
         loadInto(bg, BG_PATH);
         bindBack(view);
         bindLinks(view);
@@ -103,6 +104,40 @@ public class DevelopersFragment extends Fragment {
                     target.setImageBitmap(bm);
                     target.setScaleType(ImageView.ScaleType.CENTER_CROP);
                 }
+            });
+        });
+    }
+
+    /** 读取 GitHub 公开资料中的昵称和简介；接口没有性别字段，不做任何推断。 */
+    private void loadGithubProfile(final View view) {
+        if (view == null || getActivity() == null) return;
+        final android.app.Activity act = getActivity();
+        AppExecutors.io().execute(() -> {
+            String name = null;
+            String bio = null;
+            try {
+                okhttp3.Request req = new okhttp3.Request.Builder()
+                        .url("https://api.github.com/users/" + GH_USER)
+                        .header("Accept", "application/vnd.github+json")
+                        .header("User-Agent", "APIBalance/" + BuildConfig.VERSION_NAME)
+                        .build();
+                try (okhttp3.Response resp = NetworkClient.http().newCall(req).execute()) {
+                    if (resp.code() == 200 && resp.body() != null) {
+                        org.json.JSONObject o = new org.json.JSONObject(resp.body().string());
+                        name = o.optString("name", "");
+                        bio = o.optString("bio", "");
+                    }
+                }
+            } catch (Throwable ignored) {
+            }
+            final String n = name;
+            final String b = bio;
+            act.runOnUiThread(() -> {
+                if (!isAdded() || getView() == null) return;
+                android.widget.TextView tvName = view.findViewById(R.id.tv_dev_name);
+                android.widget.TextView tvNote = view.findViewById(R.id.tv_dev_note);
+                if (tvName != null && n != null && !n.trim().isEmpty()) tvName.setText(n.trim());
+                if (tvNote != null && b != null && !b.trim().isEmpty()) tvNote.setText(b.trim());
             });
         });
     }

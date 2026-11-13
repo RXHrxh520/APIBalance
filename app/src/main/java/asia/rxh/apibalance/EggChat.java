@@ -87,6 +87,13 @@ public final class EggChat {
         titles.addView(status);
         header.addView(titles, new LinearLayout.LayoutParams(0,
                 ViewGroup.LayoutParams.WRAP_CONTENT, 1f));
+        TextView restart = new TextView(act);
+        restart.setText(act.getString(R.string.egg_restart));
+        restart.setTextSize(13f);
+        restart.setTextColor(ThemeUtils.textSecondary(act));
+        restart.setPadding(dp(8), dp(8), dp(8), dp(8));
+        restart.setOnClickListener(v -> restartChat());
+        header.addView(restart);
         TextView close = new TextView(act);
         close.setText(act.getString(R.string.dlg_cancel));
         close.setTextSize(14f);
@@ -173,6 +180,18 @@ public final class EggChat {
             return;
         }
         replay();
+    }
+
+    /** 清空当前对话和本地记录，从第一条重新开始。 */
+    private void restartChat() {
+        try {
+            handler.removeCallbacksAndMessages(null);
+            if (transcript != null) transcript.removeAllViews();
+            if (options != null) options.removeAllViews();
+            AppPrefs.clearEggLog(act);
+            replay();
+        } catch (Throwable ignored) {
+        }
     }
 
     private void replay() {

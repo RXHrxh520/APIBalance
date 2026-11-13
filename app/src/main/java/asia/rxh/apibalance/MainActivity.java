@@ -56,6 +56,7 @@ public class MainActivity extends Activity {
     private String currentApiKey;
     private Handler mainHandler;
     private long pausedAt = 0;
+    private long lastBackAt = 0;
 
     /** 记录当前已生效的语言，用于检测设置变化后自动重建。 */
     private int appliedLang = -1;
@@ -168,6 +169,10 @@ public class MainActivity extends Activity {
 
         // Install crash handler
         CrashHandler.install(getApplicationContext());
+        // 启动时刷新仓库公告；失败时保留上次缓存，不阻塞首页。
+        RemoteConfig.refresh(this);
+        // 每次版本更新后展示一次更新说明；失败按 6 小时间隔最多重试三次。
+        UpdateNotice.check(this);
 
         // Check for pending crash
         if (CrashHandler.hasPendingCrash(getApplicationContext())) {
@@ -427,6 +432,14 @@ public class MainActivity extends Activity {
     public void switchTab(int tab) {
         android.widget.LinearLayout nav = (android.widget.LinearLayout) findViewById(R.id.bottom_nav);
         if (nav == null) return;
+        // 切换底部页签时清掉旧的设置页回退栈，避免返回链和新页面叠在一起。
+        try {
+            if (getFragmentManager().getBackStackEntryCount() > 0) {
+                getFragmentManager().popBackStackImmediate(null,
+                        android.app.FragmentManager.POP_BACK_STACK_INCLUSIVE);
+            }
+        } catch (Throwable ignored) {
+        }
         // 安全：没解锁就一律回锁屏，任何入口都不能绕
         if (!unlocked) {
             showLockFragment();
@@ -1021,36 +1034,29 @@ public class MainActivity extends Activity {
             try {
                 ProviderConfig.BalanceResult result = NetworkClient.fetch(MainActivity.this, providerId, apiKey);
                 mainHandler.post(() -> listener.onSuccess(providerId, result));
-            } catch (NetworkClient.HttpException e) {
-                final ProviderConfig.Provider provider = ProviderConfig.get(MainActivity.this, providerId);
-                mainHandler.post(() -> {
-                    if (e.code == 401) {
-                        listener.onError(getString(R.string.err_key_invalid));
-                        Notifier.notifyBalance(MainActivity.this, getString(R.string.j_140), provider.name + getString(R.string.j_141));
-                    } else if (e.code == 429) {
-                        listener.onError(getString(R.string.err_too_frequent));
-                    } else {
-                        // 错误响应体不展示在 UI（防敏感信息回显），仅记日志
-                        if (AppPrefs.isReqLog(MainActivity.this)) {
-                            android.util.Log.d("APIBalance", "HTTP " + e.code + " body=" + e.body);
-                        }
-                        listener.onError(getString(R.string.err_network) + " (" + e.code + ")");
-                    }
-                });
-            } catch (NetworkClient.ParseException e) {
-                final ProviderConfig.Provider provider = ProviderConfig.get(MainActivity.this, providerId);
-                mainHandler.post(() -> {
-                    listener.onError(getString(R.string.err_parse, e.getMessage()));
-                    Notifier.notifyBalance(MainActivity.this, getString(R.string.j_142), provider.name + getString(R.string.j_143));
-                });
-            } catch (NetworkClient.UnsupportedException e) {
-                mainHandler.post(() -> listener.onError(e.getMessage()));
-            } catch (java.net.SocketTimeoutException e) {
-                mainHandler.post(() -> listener.onError(getString(R.string.err_timeout)));
-            } catch (java.net.UnknownHostException e) {
-                mainHandler.post(() -> listener.onError(getString(R.string.err_no_network)));
             } catch (Exception e) {
-                mainHandler.post(() -> listener.onError(getString(R.string.err_network, e.getMessage())));
+                final String friendly = ErrorText.message(MainActivity.this, providerId, e);
+                if (e instanceof NetworkClient.HttpException
+                        && ((NetworkClient.HttpException) e).code == 401) {
+                    final ProviderConfig.Provider provider = ProviderConfig.get(MainActivity.this, providerId);
+                    mainHandler.post(() -> {
+                        listener.onError(friendly);
+                        Notifier.notifyBalance(MainActivity.this, getString(R.string.j_140),
+                                provider.name + getString(R.string.j_141));
+                    });
+                } else if (e instanceof NetworkClient.ParseException) {
+                    final ProviderConfig.Provider provider = ProviderConfig.get(MainActivity.this, providerId);
+                    mainHandler.post(() -> {
+                        listener.onError(friendly);
+                        Notifier.notifyBalance(MainActivity.this, getString(R.string.j_142),
+                                provider.name + getString(R.string.j_143));
+                    });
+                } else {
+                    if (AppPrefs.isReqLog(MainActivity.this)) {
+                        android.util.Log.d("APIBalance", "request failed: " + e.getClass().getSimpleName());
+                    }
+                    mainHandler.post(() -> listener.onError(friendly));
+                }
             }
         }).start();
     }
@@ -1089,13 +1095,23 @@ public class MainActivity extends Activity {
             fm.popBackStack();
             return;
         }
-        // 设置/趋势的根页面是用底部导航 replace 进来的，没有回退栈。
-        // 如果直接 super.onBackPressed() 会 finish 掉 Activity，看起来就是“按返回退回桌面”。
-        // 这里先回到余额页；只有余额页本身才允许退出。
+        // 设置/趋势的根页面没有回退栈，先回余额页，不能直接 finish。
         if (currentTab != 0) {
             switchTab(0);
             return;
         }
-        super.onBackPressed();
+        // 首页再滑一次才退出，避免侧滑手势误触直接回到桌面。
+        if (!AppPrefs.isBackGuard(this)) {
+            super.onBackPressed();
+            return;
+        }
+        long now = System.currentTimeMillis();
+        if (now - lastBackAt < 2000L) {
+            super.onBackPressed();
+            return;
+        }
+        lastBackAt = now;
+        android.widget.Toast.makeText(this, getString(R.string.back_guard_hint),
+                android.widget.Toast.LENGTH_SHORT).show();
     }
 }
