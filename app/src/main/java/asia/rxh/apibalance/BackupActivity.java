@@ -164,12 +164,12 @@ public class BackupActivity extends Activity {
     /** 主 Key 和多账户 Key 都写入 keys.txt；账户名用 Base64，避免分隔符冲突。 */
     private void addKeys(ZipOutputStream zos) throws Throwable {
         StringBuilder sb = new StringBuilder();
-        for (int pid = 0; pid <= 5; pid++) {
+        for (int pid = 0; pid <= 9; pid++) {
             String v = safeRead("provider_" + pid + "_api_key");
             if (v == null || v.isEmpty()) continue;
             sb.append("P\t").append(pid).append('\t').append(b64(v)).append('\n');
         }
-        for (int pid = 0; pid <= 5; pid++) {
+        for (int pid = 0; pid <= 9; pid++) {
             List<AccountManager.Account> accounts = AccountManager.getAccounts(this, pid);
             for (AccountManager.Account a : accounts) {
                 if (a == null || a.key == null || a.key.isEmpty()) continue;
@@ -336,20 +336,131 @@ public class BackupActivity extends Activity {
             try {
                 if ("P".equals(parts[0]) && parts.length >= 3) {
                     int pid = Integer.parseInt(parts[1]);
-                    if (pid < 0 || pid > 5) continue;
+                    if (pid < 0 || pid > 9) continue;
                     CryptoManager.save(this, "provider_" + pid + "_api_key", unb64(parts[2]));
                 } else if ("A".equals(parts[0]) && parts.length >= 4) {
                     int pid = Integer.parseInt(parts[1]);
-                    if (pid < 0 || pid > 5) continue;
+                    if (pid < 0 || pid > 9) continue;
                     AccountManager.saveAccount(this, pid, unb64(parts[2]), unb64(parts[3]));
                 } else if (parts.length >= 2) {
                     int pid = Integer.parseInt(parts[0]);
-                    if (pid < 0 || pid > 5) continue;
+                    if (pid < 0 || pid > 9) continue;
                     CryptoManager.save(this, "provider_" + pid + "_api_key", unb64(parts[1]));
                 }
             } catch (Throwable ignored) {
             }
         }
+    }
+
+    // ---------- 崩溃页紧急导出 ----------
+
+    /** 崩溃页使用：导出与普通备份相同格式的加密文件，返回保存位置。 */
+    public static String emergencyExport(android.content.Context ctx, String pwd) throws Throwable {
+        byte[] zip = collectZipStatic(ctx);
+        byte[] blob = encrypt(zip, pwd);
+        String name = "APIBalance_emergency_" + System.currentTimeMillis() + ".bin";
+        return saveToDownloadsStatic(ctx, blob, name);
+    }
+
+    private static byte[] collectZipStatic(android.content.Context ctx) throws Throwable {
+        ByteArrayOutputStream bos = new ByteArrayOutputStream();
+        ZipOutputStream zos = new ZipOutputStream(bos);
+        File dataDir = ctx.getFilesDir().getParentFile();
+        addDirStatic(zos, new File(dataDir, "shared_prefs"), "shared_prefs/");
+        addDirStatic(zos, new File(dataDir, "databases"), "databases/");
+        addKeysStatic(ctx, zos);
+        zos.finish();
+        zos.close();
+        return bos.toByteArray();
+    }
+
+    private static void addKeysStatic(android.content.Context ctx, ZipOutputStream zos) throws Throwable {
+        StringBuilder sb = new StringBuilder();
+        for (int pid = 0; pid <= 9; pid++) {
+            String v = safeReadStatic(ctx, "provider_" + pid + "_api_key");
+            if (v == null || v.isEmpty()) continue;
+            sb.append("P\t").append(pid).append('\t').append(b64(v)).append('\n');
+        }
+        for (int pid = 0; pid <= 9; pid++) {
+            List<AccountManager.Account> accounts = AccountManager.getAccounts(ctx, pid);
+            for (AccountManager.Account a : accounts) {
+                if (a == null || a.key == null || a.key.isEmpty()) continue;
+                sb.append("A\t").append(pid).append('\t')
+                        .append(b64(a.name == null ? "" : a.name)).append('\t')
+                        .append(b64(a.key)).append('\n');
+            }
+        }
+        if (sb.length() == 0) return;
+        zos.putNextEntry(new ZipEntry("keys.txt"));
+        zos.write(sb.toString().getBytes("UTF-8"));
+        zos.closeEntry();
+    }
+
+    private static String safeReadStatic(android.content.Context ctx, String key) {
+        try {
+            return CryptoManager.read(ctx, key);
+        } catch (Throwable t) {
+            return null;
+        }
+    }
+
+    private static void addDirStatic(ZipOutputStream zos, File dir, String prefix) throws Throwable {
+        File[] files = dir == null ? null : dir.listFiles();
+        if (files == null) return;
+        for (File f : files) {
+            if (f == null || !f.isFile()) continue;
+            String n = f.getName();
+            if (n.endsWith("-journal") || n.endsWith("-wal")) continue;
+            if ("ds_backup_prefs.xml".equals(n) || "ds_secure_prefs.xml".equals(n)) continue;
+            ByteArrayOutputStream b = new ByteArrayOutputStream();
+            try (InputStream in = new java.io.FileInputStream(f)) {
+                byte[] buf = new byte[8192];
+                int c;
+                while ((c = in.read(buf)) > 0) {
+                    b.write(buf, 0, c);
+                    if (b.size() > MAX_ENTRY_BYTES) throw new java.io.IOException("entry too large");
+                }
+            }
+            zos.putNextEntry(new ZipEntry(prefix + n));
+            zos.write(b.toByteArray());
+            zos.closeEntry();
+        }
+    }
+
+    private static String saveToDownloadsStatic(android.content.Context ctx, byte[] data, String name)
+            throws Throwable {
+        if (android.os.Build.VERSION.SDK_INT >= 29) {
+            android.content.ContentValues cv = new android.content.ContentValues();
+            cv.put(android.provider.MediaStore.MediaColumns.DISPLAY_NAME, name);
+            cv.put(android.provider.MediaStore.MediaColumns.MIME_TYPE, "application/octet-stream");
+            cv.put(android.provider.MediaStore.MediaColumns.RELATIVE_PATH,
+                    android.os.Environment.DIRECTORY_DOWNLOADS);
+            Uri uri = ctx.getContentResolver()
+                    .insert(android.provider.MediaStore.Downloads.EXTERNAL_CONTENT_URI, cv);
+            if (uri != null) {
+                java.io.OutputStream os = ctx.getContentResolver().openOutputStream(uri);
+                if (os != null) {
+                    os.write(data);
+                    os.flush();
+                    os.close();
+                }
+                return "Download/" + name;
+            }
+        }
+        File dir = android.os.Environment.getExternalStoragePublicDirectory(
+                android.os.Environment.DIRECTORY_DOWNLOADS);
+        if (dir != null && (dir.exists() || dir.mkdirs())) {
+            File f = new File(dir, name);
+            try (FileOutputStream fos = new FileOutputStream(f)) {
+                fos.write(data);
+            }
+            return f.getAbsolutePath();
+        }
+        File f2 = new File(ctx.getExternalFilesDir(null), name);
+        try (FileOutputStream fos = new FileOutputStream(f2)) {
+            fos.write(data);
+        }
+        return f2.getAbsolutePath();
     }
 
     // ---------- 加密 ----------

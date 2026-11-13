@@ -70,6 +70,8 @@ public class ShareFragment extends Fragment {
         ImageView ivPreview = view.findViewById(R.id.iv_preview);
         TextView btnShare = view.findViewById(R.id.btn_share);
         TextView btnSave = view.findViewById(R.id.btn_save);
+        TextView btnStyle = view.findViewById(R.id.btn_style);
+        TextView btnTemplate = view.findViewById(R.id.btn_template);
 
         // 用最近一条余额历史生成分享图
         cardBitmap = buildCard();
@@ -89,6 +91,8 @@ public class ShareFragment extends Fragment {
             return true;
         });
         btnSave.setOnClickListener(v -> saveToGallery());
+        if (btnStyle != null) btnStyle.setOnClickListener(v -> showCardStylePicker());
+        if (btnTemplate != null) btnTemplate.setOnClickListener(v -> showTemplatePicker());
 
         ThemeUtils.apply(view);
         return view;
@@ -124,6 +128,18 @@ public class ShareFragment extends Fragment {
             int acc = ThemePrefs.getColor(ctx);
             cTop = 0xFF101828; cBottom = acc; cTitle = 0xFFFFFFFF;
             cMain = 0xFFFFFFFF; cSub = 0xFFC7CDD8; cLine = 0x33FFFFFF;
+        } else if (cardStyle == 4) {
+            cTop = 0xFFFFF7ED; cBottom = 0xFFFED7AA; cTitle = 0xFFC2410C;
+            cMain = 0xFF7C2D12; cSub = 0xFF9A3412; cLine = 0x33EA580C;
+        } else if (cardStyle == 5) {
+            cTop = 0xFFECFDF5; cBottom = 0xFFA7F3D0; cTitle = 0xFF047857;
+            cMain = 0xFF064E3B; cSub = 0xFF047857; cLine = 0x3310B981;
+        } else if (cardStyle == 6) {
+            cTop = 0xFFF5F3FF; cBottom = 0xFFDDD6FE; cTitle = 0xFF6D28D9;
+            cMain = 0xFF2E1065; cSub = 0xFF6D28D9; cLine = 0x338B5CF6;
+        } else if (cardStyle == 7) {
+            cTop = 0xFF111827; cBottom = 0xFF374151; cTitle = 0xFFF9FAFB;
+            cMain = 0xFFFFFFFF; cSub = 0xFFD1D5DB; cLine = 0x44FFFFFF;
         } else {
             cTop = 0xFF101828; cBottom = 0xFF1E1B4B; cTitle = 0xFF00E676;
             cMain = 0xFFFFFFFF; cSub = 0xFF8B949E; cLine = 0xFF2A3550;
@@ -311,7 +327,11 @@ public class ShareFragment extends Fragment {
                 getString(R.string.share_style_default),
                 getString(R.string.share_style_pink),
                 getString(R.string.share_style_minimal),
-                getString(R.string.share_style_theme)};
+                getString(R.string.share_style_theme),
+                getString(R.string.share_style_orange),
+                getString(R.string.share_style_green),
+                getString(R.string.share_style_purple),
+                getString(R.string.share_style_mono)};
         UiDialog.showPicker(ctx, getString(R.string.share_style_title), items,
                 AppPrefs.getShareCardStyle(ctx), which -> {
                     AppPrefs.setShareCardStyle(ctx, which);

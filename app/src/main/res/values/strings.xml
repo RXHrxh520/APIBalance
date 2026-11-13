@@ -1045,4 +1045,76 @@
     <string name="share_style_saved">已更新卡片配色</string>
     <string name="float_channel">余额悬浮窗</string>
     <string name="float_running">余额悬浮窗运行中</string>
+    <string name="back_guard_hint">再按一次返回退出</string>
+    <string name="update_notice_ok">知道了</string>
+
+    <string name="emergency_backup_button">紧急备份</string>
+    <string name="emergency_auth_title">身份校验</string>
+    <string name="emergency_auth_desc">输入应用密码后导出加密备份。备份包含密钥与余额历史，请妥善保管。</string>
+    <string name="emergency_password_hint">应用密码</string>
+    <string name="emergency_risk_title">紧急备份风险</string>
+    <string name="emergency_risk_desc">当前未设置应用密码。继续导出会生成一次性口令，文件保存在 Download 目录；任何拿到文件和口令的人都能恢复密钥。</string>
+    <string name="emergency_continue">继续导出</string>
+    <string name="emergency_disabled">未设置应用密码，且实验性紧急备份未开启，无法导出</string>
+    <string name="emergency_exporting">正在导出…</string>
+    <string name="emergency_saved">已保存到：%1$s</string>
+    <string name="emergency_generated_password">一次性口令：%1$s\n请立即抄下，关闭后将无法再次查看。</string>
+    <string name="emergency_done_title">备份完成</string>
+    <string name="emergency_failed">紧急备份失败，请稍后重试</string>
+
+    <string name="exp_emergency_title">允许紧急备份</string>
+    <string name="exp_emergency_desc">崩溃页无密码时可用一次性口令导出</string>
+    <string name="exp_responsive_title">响应式设置布局</string>
+    <string name="exp_responsive_desc">平板/折叠屏使用侧边或顶部导航</string>
+    <string name="exp_nav_position_title">设置导航位置</string>
+    <string name="exp_nav_left">左侧</string>
+    <string name="exp_nav_top">顶部</string>
+    <string name="exp_nav_right">右侧</string>
+    <string name="exp_back_guard_title">返回二次确认</string>
+    <string name="exp_back_guard_desc">首页侧滑/返回需连按两次才退出</string>
+
+    <string name="share_style_button">换配色</string>
+    <string name="share_template_button">换文案</string>
+    <string name="share_style_orange">暖橙</string>
+    <string name="share_style_green">薄荷绿</string>
+    <string name="share_style_purple">暮紫</string>
+    <string name="share_style_mono">黑白</string>
+
+    <string name="float_bg_title">悬浮窗背景</string>
+    <string name="float_bg_pick">选择图片</string>
+    <string name="float_bg_reset">恢复默认</string>
+    <string name="float_bg_saved">背景已更新</string>
+
+    <string name="egg_restart">重新开始</string>
+
+    <string name="contrib_title">贡献者</string>
+    <string name="contrib_hint">以下信息来自 GitHub 公开接口，头像、昵称、简介和贡献次数均由 GitHub 返回。</string>
+    <string name="contrib_empty">暂无公开贡献者</string>
+    <string name="contrib_error">加载失败，点此重试</string>
+    <string name="contrib_no_bio">暂无简介</string>
+    <string name="contrib_count">贡献 %1$d 次</string>
+
+    <string name="err_forbidden">没有权限，请确认 Key 具备查询权限</string>
+    <string name="err_endpoint_missing">%1$s 的查询接口不存在，可能已下线</string>
+    <string name="err_server_busy">服务暂时不可用，请稍后再试</string>
+    <string name="err_http_code">请求失败（HTTP %1$d）</string>
+    <string name="err_parse_simple">%1$s 返回了无法识别的数据，接口可能已变更</string>
+    <string name="err_unsupported">%1$s 暂不支持自动查询</string>
+    <string name="err_network_short">网络请求失败，请检查网络或代理</string>
+    <string name="err_volc_credential">火山方舟请填写 AccessKey|SecretKey</string>
+    <string name="err_volc_sign">火山方舟签名失败，请检查 AccessKey/SecretKey</string>
+    <string name="err_hint_anthropic">Anthropic 需要 Admin Key（sk-ant-admin…）</string>
+    <string name="err_hint_openai">OpenAI 需要 Admin Key（sk-admin…）</string>
+    <string name="err_hint_codex">Codex 需要 ChatGPT Access Token，可写 token|account_id</string>
+    <string name="err_hint_volc">火山方舟需要 AccessKey|SecretKey</string>
+    <string name="err_hint_glm_code">GLM Coding 需已开通套餐，Key 支持 sk-、数字或字母开头</string>
+    <string name="err_hint_kimi_code">Kimi Code 需使用 Coding 套餐 Key</string>
+
+    <string name="key_hint_default">粘贴服务商 API Key</string>
+    <string name="key_hint_volc">AccessKey|SecretKey</string>
+    <string name="key_hint_codex">ChatGPT Access Token 或 token|account_id</string>
+    <string name="key_hint_kimi_code">Kimi Coding 套餐 Key</string>
+    <string name="key_hint_glm_code">GLM Coding Key（sk-、数字、字母均可）</string>
+    <string name="key_hint_anthropic">Anthropic Admin Key（sk-ant-admin…）</string>
+    <string name="err_provider_response">服务商返回的数据不完整，接口可能已变更</string>
 </resources>

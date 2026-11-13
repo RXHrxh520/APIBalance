@@ -208,6 +208,26 @@ public class CrashActivity extends Activity {
         });
         root.addView(btnRestart);
 
+        // 紧急备份：按钮始终显示；能否无密码导出由身份和实验开关决定。
+        addSpace(root, dp(12));
+        TextView btnEmergency = new TextView(this);
+        btnEmergency.setText(getString(R.string.emergency_backup_button));
+        btnEmergency.setTextColor(0xFF6750A4);
+        btnEmergency.setTextSize(15);
+        btnEmergency.setTypeface(null, android.graphics.Typeface.BOLD);
+        btnEmergency.setGravity(android.view.Gravity.CENTER);
+        btnEmergency.setPadding(dp(16), dp(13), dp(16), dp(13));
+        btnEmergency.setMinHeight(dp(48));
+        android.graphics.drawable.GradientDrawable emergencyBg =
+                new android.graphics.drawable.GradientDrawable();
+        emergencyBg.setShape(android.graphics.drawable.GradientDrawable.RECTANGLE);
+        emergencyBg.setCornerRadius(dp(16));
+        emergencyBg.setColor(0xFFFFFFFF);
+        emergencyBg.setStroke(dp(1), 0xFF6750A4);
+        btnEmergency.setBackground(emergencyBg);
+        btnEmergency.setOnClickListener(v -> EmergencyBackup.request(this));
+        root.addView(btnEmergency);
+
         // 版本信息
         addSpace(root, dp(16));
         TextView tvVersion = new TextView(this);
@@ -348,7 +368,7 @@ public class CrashActivity extends Activity {
         backup.setOnClickListener(v -> {
             try {
                 AppPrefs.setBrokenTapped(this, false);
-                startActivity(new android.content.Intent(this, BackupActivity.class));
+                EmergencyBackup.request(this);
             } catch (Throwable ignored) {
             }
         });

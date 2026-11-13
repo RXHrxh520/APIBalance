@@ -697,6 +697,51 @@ public final class AppPrefs {
     public static void setShareCardStyle(Context c, int v) {
         sp(c).edit().putInt("share_card_style", v).apply();
     }
+
+    /** 崩溃页紧急备份：开启后允许无密码导出，关闭时只能凭密码导出。 */
+    public static boolean isEmergencyBackup(Context c) {
+        return sp(c).getBoolean("exp_emergency_backup", false);
+    }
+
+    public static void setEmergencyBackup(Context c, boolean on) {
+        sp(c).edit().putBoolean("exp_emergency_backup", on).apply();
+    }
+
+    /** 设置页响应式布局，仅在平板/折叠屏且本开关开启时生效。 */
+    public static boolean isResponsiveSettings(Context c) {
+        return sp(c).getBoolean("exp_responsive_settings", false);
+    }
+
+    public static void setResponsiveSettings(Context c, boolean on) {
+        sp(c).edit().putBoolean("exp_responsive_settings", on).apply();
+    }
+
+    /** 设置页导航位置：0 左、1 上、2 右。 */
+    public static int getSettingsNavPosition(Context c) {
+        return sp(c).getInt("settings_nav_position", 0);
+    }
+
+    public static void setSettingsNavPosition(Context c, int pos) {
+        sp(c).edit().putInt("settings_nav_position", pos).apply();
+    }
+
+    /** 返回二次确认：默认开启，避免侧滑一次就退出桌面。 */
+    public static boolean isBackGuard(Context c) {
+        return sp(c).getBoolean("back_guard", true);
+    }
+
+    public static void setBackGuard(Context c, boolean on) {
+        sp(c).edit().putBoolean("back_guard", on).apply();
+    }
+
+    /** 悬浮窗面板自定义背景（SAF URI）。 */
+    public static String getFloatBgUri(Context c) {
+        return sp(c).getString("float_bg_uri", "");
+    }
+
+    public static void setFloatBgUri(Context c, String uri) {
+        sp(c).edit().putString("float_bg_uri", uri == null ? "" : uri).apply();
+    }
 }
 
 

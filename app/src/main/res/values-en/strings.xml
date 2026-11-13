@@ -978,4 +978,76 @@ For learning only. Author is not liable for API misuse.</string>
     <string name="backup_pwd_short">Backup password must be at least 4 characters</string>
     <string name="float_channel">Balance overlay</string>
     <string name="float_running">Balance overlay is running</string>
+    <string name="back_guard_hint">Press back again to exit</string>
+    <string name="update_notice_ok">Got it</string>
+
+    <string name="emergency_backup_button">Emergency backup</string>
+    <string name="emergency_auth_title">Verify identity</string>
+    <string name="emergency_auth_desc">Enter the app password to export an encrypted backup. It contains keys and balance history; keep it safe.</string>
+    <string name="emergency_password_hint">App password</string>
+    <string name="emergency_risk_title">Emergency backup risk</string>
+    <string name="emergency_risk_desc">No app password is set. Continuing creates a one-time passphrase and saves the file in Download; anyone with both can restore the keys.</string>
+    <string name="emergency_continue">Export anyway</string>
+    <string name="emergency_disabled">No app password and emergency backup is disabled; export is blocked</string>
+    <string name="emergency_exporting">Exporting…</string>
+    <string name="emergency_saved">Saved to: %1$s</string>
+    <string name="emergency_generated_password">One-time passphrase: %1$s\nWrite it down now; it cannot be shown again.</string>
+    <string name="emergency_done_title">Backup complete</string>
+    <string name="emergency_failed">Emergency backup failed; try again later</string>
+
+    <string name="exp_emergency_title">Allow emergency backup</string>
+    <string name="exp_emergency_desc">Crash page may export with a one-time passphrase when no password is set</string>
+    <string name="exp_responsive_title">Responsive settings layout</string>
+    <string name="exp_responsive_desc">Use side or top navigation on tablets and foldables</string>
+    <string name="exp_nav_position_title">Settings navigation position</string>
+    <string name="exp_nav_left">Left</string>
+    <string name="exp_nav_top">Top</string>
+    <string name="exp_nav_right">Right</string>
+    <string name="exp_back_guard_title">Confirm before exit</string>
+    <string name="exp_back_guard_desc">Require two back gestures on the home page</string>
+
+    <string name="share_style_button">Colors</string>
+    <string name="share_template_button">Text</string>
+    <string name="share_style_orange">Warm orange</string>
+    <string name="share_style_green">Mint</string>
+    <string name="share_style_purple">Twilight purple</string>
+    <string name="share_style_mono">Monochrome</string>
+
+    <string name="float_bg_title">Overlay background</string>
+    <string name="float_bg_pick">Choose image</string>
+    <string name="float_bg_reset">Restore default</string>
+    <string name="float_bg_saved">Background updated</string>
+
+    <string name="egg_restart">Restart</string>
+
+    <string name="contrib_title">Contributors</string>
+    <string name="contrib_hint">Data comes from GitHub public APIs; avatars, names, bios and contribution counts are returned by GitHub.</string>
+    <string name="contrib_empty">No public contributors</string>
+    <string name="contrib_error">Load failed; tap to retry</string>
+    <string name="contrib_no_bio">No bio</string>
+    <string name="contrib_count">%1$d contributions</string>
+
+    <string name="err_forbidden">Permission denied; make sure this key can query usage</string>
+    <string name="err_endpoint_missing">The %1$s endpoint is missing or retired</string>
+    <string name="err_server_busy">Service is temporarily unavailable; try later</string>
+    <string name="err_http_code">Request failed (HTTP %1$d)</string>
+    <string name="err_parse_simple">%1$s returned data the app cannot parse; the API may have changed</string>
+    <string name="err_unsupported">%1$s does not support automatic queries yet</string>
+    <string name="err_network_short">Network request failed; check the connection or proxy</string>
+    <string name="err_volc_credential">Volcengine Ark requires AccessKey|SecretKey</string>
+    <string name="err_volc_sign">Volcengine signing failed; check AccessKey/SecretKey</string>
+    <string name="err_hint_anthropic">Anthropic requires an Admin Key (sk-ant-admin…)</string>
+    <string name="err_hint_openai">OpenAI requires an Admin Key (sk-admin…)</string>
+    <string name="err_hint_codex">Codex requires a ChatGPT Access Token; token|account_id is accepted</string>
+    <string name="err_hint_volc">Volcengine Ark requires AccessKey|SecretKey</string>
+    <string name="err_hint_glm_code">GLM Coding needs an active plan; keys may start with sk-, digits or letters</string>
+    <string name="err_hint_kimi_code">Kimi Code requires a Coding plan key</string>
+
+    <string name="key_hint_default">Paste the provider API key</string>
+    <string name="key_hint_volc">AccessKey|SecretKey</string>
+    <string name="key_hint_codex">ChatGPT Access Token or token|account_id</string>
+    <string name="key_hint_kimi_code">Kimi Coding plan key</string>
+    <string name="key_hint_glm_code">GLM Coding key (sk-, digits or letters)</string>
+    <string name="key_hint_anthropic">Anthropic Admin Key (sk-ant-admin…)</string>
+    <string name="err_provider_response">The provider returned incomplete data; its API may have changed</string>
 </resources>

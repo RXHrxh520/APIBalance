@@ -99,6 +99,7 @@
             android:focusable="false">
 
             <TextView
+                android:id="@+id/tv_total_label"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/str_012"
@@ -194,6 +195,7 @@
 
         <!-- 明细卡片 -->
         <LinearLayout
+            android:id="@+id/card_details"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
@@ -222,6 +224,7 @@
                     android:contentDescription="赠金" />
 
                 <TextView
+                    android:id="@+id/tv_granted_label"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
@@ -263,6 +266,7 @@
                     android:contentDescription="充值" />
 
                 <TextView
+                    android:id="@+id/tv_topped_label"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
@@ -311,6 +315,21 @@
                 android:textColor="@color/text_secondary"
                 android:textSize="14sp" />
         </LinearLayout>
+
+        <TextView
+            android:id="@+id/tv_app_notice"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:gravity="center"
+            android:padding="10dp"
+            android:visibility="gone"
+            android:textColor="@color/primary"
+            android:textSize="12sp"
+            android:lineSpacingExtra="2dp"
+            android:background="@drawable/bg_card_balance"
+            android:clickable="true"
+            android:focusable="false" />
 
         <TextView
             android:layout_width="match_parent"
