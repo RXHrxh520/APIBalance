@@ -2,10 +2,9 @@ name: 代码安全扫描
 on:
   push:
     branches: [main]
-  pull_request:
-    branches: [main]
   schedule:
     - cron: '0 3 * * 1'
+  workflow_dispatch:
 jobs:
   analyze:
     runs-on: ubuntu-latest
@@ -17,4 +16,7 @@ jobs:
       - uses: github/codeql-action/init@v3
         with:
           languages: java-kotlin
+          build-mode: none
       - uses: github/codeql-action/analyze@v3
+        with:
+          category: "/language:java-kotlin"
