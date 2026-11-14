@@ -252,11 +252,10 @@ public class LoginFragment extends Fragment {
 
     /** 下拉选择器：列出可选服务商，末尾带「配置自定义服务商」入口。 */
     private void setupProviderSpinner() {
-        final String[] base = ProviderConfig.names(getActivity());
         final int[] ids = ProviderConfig.pickableIds();
         final String[] opts = new String[ids.length + 1];
         for (int i = 0; i < ids.length; i++) {
-            opts[i] = (ids[i] >= 0 && ids[i] < base.length) ? base[ids[i]] : "";
+            opts[i] = ProviderConfig.get(getActivity(), ids[i]).name;
         }
         opts[ids.length] = AppPrefs.hasCustomProvider(getActivity())
                 ? AppPrefs.getCustomProviderName(getActivity())

@@ -58,6 +58,8 @@ public final class ProviderConfig {
     public static final int AUTH_CODEX = 3;
     /** 火山引擎 AK|SK，请求使用 HMAC-SHA256 签名。 */
     public static final int AUTH_VOLC = 4;
+    /** 智谱：新密钥整串直传，旧「id.secret」密钥现场签 JWT。 */
+    public static final int AUTH_GLM = 5;
 
     public static final int TYPE_BALANCE = 0;
     public static final int TYPE_COST = 1;
@@ -78,7 +80,7 @@ public final class ProviderConfig {
                 null, "预存余额"),
         new Provider(PROVIDER_GLM, "智谱GLM", new String[]{},
                 "https://open.bigmodel.cn/api/biz/account/query-customer-account-report",
-                AUTH_BEARER, "CNY", TYPE_BALANCE, null, "预存余额"),
+                AUTH_GLM, "CNY", TYPE_BALANCE, null, "预存余额"),
         new Provider(PROVIDER_OPENAI, "OpenAI", new String[]{"sk-"},
                 "https://api.openai.com/v1/organization/costs", AUTH_BEARER, "USD", TYPE_COST,
                 null, "组织成本"),
@@ -91,7 +93,7 @@ public final class ProviderConfig {
                 "https://api.kimi.com/coding/v1/usages", AUTH_BEARER, "QUOTA", TYPE_QUOTA,
                 null, "套餐配额"),
         new Provider(PROVIDER_GLM_CODE, "GLM Coding", new String[]{},
-                "https://open.bigmodel.cn/api/monitor/usage/quota/limit", AUTH_RAW, "QUOTA",
+                "https://open.bigmodel.cn/api/monitor/usage/quota/limit", AUTH_GLM, "QUOTA",
                 TYPE_QUOTA, null, "套餐配额"),
         new Provider(PROVIDER_CODEX, "Codex", new String[]{},
                 "https://chatgpt.com/backend-api/wham/usage", AUTH_CODEX, "QUOTA", TYPE_QUOTA,
@@ -101,15 +103,28 @@ public final class ProviderConfig {
     private ProviderConfig() {
     }
 
+    /**
+     * 按服务商 ID 取配置。
+     *
+     * 注意：不能直接拿 providerId 当数组下标——PROVIDER_CUSTOM 不在这张表里，
+     * 从 PROVIDER_VOLCENGINE(6) 开始下标就与 ID 错开一位，
+     * 之前用 PROVIDERS[providerId] 会让火山方舟查到 Kimi Code 的地址，
+     * 而 CODEX(9) 直接越界回退成 DeepSeek（界面上表现为 DeepSeek 重复一次）。
+     */
     public static Provider get(int providerId) {
         if (providerId == PROVIDER_CUSTOM) {
             return new Provider(PROVIDER_CUSTOM, "自定义服务商", new String[]{},
                     null, AUTH_BEARER, "CNY", TYPE_BALANCE, null, "自定义余额");
         }
-        if (providerId < 0 || providerId >= PROVIDERS.length) {
-            return PROVIDERS[PROVIDER_DEEPSEEK];
+        for (Provider p : PROVIDERS) {
+            if (p.id == providerId) return p;
         }
-        return PROVIDERS[providerId];
+        return PROVIDERS[PROVIDER_DEEPSEEK];
+    }
+
+    /** 全部真实服务商（不含自定义），按表内顺序；遍历请用这个，不要按下标猜 ID。 */
+    public static Provider[] list() {
+        return PROVIDERS.clone();
     }
 
     public static Provider get(Context ctx, int providerId) {

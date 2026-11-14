@@ -102,10 +102,11 @@ public class HistoryFragment extends Fragment {
         }
 
         btnFilterProvider.setOnClickListener(v -> {
-            String[] options = new String[ProviderConfig.count() + 1];
+            ProviderConfig.Provider[] all = ProviderConfig.list();
+            String[] options = new String[all.length + 1];
             options[0] = getString(R.string.j_151);
-            for (int i = 0; i < ProviderConfig.count(); i++) {
-                options[i + 1] = ProviderConfig.get(i).name;
+            for (int i = 0; i < all.length; i++) {
+                options[i + 1] = all[i].name;
             }
             int sel = filterProvider + 1;
             UiDialog.showPicker(getActivity(), getString(R.string.j_152), options, sel, w -> {

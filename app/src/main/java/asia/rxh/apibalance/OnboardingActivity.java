@@ -343,11 +343,10 @@ public class OnboardingActivity extends Activity {
     private View buildProvider() {
         LinearLayout root = page(getString(R.string.onb_provider_title), getString(R.string.onb_provider_sub));
 
-        String[] base = ProviderConfig.names(this);
         int[] ids = ProviderConfig.pickableIds();
         String[] names = new String[ids.length + 1];
         for (int i = 0; i < ids.length; i++) {
-            names[i] = (ids[i] >= 0 && ids[i] < base.length) ? base[ids[i]] : "";
+            names[i] = ProviderConfig.get(this, ids[i]).name;
         }
         names[ids.length] = getString(R.string.onb_custom_entry);
 
