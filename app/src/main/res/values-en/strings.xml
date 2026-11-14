@@ -1105,4 +1105,24 @@ For learning only. Author is not liable for API misuse.</string>
     <string name="cost_hint_title">This reports cost, not balance</string>
     <string name="cost_hint_ok">Got it</string>
     <string name="quota_left_label">Plan left</string>
+    <string name="dep_build_r8">• R8 / ProGuard (release shrinking and obfuscation)\n\n</string>
+    <string name="dep_runtime_okhttp">• OkHttp 4.12.1 (Apache License 2.0) — HTTP client\n</string>
+    <string name="dep_runtime_gson">• Gson 2.14.0 (Apache License 2.0) — JSON parsing\n</string>
+    <string name="dep_runtime_selfmade">• Everything else (charts, chart animation, skeleton, themes) is drawn in-house; no third-party UI library\n\n</string>
+    <string name="dep_platform_keystore">• Android Keystore + AES/GCM (API key encrypted on device)\n</string>
+    <string name="dep_platform_biometric">• Platform BiometricPrompt (fingerprint / face unlock, API 28+)\n</string>
+    <string name="dep_platform_alarm">• AlarmManager (scheduled refresh; the system may delay it)\n</string>
+    <string name="dep_svc_deepseek">• DeepSeek      GET https://api.deepseek.com/user/balance (Bearer)\n</string>
+    <string name="dep_svc_kimi">• Kimi          GET https://api.moonshot.cn/v1/users/me/balance (Bearer)\n</string>
+    <string name="dep_svc_glm">• Zhipu GLM     GET https://open.bigmodel.cn/api/biz/account/query-customer-account-report (new key sent as-is / legacy id.secret signed as JWT)\n</string>
+    <string name="dep_svc_anthropic">• Anthropic     GET https://api.anthropic.com/v1/organizations/cost_report (requires an Admin key; amounts in cents)\n</string>
+    <string name="dep_svc_volc">• Volcengine    POST https://billing.volcengineapi.com (AK|SK HMAC-SHA256 signature)\n</string>
+    <string name="dep_svc_kimicode">• Kimi Code     GET https://api.kimi.com/coding/v1/usages (plan quota)\n</string>
+    <string name="dep_svc_glmcode">• GLM Coding    GET https://open.bigmodel.cn/api/monitor/usage/quota/limit (plan quota)\n</string>
+    <string name="dep_svc_codex">• Codex         GET https://chatgpt.com/backend-api/wham/usage (Bearer + Account-Id)\n</string>
+    <string name="dep_svc_openai">• OpenAI        organization cost API needs an Admin key; not in the picker by default\n</string>
+    <string name="dep_svc_custom">• Custom provider: you supply the URL, auth method and balance field path\n</string>
+    <string name="dep_license_agpl">• Distributed under AGPL-3.0; source is public\n</string>
+    <string name="dep_license_avatar">• Developer avatar comes from GitHub public avatar API github.com/RXHrxh520.png, display only\n</string>
+    <string name="dep_license_fx">• FX conversion is an offline approximation by default; a custom rate URL is optional\n</string>
 </resources>
