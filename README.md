@@ -7,6 +7,10 @@
 - **项目地址**：<https://github.com/RXHrxh520/APIBalance>
 - **交流群**：235492286
 
+![Gradle](https://img.shields.io/badge/Gradle-9.8.2-brightgreen?labelColor=555&logo=Android)
+![license](https://img.shields.io/badge/license-AGPLv3-brightgreen?labelColor=555)
+![fork](https://img.shields.io/badge/fork-0-brightgreen?labelColor=555&logo=github)
+![version](https://img.shields.io/badge/version-1.x-brightgreen?labelColor=555)
 ---
 
 ## ✨ 功能总览
@@ -182,9 +186,9 @@ app/src/main/java/asia/rxh/apibalance/
 
 本项目基于 **GNU Affero General Public License v3.0** 开源。
 
-- 本软件永远开源免费。如您是付费购买的，请联系对应方退款；如拒不退款，请联系项目原作者协助（无法保证百分百）。
+- 本软件永远开源免费。如您是付费购买的，请联系对应方退款。
 - 仅调用各家服务商官方余额 API，仅供学习交流使用，作者不承担滥用 API 导致的任何账号风险。
-- 图标说明：App 图标为作者提供的萌化版形象；QQ 图标取自系统素材；GitHub 图标为 GitHub 官方 Octicons（MIT 许可）；其余图标为 Material Design Icons 风格（Apache 2.0）。
+- 图标说明：App 图标为Deepseek的萌化版形象；QQ 图标取自系统素材；GitHub 图标为 GitHub 官方 Octicons（MIT 许可）；其余图标为 Material Design Icons 风格（Apache 2.0）。
 
 ---
 
