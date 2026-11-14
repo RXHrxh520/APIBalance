@@ -248,8 +248,8 @@ public class BalanceFragment extends Fragment {
                     if (result.totalBalance < threshold) {
                         Notifier.notifyBalance(getActivity(), getString(R.string.j_116),
                                 ProviderConfig.get(getActivity(), pid).name + getString(R.string.j_117)
-                                        + PrivacyPrefs.maskBalance(getActivity(), String.format("%.2f %s", result.totalBalance, result.currency))
-                                        + getString(R.string.j_118) + PrivacyPrefs.maskBalance(getActivity(), String.format("%.2f", threshold)));
+                                        + PrivacyPrefs.maskBalance(getActivity(), MoneyFmt.format(result.totalBalance) + " " + result.currency)
+                                        + getString(R.string.j_118) + PrivacyPrefs.maskBalance(getActivity(), MoneyFmt.format(threshold)));
                     }
                 }
                 if (isFirstLoad) {
@@ -480,21 +480,9 @@ public class BalanceFragment extends Fragment {
         if (ctx != null && PrivacyPrefs.isHideBalance(ctx)) {
             return "****";
         }
-        if (Double.isNaN(d) || Double.isInfinite(d)) return "0.00";
-        try {
-            java.math.BigDecimal value = java.math.BigDecimal.valueOf(d)
-                    .setScale(2, java.math.RoundingMode.HALF_UP);
-            // 欠费几分钱时，四舍五入会变成 -0.00；此时保留更多小数，显示真实欠费。
-            if (value.signum() == 0 && d < 0) {
-                return java.math.BigDecimal.valueOf(d)
-                        .setScale(4, java.math.RoundingMode.HALF_UP)
-                        .stripTrailingZeros().toPlainString();
-            }
-            return value.toPlainString();
-        } catch (Throwable ignored) {
-            return String.format(java.util.Locale.US, "%.2f", d);
-        }
+        return MoneyFmt.format(d);
     }
+
 
     private void showLoading() {
         layoutLoading.setVisibility(View.VISIBLE);

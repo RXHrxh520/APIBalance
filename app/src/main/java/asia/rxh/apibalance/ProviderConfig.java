@@ -274,11 +274,28 @@ public final class ProviderConfig {
             if (infosEl == null || !infosEl.isJsonArray() || infosEl.getAsJsonArray().size() == 0) {
                 throw new IllegalStateException(ctx.getString(R.string.g_013));
             }
-            JsonObject info = infosEl.getAsJsonArray().get(0).getAsJsonObject();
-            String currency = normalizeCurrency(str(info, "currency", defaultCurrency));
-            double total = num(info, "total_balance");
-            double granted = num(info, "granted_balance");
-            double topped = num(info, "topped_up_balance");
+            // 可能同时返回 CNY / USD 两条，取绝对值最大的一条，避免把 0.00 当成真实余额
+            JsonObject best = null;
+            double bestAbs = -1;
+            for (JsonElement el : infosEl.getAsJsonArray()) {
+                if (el == null || !el.isJsonObject()) continue;
+                JsonObject candidate = el.getAsJsonObject();
+                double abs = Math.abs(num(candidate, "total_balance"));
+                if (abs > bestAbs) {
+                    bestAbs = abs;
+                    best = candidate;
+                }
+            }
+            if (best == null) best = infosEl.getAsJsonArray().get(0).getAsJsonObject();
+            String currency = normalizeCurrency(str(best, "currency", defaultCurrency));
+            double total = num(best, "total_balance");
+            double granted = num(best, "granted_balance");
+            double topped = num(best, "topped_up_balance");
+            // 欠费时接口有时把 total 抹成 0，真实差额留在 topped / granted 上
+            if (total == 0.0) {
+                double alt = granted + topped;
+                if (alt < 0) total = alt;
+            }
             return BalanceResult.balance(currency, total, granted, topped);
         }
 

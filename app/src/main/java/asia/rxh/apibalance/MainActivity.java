@@ -809,7 +809,7 @@ public class MainActivity extends Activity {
         if (last != null) {
             String symbol = "CNY".equals(last.currency) ? "¥" : "$";
             Notifier.showSticky(this, ProviderConfig.get(this, last.providerId).name,
-                    symbol + String.format("%.2f", last.total));
+                    MoneyFmt.withSymbol(symbol, last.total));
         } else {
             Notifier.showSticky(this, "APIBalance", getString(R.string.j_139));
         }

@@ -389,7 +389,7 @@ public class DebugFragment extends Fragment {
             @Override
             public void onSuccess(int pid2, ProviderConfig.BalanceResult result) {
                 showResult("key OK! " + ProviderConfig.get(pid2).name + " balance: "
-                        + String.format("%.2f %s", result.totalBalance, result.currency));
+                        + MoneyFmt.format(result.totalBalance) + " " + result.currency);
             }
 
             @Override
@@ -432,7 +432,7 @@ public class DebugFragment extends Fragment {
         java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("MM-dd HH:mm", java.util.Locale.getDefault());
         showResult(getString(R.string.h_018) + items.size() + getString(R.string.f_031)
                 + getString(R.string.h_019) + ProviderConfig.get(last.providerId).name + " "
-                + String.format("%.2f %s", last.total, last.currency)
+                + MoneyFmt.format(last.total) + " " + last.currency
                 + " @ " + sdf.format(new java.util.Date(last.ts)));
     }
 

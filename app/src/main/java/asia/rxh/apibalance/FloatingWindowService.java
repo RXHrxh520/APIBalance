@@ -199,7 +199,7 @@ public class FloatingWindowService extends Service {
         BalanceHistoryStore.HistoryItem last = items.get(items.size() - 1);
         if (PrivacyPrefs.shouldMaskBalance(this)) return "••••";
         String symbol = "CNY".equals(last.currency) ? "¥" : "$";
-        return symbol + String.format("%.2f", last.total);
+        return MoneyFmt.withSymbol(symbol, last.total);
     }
 
     /** 点击悬浮球：后台刷新余额并更新悬浮球文本（无需打开 App）。 */
@@ -327,7 +327,7 @@ public class FloatingWindowService extends Service {
             if (!items.isEmpty()) {
                 BalanceHistoryStore.HistoryItem last = items.get(items.size() - 1);
                 String symbol = "CNY".equals(last.currency) ? "¥" : "$";
-                tvBalance.setText(PrivacyPrefs.maskBalance(this, symbol + String.format("%.2f", last.total)));
+                tvBalance.setText(PrivacyPrefs.maskBalance(this, MoneyFmt.withSymbol(symbol, last.total)));
                 tvProvider.setText(ProviderConfig.get(this, last.providerId).name);
             } else {
                 tvBalance.setText(PrivacyPrefs.maskBalance(this, getString(R.string.j_139)));

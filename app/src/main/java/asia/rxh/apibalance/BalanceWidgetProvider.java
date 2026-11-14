@@ -57,7 +57,7 @@ public class BalanceWidgetProvider extends AppWidgetProvider {
             BalanceHistoryStore.HistoryItem last = items.get(items.size() - 1);
             providerName = ProviderConfig.get(last.providerId).name;
             String symbol = "CNY".equals(last.currency) ? "¥" : "$";
-            balance = symbol + String.format("%.2f", last.total);
+            balance = MoneyFmt.withSymbol(symbol, last.total);
         }
         rv.setTextViewText(R.id.widget_title, "APIBalance");
         rv.setTextViewText(R.id.widget_provider, providerName);
