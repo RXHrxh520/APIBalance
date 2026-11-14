@@ -116,18 +116,11 @@ public class DevelopersFragment extends Fragment {
             String name = null;
             String bio = null;
             try {
-                okhttp3.Request req = new okhttp3.Request.Builder()
-                        .url("https://api.github.com/users/" + GH_USER)
-                        .header("Accept", "application/vnd.github+json")
-                        .header("User-Agent", "APIBalance/" + BuildConfig.VERSION_NAME)
-                        .build();
-                try (okhttp3.Response resp = NetworkClient.http().newCall(req).execute()) {
-                    if (resp.code() == 200 && resp.body() != null) {
-                        org.json.JSONObject o = new org.json.JSONObject(resp.body().string());
-                        name = o.optString("name", "");
-                        bio = o.optString("bio", "");
-                    }
-                }
+                // 同一天内用缓存，跨零点才重新拉取，避免每次进页面都打 GitHub 接口
+                String body = GhCache.get(act, "https://api.github.com/users/" + GH_USER);
+                org.json.JSONObject o = new org.json.JSONObject(body);
+                name = o.optString("name", "");
+                bio = o.optString("bio", "");
             } catch (Throwable ignored) {
             }
             final String n = name;

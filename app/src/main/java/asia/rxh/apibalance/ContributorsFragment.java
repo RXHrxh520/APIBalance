@@ -94,17 +94,8 @@ public class ContributorsFragment extends Fragment {
     }
 
     private String get(String url) throws Exception {
-        okhttp3.Request req = new okhttp3.Request.Builder()
-                .url(url)
-                .header("Accept", "application/vnd.github+json")
-                .header("User-Agent", "APIBalance/" + BuildConfig.VERSION_NAME)
-                .build();
-        try (okhttp3.Response resp = NetworkClient.http().newCall(req).execute()) {
-            if (resp.code() != 200 || resp.body() == null) {
-                throw new java.io.IOException("HTTP " + resp.code());
-            }
-            return resp.body().string();
-        }
+        // 同一天内复用缓存，跨零点才重新联网（见 GhCache）
+        return GhCache.get(getContext(), url);
     }
 
     private void render(List<Person> people, String error) {

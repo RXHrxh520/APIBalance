@@ -190,6 +190,14 @@ public final class UiDialog {
         inputArea.setVisibility(View.VISIBLE);
 
         TextView posBtn = d.findViewById(R.id.dialog_positive);
+        TextView negBtn = d.findViewById(R.id.dialog_negative);
+        if (negBtn != null) {
+            if (negBtn.getText() == null || negBtn.getText().toString().trim().isEmpty()) {
+                negBtn.setText(ctx.getString(R.string.dlg_cancel));
+            }
+            negBtn.setVisibility(View.VISIBLE);
+            negBtn.setOnClickListener(v -> d.dismiss());
+        }
         posBtn.setOnClickListener(v -> {
             if (l != null) l.onInput(et.getText().toString().trim());
             d.dismiss();
@@ -238,13 +246,29 @@ public final class UiDialog {
         }
     }
 
+    /** 弹窗宽度：手机接近满宽，平板封顶，避免固定 320dp 在大屏上变成一条窄缝。 */
+    private static int dialogWidth(Context ctx) {
+        try {
+            android.util.DisplayMetrics dm = ctx.getResources().getDisplayMetrics();
+            int screenDp = (int) (Math.min(dm.widthPixels, dm.heightPixels) / dm.density);
+            int target = (int) (screenDp * 0.92f);
+            int min = dp(ctx, 300);
+            int max = dp(ctx, 520);
+            if (target < min) target = min;
+            if (target > max) target = max;
+            return dp(ctx, target);
+        } catch (Throwable t) {
+            return dp(ctx, 320);
+        }
+    }
+
     /** 部分系统会在 show() 时把过高的弹窗挤偏，这里再固定一次宽度与居中位置。 */
     private static void centerWindow(Dialog d) {
         try {
             Window w = d.getWindow();
             if (w == null) return;
             w.setGravity(Gravity.CENTER);
-            w.setLayout(dp(d.getContext(), 320), ViewGroup.LayoutParams.WRAP_CONTENT);
+            w.setLayout(dialogWidth(d.getContext()), ViewGroup.LayoutParams.WRAP_CONTENT);
         } catch (Throwable ignored) {
         }
     }
@@ -256,9 +280,17 @@ public final class UiDialog {
         Window w = d.getWindow();
         if (w != null) {
             w.setBackgroundDrawable(new GradientDrawable());
-            w.setLayout(dp(ctx, 320), ViewGroup.LayoutParams.WRAP_CONTENT);
+            w.setLayout(dialogWidth(ctx), ViewGroup.LayoutParams.WRAP_CONTENT);
             w.setGravity(Gravity.CENTER);
+            // 轻量入场动画：缩放 + 淡入，不做大幅位移
+            try {
+                w.setWindowAnimations(android.R.style.Animation_Dialog);
+            } catch (Throwable ignored) {
+            }
         }
+        // 允许点外部与返回键关闭，避免只有「确定」一条退路
+        d.setCanceledOnTouchOutside(true);
+        d.setCancelable(true);
         // 深色主题（复古2000/CLI）下，弹窗也跟随主题配色
         ThemeUtils.apply(d.getWindow() != null ? d.getWindow().getDecorView() : d.findViewById(R.id.dialog_root));
         return d;
