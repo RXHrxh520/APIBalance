@@ -549,7 +549,7 @@ For learning only. Author is not liable for API misuse.</string>
     <string name="dbg_provider">Provider config overview</string>
     <string name="dbg_export">Export diagnostic report</string>
     <string name="e_001">Model: </string>
-    <string name="e_002">屏幕: </string>
+    <string name="e_002">Screen: </string>
     <string name="e_003">Landscape</string>
     <string name="e_004">Portrait</string>
     <string name="e_005">Language: </string>
@@ -569,7 +569,7 @@ For learning only. Author is not liable for API misuse.</string>
     <string name="e_019"> s</string>
     <string name="e_020">Failed to read time: </string>
     <string name="e_021">Resolving domains...</string>
-    <string name="e_022"> -&gt; 失败: </string>
+    <string name="e_022"> -&gt; failed: </string>
     <string name="e_023">Password/fingerprint lock: </string>
     <string name="e_024">on</string>
     <string name="e_025">off</string>
@@ -581,58 +581,58 @@ For learning only. Author is not liable for API misuse.</string>
     <string name="e_031">Custom provider: </string>
     <string name="e_032">configured</string>
     <string name="e_033">not configured</string>
-    <string name="e_034">读取隐私状态失败: </string>
+    <string name="e_034">Failed to read privacy state: </string>
     <string name="e_035">Available count: </string>
     <string name="e_036">Custom name: </string>
     <string name="e_037">Custom URL: </string>
     <string name="e_038">Balance field path: </string>
     <string name="e_039">Failed to read providers: </string>
     <string name="e_040">Time: </string>
-    <string name="e_041">锁: </string>
+    <string name="e_041">Lock: </string>
     <string name="e_042">Provider count: </string>
     <string name="e_043">Diagnostic report exported:</string>
     <string name="e_044">Export failed: </string>
-    <string name="e_045">赠 ••••</string>
+    <string name="e_045">Bonus ••••</string>
     <string name="e_046">Top-up ••••</string>
-    <string name="e_047">赠 </string>
+    <string name="e_047">Bonus </string>
     <string name="e_048">Top-up </string>
-    <string name="f_001">── 版本信息 ──\n</string>
-    <string name="f_002">── 编程语言 ──\n</string>
-    <string name="f_003">• Java 8 语法（100% 应用代码，无 Kotlin）\n\n</string>
-    <string name="f_004">── 运行时 / 平台 ──\n</string>
-    <string name="f_005">• Android Framework 系统库：\n</string>
-    <string name="f_006">  - android.security.keystore（AES/GCM 密钥存储）\n</string>
-    <string name="f_007">  - com.google.gson 2.10.1（JSON 解析）\n</string>
-    <string name="f_008">  - android.widget.*（原生控件，无 AndroidX）\n</string>
-    <string name="f_009">  - OkHttp 4.12.0（HTTP/2，优先）+ HttpURLConnection（崩溃回退）\n\n</string>
-    <string name="f_010">── 构建工具链 ──\n</string>
-    <string name="f_011">• aapt2 2.19（arm64 原生）\n</string>
-    <string name="f_012">── 第三方运行时依赖 ──\n</string>
-    <string name="f_013">• 图表/分享图：Canvas 自绘\n</string>
-    <string name="f_014">• 图标：Material Design Icons（Apache 2.0）\n\n</string>
-    <string name="f_015">── 网络服务（第三方） ──\n</string>
-    <string name="f_016">• DeepSeek 官方余额 API\n</string>
-    <string name="f_017">• Moonshot (Kimi) 官方余额 API\n</string>
-    <string name="f_018">• 智谱 BigModel 官方余额 API\n</string>
-    <string name="f_020">• Anthropic 官方 Usage API\n</string>
-    <string name="f_021">• GitHub API（版本检查）\n</string>
-    <string name="f_022">• 用户自定义汇率 JSON 地址（可选）\n\n</string>
-    <string name="f_023">── 许可 ──\n</string>
-    <string name="f_024">• GNU AGPL v3.0（本应用开源协议）\n</string>
-    <string name="f_025">• 服务商 API 的使用遵守各服务商服务条款\n</string>
-    <string name="f_026">\n... (已截断)</string>
-    <string name="f_027">=== 最近崩溃（脱敏） ===\n</string>
-    <string name="f_028">堆栈(代码位置):\n</string>
-    <string name="f_029">[OK] 加密存储自检通过\n写入→读取一致，Keystore(AES/GCM) 正常</string>
-    <string name="f_030">[FAIL] 加密往返不一致\nsaved=</string>
-    <string name="f_031"> 条（上限 200）\n</string>
-    <string name="f_032">=== 设备与屏幕 ===\n</string>
-    <string name="f_033">=== 内存 ===\n</string>
-    <string name="f_034">=== 时间与时钟 ===\n</string>
-    <string name="f_035">=== DNS 解析 ===\n</string>
-    <string name="f_036">=== 隐私与锁 ===\n</string>
-    <string name="f_037">=== 供应商配置 ===\n</string>
-    <string name="f_038">APIBalance 诊断报告\n</string>
+    <string name="f_001">── Version info ──\n</string>
+    <string name="f_002">── Programming languages ──\n</string>
+    <string name="f_003">• Java 8 syntax (100% of app code, no Kotlin)\n\n</string>
+    <string name="f_004">── Runtime / platform ──\n</string>
+    <string name="f_005">• Android framework libraries:\n</string>
+    <string name="f_006">  - android.security.keystore (AES/GCM key storage)\n</string>
+    <string name="f_007">  - com.google.gson 2.10.1 (JSON parsing)\n</string>
+    <string name="f_008">  - android.widget.* (native widgets, no AndroidX)\n</string>
+    <string name="f_009">  - OkHttp 4.12.0 (HTTP/2, preferred) + HttpURLConnection (fallback on crash)\n\n</string>
+    <string name="f_010">── Build toolchain ──\n</string>
+    <string name="f_011">• aapt2 2.19 (native arm64)\n</string>
+    <string name="f_012">── Third-party runtime dependencies ──\n</string>
+    <string name="f_013">• Charts / share cards: drawn on Canvas\n</string>
+    <string name="f_014">• Icons: Material Design Icons (Apache 2.0)\n\n</string>
+    <string name="f_015">── Network services (third-party) ──\n</string>
+    <string name="f_016">• DeepSeek official balance API\n</string>
+    <string name="f_017">• Moonshot (Kimi) official balance API\n</string>
+    <string name="f_018">• Zhipu BigModel official balance API\n</string>
+    <string name="f_020">• Anthropic official Usage API\n</string>
+    <string name="f_021">• GitHub API (update check)\n</string>
+    <string name="f_022">• User-defined FX-rate JSON URL (optional)\n\n</string>
+    <string name="f_023">── Licenses ──\n</string>
+    <string name="f_024">• GNU AGPL v3.0 (license of this app)\n</string>
+    <string name="f_025">• Provider APIs are used under each provider's terms of service\n</string>
+    <string name="f_026">\n... (truncated)</string>
+    <string name="f_027">=== Recent crash (redacted) ===\n</string>
+    <string name="f_028">Stack trace (code location):\n</string>
+    <string name="f_029">[OK] Encrypted storage self-check passed\nwrite→read consistent, Keystore (AES/GCM) healthy</string>
+    <string name="f_030">[FAIL] Encryption round-trip mismatch\nsaved=</string>
+    <string name="f_031"> entries (max 200)\n</string>
+    <string name="f_032">=== Device and screen ===\n</string>
+    <string name="f_033">=== Memory ===\n</string>
+    <string name="f_034">=== Time and clock ===\n</string>
+    <string name="f_035">=== DNS resolution ===\n</string>
+    <string name="f_036">=== Privacy and lock ===\n</string>
+    <string name="f_037">=== Provider configuration ===\n</string>
+    <string name="f_038">APIBalance diagnostics report\n</string>
     <string name="f_039">Unknown error</string>
     <string name="f_040">No stack trace</string>
     <string name="g_001">Zhipu GLM</string>
@@ -1050,4 +1050,51 @@ For learning only. Author is not liable for API misuse.</string>
     <string name="key_hint_glm_code">GLM Coding key (sk-, digits or letters)</string>
     <string name="key_hint_anthropic">Anthropic Admin Key (sk-ant-admin…)</string>
     <string name="err_provider_response">The provider returned incomplete data; its API may have changed</string>
+    <string name="lock_fp_fail">Fingerprint verification did not complete. Try again, or use your password.</string>
+    <string name="debug_rate_http">Allow HTTP for FX-rate requests</string>
+    <string name="debug_rate_http_desc">Debug only: plaintext is permitted for FX-rate requests; all other endpoints still require HTTPS.</string>
+    <string name="cat_general_sub">Language, font, currency and timeout</string>
+    <string name="cat_appearance_sub">Theme, background, icon and accent colors</string>
+    <string name="cat_network_sub">Proxy and advanced network options</string>
+    <string name="cat_account_sub">Accounts, keys and providers</string>
+    <string name="cat_notify_sub">Auto refresh, alerts and floating ball</string>
+    <string name="cat_privacy_sub">Lock screen, screen capture and security check</string>
+    <string name="cat_advanced_sub">Experimental features, debugging and backup</string>
+    <string name="cat_about_sub">About, updates and history</string>
+    <string name="contrib_skeleton_hint">The contributor list is being compiled. This area is a placeholder and will be filled once the data is connected.</string>
+    <string name="donate_page_title">Support the project</string>
+    <string name="donate_page_desc">If this tool saved you some time, you are welcome to buy the author a cup of milk tea.</string>
+    <string name="donate_qr_placeholder">QR code placeholder</string>
+    <string name="donate_placeholder_note">No payment code is connected yet. This space is reserved for layout only and never shows a real account.</string>
+    <string name="exp_title">Experimental features</string>
+    <string name="exp_desc">These switches are still experimental; behavior and interface may change between versions. Read the risk notice before turning them on.</string>
+    <string name="exp_md3_title">Enable Material Design 3 components</string>
+    <string name="exp_md3_desc">Use Material Design 3 style rounded shapes and tonal surfaces</string>
+    <string name="exp_risk_title">Risk notice</string>
+    <string name="exp_risk_body">Experimental features may cause:\n\n1. misaligned layouts and irregular spacing on some pages;\n2. colors that clash with older themes (such as Retro 2000);\n3. the switch being removed in a later version, in which case the setting stops applying automatically.\n\nThis project is distributed under AGPL-3.0 with no warranty of any kind. Only turn it on after you have read the risks above.</string>
+    <string name="exp_risk_ok">I understand, turn it on</string>
+    <string name="exp_risk_short">If the interface looks obviously broken, come back to this page and turn the switch off to restore it.</string>
+    <string name="dev_github">GitHub profile</string>
+    <string name="dev_repo">Project repository</string>
+    <string name="dev_links">Links</string>
+    <string name="dev_intro">A small tool maintained by one person; everything from the interface to the network layer is hand-written. Feedback is welcome in the group or on the repository.</string>
+    <string name="dev_avatar_from">Avatar source: github.com/RXHrxh520.png</string>
+    <string name="dev_intro_title">About the author</string>
+    <string name="dep_section_build">Build toolchain</string>
+    <string name="dep_section_runtime">Runtime dependencies</string>
+    <string name="dep_section_platform">Platform capabilities</string>
+    <string name="dep_section_service">Provider APIs</string>
+    <string name="dep_section_license">Licenses and compliance</string>
+    <string name="dep_note_no_tracking">This app includes no analytics SDK, collects no device identifiers, and uploads neither balances nor keys.</string>
+    <string name="agreement_title">Terms of Service and Privacy Policy</string>
+    <string name="agreement_agree">Agree and continue</string>
+    <string name="agreement_reject">Decline</string>
+    <string name="agreement_user">[Terms of Service]\n\n1. Scope\nThis app is a locally running API balance checker used to query account balance and usage from model providers you configure yourself. The app provides no model service of its own, and does not proxy, resell or top up any provider's product.\n\n2. Accounts and keys\nYou enter your own API Key in the app. The key is stored only on this device: it is encrypted with AES/GCM using a key generated by Android Keystore and written into the app's private directory. It is never uploaded to any server, and the developer cannot access it. Please keep your keys safe; any loss caused by a leaked key is your own responsibility.\n\n3. Acceptable use\nYou must comply with each provider's terms of service and your local laws, and must not use this tool for any unlawful purpose. You are solely responsible for the consequences of your use.\n\n4. Disclaimer\nBalances, exchange rates and token estimates come from third-party APIs or local approximation and may be delayed or inaccurate. They are for personal reference only and do not constitute financial advice. This app is distributed under AGPL-3.0 without any express or implied warranty.\n\n5. Changes\nThese terms may change with releases; the app will prompt you again after an update. Continued use means you accept the updated terms.</string>
+    <string name="agreement_privacy">[Privacy Policy]\n\n1. What we collect\nNothing. This app includes no analytics, advertising or crash-reporting SDK, does not read device identifiers (IMEI / OAID / Android ID), and requests no permissions unrelated to its features, such as contacts, SMS, location or camera.\n\n2. Where data lives\nAPI keys: encrypted via Android Keystore and stored in the app's private directory, readable only by this app;\nBalance history and token usage: stored as local files in the app's private directory;\nTheme, font and language preferences: stored in SharedPreferences on this device.\nNone of this is uploaded automatically. Backup files (.bin / .zip) are written wherever you choose, and are yours to keep safe.\n\n3. Network requests\nThe app sends HTTPS requests only to the official endpoints of the providers you configured, and only when you trigger a query or enable scheduled refresh. The API key is sent only to that provider, never through a third-party relay. If you configure a custom proxy, requests go through your own proxy.\n\n4. Permissions\nNetwork: query balances;\nNotifications: balance alerts and persistent notification;\nOverlay: desktop floating ball;\nInstall unknown apps: installing updates from inside the app;\nFingerprint: local lock screen verification.\nEach permission can be revoked at any time in system settings.\n\n5. Your rights\nYou can clear all local data in settings at any time. Doing so also deletes the encryption key in Keystore, after which older backups can no longer be decrypted, so export a backup first.\n\n6. Contact\nFor privacy questions, reach the author through the project repository or the community group.</string>
+    <string name="share_style_title">Share card color scheme</string>
+    <string name="share_style_default">Deep blue (default)</string>
+    <string name="share_style_pink">Pink</string>
+    <string name="share_style_minimal">Minimal white</string>
+    <string name="share_style_theme">Follow theme accent color</string>
+    <string name="share_style_saved">Card color updated</string>
 </resources>
