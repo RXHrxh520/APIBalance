@@ -92,7 +92,7 @@ public final class UiDialog {
             TextView tv = new TextView(ctx);
             tv.setText(options[i]);
             tv.setTextSize(15);
-            tv.setTextColor(ctx.getResources().getColor(R.color.text_primary));
+            tv.setTextColor(ctx.getColor(R.color.text_primary));
             LinearLayout.LayoutParams tvLp = new LinearLayout.LayoutParams(0,
                     ViewGroup.LayoutParams.WRAP_CONTENT, 1f);
             tv.setLayoutParams(tvLp);
@@ -100,11 +100,11 @@ public final class UiDialog {
 
             // 选中态用整行高亮 + 主色文字表达，不再在行尾挂一个小勾号
             if (i == selected && selected >= 0) {
-                tv.setTextColor(ctx.getResources().getColor(R.color.primary));
+                tv.setTextColor(ctx.getColor(R.color.primary));
                 tv.setTypeface(null, android.graphics.Typeface.BOLD);
                 android.graphics.drawable.GradientDrawable sel =
                         new android.graphics.drawable.GradientDrawable();
-                sel.setColor(ctx.getResources().getColor(R.color.input_bg));
+                sel.setColor(ctx.getColor(R.color.input_bg));
                 sel.setCornerRadius(10 * ctx.getResources().getDisplayMetrics().density);
                 row.setBackground(sel);
             }
@@ -177,8 +177,8 @@ public final class UiDialog {
         et.setHint(hint);
         et.setText(initial == null ? "" : initial);
         et.setBackgroundResource(R.drawable.bg_input_field);
-        et.setTextColor(ctx.getResources().getColor(R.color.text_primary));
-        et.setHintTextColor(ctx.getResources().getColor(R.color.text_hint));
+        et.setTextColor(ctx.getColor(R.color.text_primary));
+        et.setHintTextColor(ctx.getColor(R.color.text_hint));
         et.setTextSize(15);
         et.setPadding(dp(ctx, 14), dp(ctx, 10), dp(ctx, 14), dp(ctx, 10));
         // 固定输入区高度：大量文本时内部滚动，对话框永不超过屏幕
