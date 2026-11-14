@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://rxhrxh520.github.io/APIBalance/sitemap.xml
