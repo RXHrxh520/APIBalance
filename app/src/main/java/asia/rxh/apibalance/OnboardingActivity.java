@@ -237,9 +237,11 @@ public class OnboardingActivity extends Activity {
     private void animateIn(View v) {
         if (v == null) return;
         v.setAlpha(0f);
-        v.setTranslationY(40f);
-        v.animate().alpha(1f).translationY(0f)
-                .setDuration(380)
+        v.setTranslationY(28f);
+        v.setScaleX(0.98f);
+        v.setScaleY(0.98f);
+        v.animate().alpha(1f).translationY(0f).scaleX(1f).scaleY(1f)
+                .setDuration(300)
                 .setInterpolator(new DecelerateInterpolator())
                 .start();
     }
