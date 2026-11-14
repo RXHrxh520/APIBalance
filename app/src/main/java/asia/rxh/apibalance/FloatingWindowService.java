@@ -189,7 +189,7 @@ public class FloatingWindowService extends Service {
 
     /** 从最近历史取余额，紧凑显示（如 ¥12.34）。 */
     private String compactBalance() {
-        int currentPid = getSharedPreferences("ds_balance_prefs", 0)
+        int currentPid = getSharedPreferences("balance_prefs", 0)
                 .getInt("provider_id", ProviderConfig.PROVIDER_DEEPSEEK);
         ProviderConfig.Provider cp = ProviderConfig.get(this, currentPid);
         if (cp.isQuotaMode()) return "配额";
@@ -213,7 +213,7 @@ public class FloatingWindowService extends Service {
     private void refreshAndUpdate() {
         final android.widget.TextView ball = (android.widget.TextView) floatBall;
         if (ball != null) ball.setText("…");
-        final int pid = getSharedPreferences("ds_balance_prefs", 0)
+        final int pid = getSharedPreferences("balance_prefs", 0)
                 .getInt("provider_id", ProviderConfig.PROVIDER_DEEPSEEK);
         final String key = CryptoManager.read(this, "provider_" + pid + "_api_key");
         if (key == null || key.isEmpty()) {

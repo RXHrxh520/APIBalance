@@ -45,7 +45,7 @@ import java.util.Random;
  */
 public class OnboardingActivity extends Activity {
 
-    private static final String PREFS_NAME = "ds_balance_prefs";
+    private static final String PREFS_NAME = "balance_prefs";
     private static final String KEY_PROVIDER = "provider_id";
     private static final String KEY_AUTO_LOGIN = "auto_login";
     private static final String KEY_API_KEY = "api_key";
@@ -118,12 +118,12 @@ public class OnboardingActivity extends Activity {
         // 之前这里无条件读 ds_onb_tmp 里的 step，所以永远接着上次那一步（比如个性化）继续。
         boolean fromStart = getIntent() != null && getIntent().getBooleanExtra("from_start", false);
         if (fromStart) {
-            getSharedPreferences("ds_onb_tmp", MODE_PRIVATE).edit().clear().apply();
+            getSharedPreferences("onboarding_tmp", MODE_PRIVATE).edit().clear().apply();
             step = 0;
             providerId = ProviderConfig.PROVIDER_DEEPSEEK;
         }
         int resumeStep = fromStart ? 0
-                : getSharedPreferences("ds_onb_tmp", MODE_PRIVATE).getInt("step", 0);
+                : getSharedPreferences("onboarding_tmp", MODE_PRIVATE).getInt("step", 0);
         showStep(resumeStep);
     }
 
@@ -559,7 +559,7 @@ public class OnboardingActivity extends Activity {
                     tvLang.setText(langs[pos]);
                     AppPrefs.setLanguage(OnboardingActivity.this, pos);
                     // 重建自己让新语言立刻生效；记下当前步，重建后回到原处
-                    getSharedPreferences("ds_onb_tmp", MODE_PRIVATE).edit()
+                    getSharedPreferences("onboarding_tmp", MODE_PRIVATE).edit()
                             .putInt("step", step).apply();
                     recreate();
                 }));
@@ -726,7 +726,7 @@ public class OnboardingActivity extends Activity {
     /** v1.5：首次进入引导页前先展示用户协议与隐私政策，不同意则直接退出。 */
     private void showAgreementOnce() {
         try {
-            if (getSharedPreferences("ds_onb_tmp", MODE_PRIVATE)
+            if (getSharedPreferences("onboarding_tmp", MODE_PRIVATE)
                     .getBoolean(AGREEMENT_KEY, false)) {
                 return;
             }
@@ -737,7 +737,7 @@ public class OnboardingActivity extends Activity {
                     body,
                     getString(R.string.agreement_agree),
                     getString(R.string.agreement_reject),
-                    () -> getSharedPreferences("ds_onb_tmp", MODE_PRIVATE)
+                    () -> getSharedPreferences("onboarding_tmp", MODE_PRIVATE)
                             .edit().putBoolean(AGREEMENT_KEY, true).apply(),
                     this::finish);
         } catch (Throwable ignored) {

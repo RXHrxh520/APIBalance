@@ -34,7 +34,7 @@ import android.widget.Toast;
 
 public class AboutFragment extends Fragment {
 
-    private static final String PREFS_DEBUG = "ds_debug_prefs";
+    private static final String PREFS_DEBUG = "debug_prefs";
     private static final String KEY_DEBUG = "debug_enabled";
 
     private int clickCount = 0;

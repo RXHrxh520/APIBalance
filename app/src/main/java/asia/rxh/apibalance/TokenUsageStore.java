@@ -35,7 +35,7 @@ import java.util.Locale;
  */
 public final class TokenUsageStore {
 
-    private static final String PREFS = "ds_token_usage";
+    private static final String PREFS = "token_usage";
     private static final String KEY_DATA = "usage";
 
     private TokenUsageStore() {

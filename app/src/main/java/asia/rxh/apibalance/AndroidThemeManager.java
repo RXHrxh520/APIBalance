@@ -42,7 +42,7 @@ public final class AndroidThemeManager {
     /** 隐藏主题：崩坏（崩一次才能解锁）。 */
     public static final int THEME_HORROR = 4;
 
-    private static final String PREFS = "ds_android_theme";
+    private static final String PREFS = "android_theme";
     private static final String KEY = "theme";
 
     private AndroidThemeManager() {

@@ -144,7 +144,7 @@ public final class EnvChecker {
     /** 记录一次检测时间（供安全中心显示）。 */
     public static void markChecked(Context c) {
         try {
-            c.getSharedPreferences("ds_env", Context.MODE_PRIVATE).edit()
+            c.getSharedPreferences("env", Context.MODE_PRIVATE).edit()
                     .putLong("last_check", System.currentTimeMillis()).commit();
         } catch (Throwable ignored) {
         }

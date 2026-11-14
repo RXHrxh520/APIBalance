@@ -34,7 +34,7 @@ import java.util.List;
  */
 public final class BalanceHistoryStore {
 
-    private static final String PREFS = "ds_balance_history";
+    private static final String PREFS = "balance_history";
     private static final String KEY_DATA = "history";
     private static final int MAX_ITEMS = 200;
 

@@ -44,12 +44,12 @@ import java.net.URL;
 
 public class MainActivity extends Activity {
 
-    private static final String PREFS_NAME = "ds_balance_prefs";
+    private static final String PREFS_NAME = "balance_prefs";
     private static final String KEY_API_KEY = "api_key";
     private static final String KEY_PROVIDER = "provider_id";
     private static final String KEY_AUTO_LOGIN = "auto_login";
     private static final String KEY_THEME = "theme_mode"; // 0=跟随系统 1=浅色 2=深色
-    private static final String PREFS_DEBUG = "ds_debug_prefs";
+    private static final String PREFS_DEBUG = "debug_prefs";
     private static final String KEY_DEBUG = "debug_enabled";
 
     private int currentProviderId = ProviderConfig.PROVIDER_DEEPSEEK;
@@ -930,7 +930,10 @@ public class MainActivity extends Activity {
             } catch (Throwable ignored) {
             }
             // 4) 其它可能落盘的位置
-            for (String name : new String[]{"ds_onb_tmp", "ds_secure_prefs", "ds_privacy", "ds_app_prefs",
+            for (String name : new String[]{"onboarding_tmp", "secure_prefs", "privacy", "app_prefs",
+                    "theme", "settings", "accounts", "balance_prefs", "env",
+                    "debug_prefs", "android_theme", "balance_history", "crash_prefs",
+                    "ds_onb_tmp", "ds_secure_prefs", "ds_privacy", "ds_app_prefs",
                     "ds_theme", "rxh_env_baseline", "balance_history", "ds_history"}) {
                 try {
                     getSharedPreferences(name, MODE_PRIVATE).edit().clear().commit();
