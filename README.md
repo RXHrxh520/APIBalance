@@ -1,7 +1,5 @@
 <p align="center">
   <img src="https://count.getloli.com/get/@RXHrxh520.APIBalance?theme=moebooru" alt="" height="72">
-  <br>
-  <img src="https://hits.sh/github.com/RXHrxh520/APIBalance.svg?label=%E8%AE%BF%E9%97%AE" alt="" height="20">
 </p>
 
 <p align="center">
