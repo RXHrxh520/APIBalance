@@ -19,7 +19,7 @@
   &nbsp;·&nbsp;
   <a href="https://rxhrxh520.github.io/APIBalance/">在线文档</a>
   &nbsp;·&nbsp;
-  <a href="docs/apibalance/faq.md">安装与常见问题</a>
+  <a href="docs/faq.md">安装与常见问题</a>
   &nbsp;·&nbsp;
   QQ 群：235492286
 </p>
@@ -66,7 +66,7 @@
 2. **填 Key**：各家控制台 → API Keys → 新建 → 复制粘贴进 App。多个账号可分别命名保存（"工作号""个人号"）。
 3. **看**：打开就是余额。想要更省事，去设置里开定时自动刷新、桌面小组件或悬浮球。
 
-不知道 Key 在哪拿？看 [常见问题](docs/apibalance/faq.md)。
+不知道 Key 在哪拿？看 [常见问题](docs/faq.md)。
 
 ## 功能亮点
 
@@ -79,7 +79,7 @@
 - **锁得住**：指纹 / 密码锁、隐藏余额（\*\*\*\*）、禁止截屏、禁通知，三开关独立。
 - **能自己装修**：3 套界面风格、8 种强调色、深色模式、自定义背景与文案、4 种语言（含萌语）。
 
-完整 57 项功能见 [功能清单](docs/apibalance/features.md)。
+完整 57 项功能见 [功能清单](docs/features.md)。
 
 ## 截图
 
@@ -98,7 +98,7 @@
 - **能识别假包**：安全中心内置官方证书指纹，被重新签名的仿冒包会当场报出实际指纹。
 - **随时能搬走**：备份导出 `.bin` / `.zip`（密码加密），换手机一键还原。
 
-详见 [隐私与安全](docs/apibalance/security.md)。
+详见 [隐私与安全](docs/security.md)。
 
 ## 常见问题（简版）
 
@@ -111,17 +111,17 @@
 | 关掉 App 不提醒了 | 安卓省电策略，允许后台活动 + 自启动 |
 | 换手机怎么迁移 | 备份导出 → 新机导入同一密码恢复 |
 
-更多见 [完整常见问题](docs/apibalance/faq.md)。
+更多见 [完整常见问题](docs/faq.md)。
 
 ## 文档
 
 | 我想… | 去哪看 |
 |---|---|
 | 浏览排版好的文档站 | [文档站](https://rxhrxh520.github.io/APIBalance/) |
-| 看全部功能（57 项） | [功能清单](docs/apibalance/features.md) |
-| 装不上、报错 | [常见问题](docs/apibalance/faq.md) |
-| 了解密钥怎么加密 | [隐私与安全](docs/apibalance/security.md) |
-| 自己编译 / 源码结构 | [构建说明](docs/apibalance/build.md) |
+| 看全部功能（57 项） | [功能清单](docs/features.md) |
+| 装不上、报错 | [常见问题](docs/faq.md) |
+| 了解密钥怎么加密 | [隐私与安全](docs/security.md) |
+| 自己编译 / 源码结构 | [构建说明](docs/build.md) |
 | 安全漏洞怎么报 | [安全策略](.github/SECURITY.md) |
 
 ## 仓库结构
@@ -129,7 +129,7 @@
 | 目录 / 文件 | 内容 |
 |---|---|
 | `app/` | Android 源码与资源 |
-| `docs/` | 文档站源码（按项目分目录，`docs/apibalance/` 为本项目） |
+| `docs/` | 文档站本体（`_layouts` 自定义布局、`assets/css` 自定义样式） |
 | `assets/brand/` | 横幅、Logo、社交预览图 |
 | `assets/screenshots/` | 应用截图（README 引用） |
 | `scripts/` | 发版辅助脚本（版本升位等） |
