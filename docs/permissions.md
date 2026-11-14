@@ -16,7 +16,7 @@ permalink: /permissions.html
 | **网络访问**（INTERNET / ACCESS_NETWORK_STATE） | 请求各家官方余额 API；检查更新 | 无法查询任何余额，App 只能看历史 |
 | **通知**（POST_NOTIFICATIONS，Android 13+） | 余额低于阈值提醒、定时刷新结果、常驻余额通知 | 不弹出提醒，查询结果只在打开 App 时可见 |
 | **悬浮窗**（SYSTEM_ALERT_WINDOW） | 悬浮球在桌面直接显示余额数字 | 只影响悬浮球，其他功能正常 |
-| **定时刷新**（AlarmManager） | 按设定间隔后台查询余额 | 系统省电策略可能延迟；应用未申请开机广播，重启后需打开一次 App 才会重新排程 |
+| **开机与后台运行**（RECEIVE_BOOT_COMPLETED / AlarmManager） | 重启后自动恢复定时刷新计划 | 系统省电策略可能延迟刷新；未开启自动刷新时不会注册 |
 | **存储/下载**（MediaStore 写入「下载」目录） | 历史导出 CSV / JSON、备份导出 `.bin` `.zip`、保存余额卡片图 | 无法导出文件，其余功能正常 |
 | **指纹/生物识别**（USE_BIOMETRIC） | 打开 App 时的指纹解锁 | 只能改用密码锁 |
 | **安装未知应用**（用户手动开启，非权限） | 应用内检查更新后直接装 APK | 需自己去 Releases 下载安装 |

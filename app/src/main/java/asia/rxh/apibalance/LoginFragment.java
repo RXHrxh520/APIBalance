@@ -307,12 +307,8 @@ public class LoginFragment extends Fragment {
             if (getActivity() == null) return;
             ProviderConfig.Provider p = ProviderConfig.get(getActivity(), pid);
             if (!p.isCostMode()) return;
-            java.util.Locale loc = java.util.Locale.getDefault();
-            boolean simplified = "zh".equals(loc.getLanguage())
-                    && !"TW".equalsIgnoreCase(loc.getCountry())
-                    && !"HK".equalsIgnoreCase(loc.getCountry())
-                    && !"MO".equalsIgnoreCase(loc.getCountry());
-            if (!simplified) return;
+            // 用 App 内选择的语言判断，而不是系统 Locale：英文界面 + 中文系统时不该弹中文提示
+            if (AppPrefs.getLanguage(getActivity()) != 1) return;
             String key = "cost_hint_shown_" + pid;
             android.content.SharedPreferences sp = getActivity()
                     .getSharedPreferences("provider_hints", android.content.Context.MODE_PRIVATE);

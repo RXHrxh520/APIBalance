@@ -1161,4 +1161,5 @@
     <string name="lock_limit_title">密码错误限制</string>
     <string name="lock_limit_desc">连续输错 5 次后锁定 60 秒</string>
     <string name="lock_too_many_fmt">尝试次数过多，请 %1$d 秒后再试</string>
+    <string name="update_notice_title_fmt">v%1$s 更新内容</string>
 </resources>

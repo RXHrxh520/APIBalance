@@ -178,6 +178,8 @@ public final class RemoteConfig {
             if (text.isEmpty()) continue;
             String url = string(o, "url");
             if (url.isEmpty()) url = string(o, "notice_url");
+            // 只允许 https，避免仓库被改后把用户引到 http 钓鱼站
+            if (!url.isEmpty() && !url.startsWith("https://")) url = "";
             return new Config(text, url);
         }
         return new Config("", "");

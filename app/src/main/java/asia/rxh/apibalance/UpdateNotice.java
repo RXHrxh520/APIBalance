@@ -60,19 +60,12 @@ public final class UpdateNotice {
             String tag = null;
             String url = null;
             try {
-                okhttp3.Request request = new okhttp3.Request.Builder()
-                        .url(API)
-                        .header("Accept", "application/vnd.github+json")
-                        .header("User-Agent", "APIBalance/" + version)
-                        .build();
-                try (okhttp3.Response response = NetworkClient.http().newCall(request).execute()) {
-                    if (response.code() == 200 && response.body() != null) {
-                        JSONObject obj = new JSONObject(response.body().string());
-                        tag = obj.optString("tag_name", "");
-                        body = obj.optString("body", "");
-                        url = obj.optString("html_url", "");
-                    }
-                }
+                // 与 UpdateChecker 共用 GhCache，同一天只打一次 GitHub，避免双请求被限流
+                String text = GhCache.get(activity, API);
+                JSONObject obj = new JSONObject(text);
+                tag = obj.optString("tag_name", "");
+                body = obj.optString("body", "");
+                url = obj.optString("html_url", "");
             } catch (Throwable ignored) {
             }
             final String noticeBody = body;
@@ -91,8 +84,8 @@ public final class UpdateNotice {
                             .putInt("attempts", 0).remove("next_try").apply();
                     return;
                 }
-                String title = "v" + (noticeTag == null || noticeTag.isEmpty() ? version : noticeTag)
-                        + " 更新内容";
+                String title = activity.getString(R.string.update_notice_title_fmt,
+                        noticeTag == null || noticeTag.isEmpty() ? version : noticeTag);
                 String message = noticeBody.trim();
                 UiDialog.showConfirm(activity, title, message,
                         activity.getString(R.string.update_notice_ok), null,
