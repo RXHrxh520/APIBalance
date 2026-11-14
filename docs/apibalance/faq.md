@@ -1,3 +1,10 @@
+---
+layout: default
+title: 常见问题 · APIBalance
+description: APIBalance 安装失败、401/429 报错、后台不提醒、换手机迁移等常见问题的解决方法。
+permalink: /apibalance/faq.html
+---
+
 # 常见问题（FAQ）
 
 > 面向普通用户。遇到问题先看这里，再提 Issue 或到 QQ 群问。

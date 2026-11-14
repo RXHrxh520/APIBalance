@@ -1,3 +1,10 @@
+---
+layout: default
+title: 隐私与安全 · APIBalance
+description: APIBalance 的密钥存储方式、请求发往哪些域名、备份加密与安全中心体检项说明。
+permalink: /apibalance/security.html
+---
+
 # 隐私与安全
 
 > 密钥怎么存、请求发到哪、备份怎么加密。由原说明书原样迁移。

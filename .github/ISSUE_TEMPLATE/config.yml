@@ -1,1 +1,8 @@
 blank_issues_enabled: false
+contact_links:
+  - name: 使用文档与常见问题
+    url: https://rxhrxh520.github.io/APIBalance/apibalance/
+    about: 安装、报错、权限、构建等问题先看文档，多数已有答案
+  - name: 交流群（QQ 235492286）
+    url: https://github.com/RXHrxh520/APIBalance/discussions
+    about: 使用交流、版本公告
