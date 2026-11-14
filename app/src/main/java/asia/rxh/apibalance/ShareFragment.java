@@ -194,7 +194,7 @@ public class ShareFragment extends Fragment {
         balance.setColor(cMain);
         balance.setTextSize(150);
         balance.setTypeface(Typeface.create(Typeface.DEFAULT, Typeface.BOLD));
-        String balanceText = symbol + String.format("%.2f", total);
+        String balanceText = MoneyFmt.withSymbol(symbol, total);
         c.drawText(balanceText, 80, 560, balance);
 
         Paint currencyTxt = new Paint(Paint.ANTI_ALIAS_FLAG);
@@ -219,8 +219,8 @@ public class ShareFragment extends Fragment {
         value.setColor(cMain);
         value.setTextSize(48);
         value.setTypeface(Typeface.create(Typeface.DEFAULT, Typeface.BOLD));
-        c.drawText(symbol + String.format("%.2f", granted), 80, 890, value);
-        c.drawText(symbol + String.format("%.2f", topped), 580, 890, value);
+        c.drawText(MoneyFmt.withSymbol(symbol, granted), 80, 890, value);
+        c.drawText(MoneyFmt.withSymbol(symbol, topped), 580, 890, value);
 
         // 时间戳
         Paint time = new Paint(Paint.ANTI_ALIAS_FLAG);
@@ -265,7 +265,7 @@ public class ShareFragment extends Fragment {
 
     private String buildShareText(String provider, double total) {
         Context ctx = getActivity();
-        if (ctx == null) return provider + " " + String.format(java.util.Locale.getDefault(), "%.2f", total);
+        if (ctx == null) return provider + " " + MoneyFmt.format(total);
         int idx = AppPrefs.getShareTpl(ctx);
         String tpl;
         if (idx == TEMPLATES.length) {
