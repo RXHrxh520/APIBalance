@@ -75,4 +75,4 @@ app/src/main/java/asia/rxh/apibalance/
 
 ---
 
-返回：[项目主页](../README.md) · [完整功能清单](features.md)
+返回：[项目主页](../../README.md) · [完整功能清单](features.md)
