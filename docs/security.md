@@ -15,7 +15,7 @@ permalink: /security.html
 
 - **密钥存储**：Android Keystore 生成 AES-256 密钥，AES/GCM 加密后存 SharedPreferences，明文不落盘（自动登录 Key 与多账户 Key 均加密）
 - **网络**：仅请求各家官方余额 API（api.deepseek.com / api.moonshot.cn / open.bigmodel.cn / api.anthropic.com）与 GitHub 版本检查；TLS 证书校验恒开启
-- **备份包**：导出前用你设定的密码加密，恢复需同一密码；恢复代码修改需先验证锁屏密码
+- **备份包**：导出前用你设定的密码加密，包尾追加 HMAC-SHA256 签名（口令派生密钥 + 应用内置密钥），导入时先验签再恢复；**只恢复 API Key 与账户**，不恢复锁屏、隐私开关等任何设置，避免伪造备份改行为
 - **无任何私人服务器**，无广告 SDK，无第三方统计
 
 ## 安全中心（App 内 20 项体检）
