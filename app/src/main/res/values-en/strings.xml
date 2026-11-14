@@ -1144,4 +1144,6 @@ For learning only. Author is not liable for API misuse.</string>
     <string name="update_notice_title_fmt">What\'s new in v%1$s</string>
     <string name="backup_sig_bad">Backup verification failed: the file was modified or not exported by this app</string>
     <string name="update_need_install_perm">Allow "Install unknown apps" first. Settings has been opened for you.</string>
+    <string name="float_bg_processing">Saving the image inside the app to survive URI revocation</string>
+    <string name="float_bg_failed">Could not save this image. Try another one.</string>
 </resources>

@@ -141,7 +141,7 @@
         <activity
             android:name="asia.rxh.apibalance.FloatBgPickerActivity"
             android:exported="false"
-            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+            android:theme="@style/RxHTheme" />
 
         <!-- ================= 悬浮球服务 ================= -->
         <service

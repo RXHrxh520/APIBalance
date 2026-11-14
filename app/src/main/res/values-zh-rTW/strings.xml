@@ -1129,4 +1129,6 @@
     <string name="update_notice_title_fmt">v%1$s 更新內容</string>
     <string name="backup_sig_bad">備份校驗失敗：檔案被修改過或不是本應用程式匯出的</string>
     <string name="update_need_install_perm">需要先允許「安裝未知應用程式」，已為你開啟設定</string>
+    <string name="float_bg_processing">正在把圖片存進應用程式內，避免系統回收授權</string>
+    <string name="float_bg_failed">儲存失敗，請換一張圖片再試</string>
 </resources>

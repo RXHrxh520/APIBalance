@@ -260,15 +260,42 @@ public class FloatingWindowService extends Service {
             floatPanel.setBackgroundResource(R.drawable.bg_dialog);
             return;
         }
-        try (java.io.InputStream in = getContentResolver().openInputStream(android.net.Uri.parse(uri))) {
-            android.graphics.drawable.Drawable d = android.graphics.drawable.Drawable.createFromStream(in, "float_bg");
-            if (d != null) {
-                floatPanel.setBackground(d);
-            } else {
-                floatPanel.setBackgroundResource(R.drawable.bg_dialog);
-            }
-        } catch (Throwable t) {
+        android.graphics.Bitmap bmp = decodePanelBackground(uri);
+        if (bmp != null) {
+            floatPanel.setBackground(new android.graphics.drawable.BitmapDrawable(getResources(), bmp));
+        } else {
             floatPanel.setBackgroundResource(R.drawable.bg_dialog);
+        }
+    }
+
+    /** 背景图降采样解码；优先读应用私有文件，兼容旧的 content:// 记录。 */
+    private android.graphics.Bitmap decodePanelBackground(String stored) {
+        try {
+            String path = ImageStore.localPathOf(stored);
+            java.io.InputStream in = path != null
+                    ? new java.io.FileInputStream(path)
+                    : getContentResolver().openInputStream(android.net.Uri.parse(stored));
+            if (in == null) return null;
+            android.graphics.BitmapFactory.Options bounds = new android.graphics.BitmapFactory.Options();
+            bounds.inJustDecodeBounds = true;
+            android.graphics.BitmapFactory.decodeStream(in, null, bounds);
+            in.close();
+            if (bounds.outWidth <= 0 || bounds.outHeight <= 0) return null;
+            int screenW = getResources().getDisplayMetrics().widthPixels;
+            int sample = 1;
+            while (Math.max(bounds.outWidth, bounds.outHeight) / (sample * 2) > Math.max(720, screenW)) {
+                sample *= 2;
+            }
+            android.graphics.BitmapFactory.Options opts = new android.graphics.BitmapFactory.Options();
+            opts.inSampleSize = sample;
+            in = path != null
+                    ? new java.io.FileInputStream(path)
+                    : getContentResolver().openInputStream(android.net.Uri.parse(stored));
+            android.graphics.Bitmap bmp = android.graphics.BitmapFactory.decodeStream(in, null, opts);
+            if (in != null) in.close();
+            return bmp;
+        } catch (Throwable t) {
+            return null;
         }
     }
 
