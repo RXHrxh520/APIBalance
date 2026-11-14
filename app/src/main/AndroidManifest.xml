@@ -23,6 +23,7 @@
 
     <!-- Android 13（API 33）起通知改为运行时权限 -->
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
 
     <!-- 指纹 / 人脸解锁，用于应用锁 -->
     <uses-permission android:name="android.permission.USE_BIOMETRIC" />
@@ -147,6 +148,14 @@
         </service>
 
         <!-- ================= 定时自动刷新 ================= -->
+        <receiver
+            android:name="asia.rxh.apibalance.BootReceiver"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+                <action android:name="android.intent.action.QUICKBOOT_POWERON" />
+            </intent-filter>
+        </receiver>
         <receiver
             android:name="asia.rxh.apibalance.AutoRefreshReceiver"
             android:exported="false" />

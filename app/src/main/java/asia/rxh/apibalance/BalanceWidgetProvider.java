@@ -51,10 +51,18 @@ public class BalanceWidgetProvider extends AppWidgetProvider {
         RemoteViews rv = new RemoteViews(context.getPackageName(), R.layout.widget_balance);
         // 从历史取最近一条
         List<BalanceHistoryStore.HistoryItem> items = BalanceHistoryStore.getAll(context);
-        String providerName = "DeepSeek";
+        int currentPid = context.getSharedPreferences("ds_balance_prefs", 0)
+                .getInt("provider_id", ProviderConfig.PROVIDER_DEEPSEEK);
+        String providerName = ProviderConfig.get(context, currentPid).name;
         String balance = "¥ 0.00";
-        if (!items.isEmpty()) {
-            BalanceHistoryStore.HistoryItem last = items.get(items.size() - 1);
+        BalanceHistoryStore.HistoryItem last = null;
+        for (int i = items.size() - 1; i >= 0; i--) {
+            if (items.get(i).providerId == currentPid) {
+                last = items.get(i);
+                break;
+            }
+        }
+        if (last != null) {
             providerName = ProviderConfig.get(last.providerId).name;
             String symbol = "CNY".equals(last.currency) ? "¥" : "$";
             balance = MoneyFmt.withSymbol(symbol, last.total);
@@ -70,15 +78,14 @@ public class BalanceWidgetProvider extends AppWidgetProvider {
         // 明细：赠金 / 充值
         String grantedText = "";
         String toppedText = "";
-        if (!items.isEmpty()) {
-            BalanceHistoryStore.HistoryItem last = items.get(items.size() - 1);
+        if (last != null) {
             String sym = "CNY".equals(last.currency) ? "¥" : "$";
             if (masked) {
                 grantedText = context.getString(R.string.e_045);
                 toppedText = context.getString(R.string.e_046);
             } else {
-                grantedText = context.getString(R.string.e_047) + sym + String.format("%.2f", last.granted);
-                toppedText = context.getString(R.string.e_048) + sym + String.format("%.2f", last.topped);
+                grantedText = context.getString(R.string.e_047) + MoneyFmt.withSymbol(sym, last.granted);
+                toppedText = context.getString(R.string.e_048) + MoneyFmt.withSymbol(sym, last.topped);
             }
         }
         rv.setTextViewText(R.id.widget_granted, grantedText);

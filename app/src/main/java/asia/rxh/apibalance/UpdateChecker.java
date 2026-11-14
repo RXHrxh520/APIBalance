@@ -39,21 +39,10 @@ public final class UpdateChecker {
             String version = null;
             String apkUrl = null;
             try {
-                HttpURLConnection conn = (HttpURLConnection) new URL(REPO_API).openConnection();
-                conn.setRequestMethod("GET");
-                conn.setRequestProperty("Accept", "application/vnd.github+json");
-                conn.setRequestProperty("User-Agent", "APIBalance/" + BuildConfig.VERSION_NAME);
-                conn.setConnectTimeout(12000);
-                conn.setReadTimeout(12000);
-                int code = conn.getResponseCode();
-                if (code == 200) {
-                    BufferedReader rd = new BufferedReader(
-                            new InputStreamReader(conn.getInputStream(), "UTF-8"));
-                    StringBuilder sb = new StringBuilder();
-                    String line;
-                    while ((line = rd.readLine()) != null) sb.append(line);
-                    rd.close();
-                    JSONObject obj = new JSONObject(sb.toString());
+                // 与公告共用 GhCache：自动检查按天缓存，用户手动点“检查更新”时强制刷新
+                String json = manual ? GhCache.refresh(ctx, REPO_API) : GhCache.get(ctx, REPO_API);
+                JSONObject obj = new JSONObject(json);
+                {
                     version = obj.optString("tag_name", null);
                     JSONArray assets = obj.optJSONArray("assets");
                     if (assets != null) {
@@ -68,10 +57,7 @@ public final class UpdateChecker {
                         }
                     }
                     resultCode = version != null ? 2 : 1;
-                } else if (code == 404) {
-                    resultCode = 1;
                 }
-                conn.disconnect();
             } catch (Exception ignored) {
                 resultCode = 0;
             }
@@ -126,7 +112,7 @@ public final class UpdateChecker {
                     android.widget.Toast.LENGTH_LONG).show();
             return;
         }
-        // 国内直连 GitHub 经常很慢；优先走镜像，失败后仍可回退原始地址。
+        // 国内直连 GitHub 经常很慢，优先走镜像；镜像不可用时按失败处理（不再假装有回退分支）。
         final String downloadUrl = url.startsWith("https://github.com/")
                 ? MIRROR_PRIMARY + url : url;
         final float density = act.getResources().getDisplayMetrics().density;
@@ -163,7 +149,7 @@ public final class UpdateChecker {
         col.addView(tvPct, tlp);
 
         dlg.setContentView(col);
-        dlg.setCancelable(false);
+        dlg.setCancelable(true);
         try {
             dlg.show();
         } catch (Throwable ignored) {
@@ -172,7 +158,16 @@ public final class UpdateChecker {
         new Thread(() -> {
             File apk = new File(act.getCacheDir(), "update.apk");
             try {
-                HttpURLConnection conn = (HttpURLConnection) new URL(downloadUrl).openConnection();
+                java.net.URL target = new URL(downloadUrl);
+                HttpURLConnection conn;
+                // 尊重设置里的代理：国内用户配了代理才能下得动更新包
+                if (AppPrefs.isProxyEnabled(act) && !AppPrefs.getProxyHost(act).isEmpty()) {
+                    java.net.Proxy proxy = new java.net.Proxy(java.net.Proxy.Type.HTTP,
+                            new java.net.InetSocketAddress(AppPrefs.getProxyHost(act), AppPrefs.getProxyPort(act)));
+                    conn = (HttpURLConnection) target.openConnection(proxy);
+                } else {
+                    conn = (HttpURLConnection) target.openConnection();
+                }
                 conn.setConnectTimeout(20000);
                 conn.setReadTimeout(20000);
                 conn.setInstanceFollowRedirects(true);

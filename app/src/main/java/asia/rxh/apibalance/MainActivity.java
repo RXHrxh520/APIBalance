@@ -1082,17 +1082,26 @@ public class MainActivity extends Activity {
      * 网络细节统一走 {@link NetworkClient}（代理/超时/重试/TLS 恒校验）。
      * 成功回调 {@link OnBalanceFetchListener#onSuccess(int, ProviderConfig.BalanceResult)}。
      */
+    /** 每次查询递增；回调前比对，避免快速切服务商时旧结果覆盖新页面。 */
+    private final java.util.concurrent.atomic.AtomicInteger fetchSeq =
+            new java.util.concurrent.atomic.AtomicInteger();
+
     public void fetchBalance(final String apiKey, final int providerId, final OnBalanceFetchListener listener) {
+        final int seq = fetchSeq.incrementAndGet();
         new Thread(() -> {
             try {
                 ProviderConfig.BalanceResult result = NetworkClient.fetch(MainActivity.this, providerId, apiKey);
-                mainHandler.post(() -> listener.onSuccess(providerId, result));
+                mainHandler.post(() -> {
+                    if (seq != fetchSeq.get()) return;
+                    listener.onSuccess(providerId, result);
+                });
             } catch (Exception e) {
                 final String friendly = ErrorText.message(MainActivity.this, providerId, e);
                 if (e instanceof NetworkClient.HttpException
                         && ((NetworkClient.HttpException) e).code == 401) {
                     final ProviderConfig.Provider provider = ProviderConfig.get(MainActivity.this, providerId);
                     mainHandler.post(() -> {
+                        if (seq != fetchSeq.get()) return;
                         listener.onError(friendly);
                         Notifier.notifyBalance(MainActivity.this, getString(R.string.j_140),
                                 provider.name + getString(R.string.j_141));
@@ -1100,6 +1109,7 @@ public class MainActivity extends Activity {
                 } else if (e instanceof NetworkClient.ParseException) {
                     final ProviderConfig.Provider provider = ProviderConfig.get(MainActivity.this, providerId);
                     mainHandler.post(() -> {
+                        if (seq != fetchSeq.get()) return;
                         listener.onError(friendly);
                         Notifier.notifyBalance(MainActivity.this, getString(R.string.j_142),
                                 provider.name + getString(R.string.j_143));
@@ -1108,7 +1118,10 @@ public class MainActivity extends Activity {
                     if (AppPrefs.isReqLog(MainActivity.this)) {
                         android.util.Log.d("APIBalance", "request failed: " + e.getClass().getSimpleName());
                     }
-                    mainHandler.post(() -> listener.onError(friendly));
+                    mainHandler.post(() -> {
+                        if (seq != fetchSeq.get()) return;
+                        listener.onError(friendly);
+                    });
                 }
             }
         }).start();

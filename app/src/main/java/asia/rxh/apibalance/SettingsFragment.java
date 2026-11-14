@@ -519,7 +519,7 @@ public class SettingsFragment extends Fragment {
         if (btnLang != null && tvLangDesc != null) {
             int lang0 = AppPrefs.getLanguage(getActivity());
             tvLangDesc.setText(lang0 == 1 ? getString(R.string.j_017) : lang0 == 2 ? "English"
-                    : lang0 == 3 ? getString(R.string.h_060) : lang0 == 4 ? getString(R.string.lang_meow) : lang0 == 3 ? getString(R.string.lang_trad) : getString(R.string.str_026));
+                    : lang0 == 3 ? getString(R.string.lang_trad) : lang0 == 4 ? getString(R.string.lang_meow) : getString(R.string.str_026));
             btnLang.setOnClickListener(v -> {
                 MainActivity act = (MainActivity) getActivity();
                 if (act == null) return;

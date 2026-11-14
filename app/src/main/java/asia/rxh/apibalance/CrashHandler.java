@@ -63,9 +63,9 @@ public class CrashHandler implements Thread.UncaughtExceptionHandler {
         throwable.printStackTrace(new PrintWriter(sw));
         String trace = sw.toString();
 
-        // 截断过长堆栈（保留前2000字符）
-        if (trace.length() > 2000) {
-            trace = trace.substring(0, 2000) + appContext.getString(R.string.f_026);
+        // 截断过长堆栈；2000 字符会切断调用链，放宽到 8000
+        if (trace.length() > 8000) {
+            trace = trace.substring(0, 8000) + appContext.getString(R.string.f_026);
         }
 
         // 2. 保存到 SharedPreferences（进程安全）

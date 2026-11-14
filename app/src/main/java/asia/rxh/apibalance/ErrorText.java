@@ -38,13 +38,19 @@ public final class ErrorText {
                 return hint + " " + ctx.getString(R.string.err_key_invalid);
             }
             if (http.code == 403) {
-                return hint + " " + ctx.getString(R.string.err_forbidden);
+                String b = http.body == null ? "" : http.body.trim();
+                return hint + " " + ctx.getString(R.string.err_forbidden) + (b.isEmpty() ? "" : " · " + b);
             }
             if (http.code == 404) {
                 return ctx.getString(R.string.err_endpoint_missing, provider.name);
             }
             if (http.code == 429) {
                 return ctx.getString(R.string.err_too_frequent);
+            }
+            // 400 / 403 / 其它状态：把服务商返回的原文带出来，否则用户只能看到“请求失败”
+            String body = http.body == null ? "" : http.body.trim();
+            if (!body.isEmpty()) {
+                return hint + " HTTP " + http.code + " · " + body;
             }
             if (http.code >= 500) {
                 return ctx.getString(R.string.err_server_busy);

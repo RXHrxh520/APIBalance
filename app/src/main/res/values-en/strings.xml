@@ -1141,4 +1141,5 @@ For learning only. Author is not liable for API misuse.</string>
     <string name="lock_limit_title">Wrong-password limit</string>
     <string name="lock_limit_desc">Lock for 60 seconds after 5 failed attempts</string>
     <string name="lock_too_many_fmt">Too many attempts. Try again in %1$d s</string>
+    <string name="update_notice_title_fmt">What's new in v%1$s</string>
 </resources>
