@@ -135,7 +135,12 @@ public class BackupActivity extends Activity {
         }
         File dir = android.os.Environment.getExternalStoragePublicDirectory(
                 android.os.Environment.DIRECTORY_DOWNLOADS);
-        if (dir != null && (dir.exists() || dir.mkdirs())) {
+        // Android 8/9 写公共目录要 WRITE_EXTERNAL_STORAGE；没授权就落到应用私有外部目录，避免直接失败
+        boolean canPublic = android.os.Build.VERSION.SDK_INT < 29
+                && checkSelfPermission(android.Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                == android.content.pm.PackageManager.PERMISSION_GRANTED;
+        if (android.os.Build.VERSION.SDK_INT >= 29) canPublic = true; // 走 MediaStore
+        if (canPublic && dir != null && (dir.exists() || dir.mkdirs())) {
             File f = new File(dir, name);
             try (FileOutputStream fos = new FileOutputStream(f)) {
                 fos.write(data);
@@ -437,7 +442,10 @@ public class BackupActivity extends Activity {
         }
         File dir = android.os.Environment.getExternalStoragePublicDirectory(
                 android.os.Environment.DIRECTORY_DOWNLOADS);
-        if (dir != null && (dir.exists() || dir.mkdirs())) {
+        boolean canPublic = android.os.Build.VERSION.SDK_INT >= 29
+                || ctx.checkSelfPermission(android.Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                == android.content.pm.PackageManager.PERMISSION_GRANTED;
+        if (canPublic && dir != null && (dir.exists() || dir.mkdirs())) {
             File f = new File(dir, name);
             try (FileOutputStream fos = new FileOutputStream(f)) {
                 fos.write(data);

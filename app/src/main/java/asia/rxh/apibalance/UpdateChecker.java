@@ -107,6 +107,20 @@ public final class UpdateChecker {
     }
 
     private static void downloadAndInstall(final android.app.Activity act, final String url) {
+        // Android 8+ 安装 APK 需要「未知来源」授权；没开就先引导，别等下载完才失败
+        if (android.os.Build.VERSION.SDK_INT >= 26
+                && !act.getPackageManager().canRequestPackageInstalls()) {
+            android.widget.Toast.makeText(act, act.getString(R.string.update_need_install_perm),
+                    android.widget.Toast.LENGTH_LONG).show();
+            try {
+                android.content.Intent i = new android.content.Intent(
+                        android.provider.Settings.ACTION_MANAGE_UNKNOWN_APP_SOURCES,
+                        android.net.Uri.parse("package:" + act.getPackageName()));
+                act.startActivity(i);
+            } catch (Throwable ignored) {
+            }
+            return;
+        }
         if (url == null || !isAllowedHost(url)) {
             android.widget.Toast.makeText(act, act.getString(R.string.update_bad_url),
                     android.widget.Toast.LENGTH_LONG).show();
