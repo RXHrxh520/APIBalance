@@ -1,3 +1,10 @@
+---
+layout: default
+title: 构建与源码结构 · APIBalance
+description: APIBalance 自行编译环境、签名配置与源码目录结构说明。
+permalink: /apibalance/build.html
+---
+
 # 构建、签名与源码结构
 
 > 面向想自己编译的开发者。由原说明书原样迁移。

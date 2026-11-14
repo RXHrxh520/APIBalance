@@ -1,0 +1,15 @@
+* text=auto eol=lf
+
+*.java    text diff=java
+*.gradle  text
+*.md      text
+*.yml     text
+*.sh      text eol=lf
+
+*.png     binary
+*.jpg     binary
+*.jpeg    binary
+*.webp    binary
+*.apk     binary
+*.jar     binary
+*.keystore binary

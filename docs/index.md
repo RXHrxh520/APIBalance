@@ -22,6 +22,3 @@ description: 开源项目文档中心，选择一个项目进入。
 - 文档只描述功能、安装与排错；遇到问题请优先查看各项目的「常见问题」，仍未解决可在对应仓库提交 Issue。
 - 本站为静态文档站，不收集任何访问者数据；页面底部第三方计数图仅统计访问量，加载失败不影响阅读。
 
-<p align="center">
-  <img src="https://hits.sh/github.com/RXHrxh520/APIBalance.svg?label=%E8%AE%BF%E9%97%AE" alt="" height="20" loading="lazy" onerror="this.style.display='none'">
-</p>

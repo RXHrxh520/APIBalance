@@ -17,7 +17,7 @@
 <p align="center">
   <a href="https://github.com/RXHrxh520/APIBalance/releases/latest"><b>⬇ 下载最新版 APK</b></a>
   &nbsp;·&nbsp;
-  <a href="https://rxh.asia/apibalance/">在线文档</a>
+  <a href="https://rxhrxh520.github.io/APIBalance/apibalance/">在线文档</a>
   &nbsp;·&nbsp;
   <a href="docs/apibalance/faq.md">安装与常见问题</a>
   &nbsp;·&nbsp;
@@ -117,7 +117,7 @@
 
 | 我想… | 去哪看 |
 |---|---|
-| 浏览排版好的文档站 | [rxh.asia/apibalance](https://rxh.asia/apibalance/) |
+| 浏览排版好的文档站 | [文档站](https://rxhrxh520.github.io/APIBalance/apibalance/) |
 | 看全部功能（57 项） | [功能清单](docs/apibalance/features.md) |
 | 装不上、报错 | [常见问题](docs/apibalance/faq.md) |
 | 了解密钥怎么加密 | [隐私与安全](docs/apibalance/security.md) |
