@@ -3,14 +3,22 @@
 > 多服务商 API 余额查询安卓工具 · 开源免费 · AGPL-3.0
 
 一个支持 **DeepSeek / Kimi / 智谱 GLM / Anthropic / 火山方舟 / Kimi Code / GLM Coding / Codex** 的 Android 余额与套餐配额查询工具。密钥经系统级加密（Android Keystore + AES/GCM）仅保存在本机，不经过任何私人服务器，只调用各家官方 API。
-
+- **快速下载**：<https://github.com/RXHrxh520/APIBalance/releases/latest>
 - **项目地址**：<https://github.com/RXHrxh520/APIBalance>
 - **交流群**：235492286
 
-![Gradle](https://img.shields.io/badge/Gradle-9.8.2-brightgreen?labelColor=555&logo=Android)
-![license](https://img.shields.io/badge/license-AGPLv3-brightgreen?labelColor=555)
-![fork](https://img.shields.io/badge/fork-0-brightgreen?labelColor=555&logo=github)
 ![version](https://img.shields.io/badge/version-1.x-brightgreen?labelColor=555)
+---
+
+
+## 📲 安装方式
+
+1. 从 Releases 下载最新 APK（APIBalance_vx.x.apk）
+2. 在手机上允许"安装未知来源应用"
+3. 安装后打开，输入 API Key 即可查询
+
+> 签名说明：正式版使用作者签名（*.keystore）。若从源码自编译，签名会不同，无法覆盖安装官方版，属正常现象。安全中心会据此提示是否与官方证书一致，仅做提醒。
+
 ---
 
 ## ✨ 功能总览
@@ -122,6 +130,60 @@ RXH_STORE_FILE / RXH_STORE_PASS / RXH_KEY_ALIAS / RXH_KEY_PASS，
 
 ---
 
+## 🔒 隐私与安全
+
+- **密钥存储**：Android Keystore 生成 AES-256 密钥，AES/GCM 加密后存 SharedPreferences，明文不落盘（自动登录 Key 与多账户 Key 均加密）
+- **网络**：仅请求各家官方余额 API（api.deepseek.com / api.moonshot.ai / open.bigmodel.cn / api.anthropic.com）与 GitHub 版本检查；TLS 证书校验恒开启
+- **备份包**：导出前用你设定的密码加密，恢复需同一密码；恢复代码修改需先验证锁屏密码
+- **无任何私人服务器**，无广告 SDK，无第三方统计
+
+---
+
+## 🤝 贡献指南
+
+欢迎任何形式的贡献：
+
+- 提 Issue：报告 Bug、建议新功能
+- 提 PR：修复问题、优化代码
+- 翻译：完善 values/values-en/values-zh-rTW/values-eo 等多语言
+
+开发约定：
+- 所有新增 Java 文件必须带 AGPL 版权头（见现有文件）
+- 不引入第三方统计/广告 SDK
+- 不擅自修改各家 API 端点
+
+---
+
+## 📄 开源协议
+
+本项目基于 **GNU Affero General Public License v3.0** 开源。
+
+- 本软件永远开源免费。如您是付费购买的，请联系对应方退款。
+- 仅调用各家服务商官方余额 API，仅供学习交流使用，作者不承担滥用 API 导致的任何账号风险。
+- 图标说明：App 图标为Deepseek的萌化版形象；QQ 图标取自系统素材；GitHub 图标为 GitHub 官方 Octicons（MIT 许可）；其余图标为 Material Design Icons 风格（Apache 2.0）。
+
+---
+
+## 🖼 截图
+
+（待补充：欢迎贡献截图）
+
+---
+
+
+## 📜 版本历史
+- 为保证说明书整洁性，自1.5.3版本起，此处将不再提供历史版本更新公告，如需查看请前往Github讨论区 QQ群 资源发布界面查看!
+
+---
+
+## ⚠️ 免责声明
+
+- 本项目仅供学习交流使用，请勿用于任何违法用途
+- 使用本项目查询余额不产生额外费用；但调用各家 API 会产生 token 消耗，请自行注意
+- 作者不承担因滥用 API、泄露 API Key 导致的任何账号风险与损失
+- 本软件永远开源免费；如您是付费购买的，请联系对应方退款
+
+---
 ## 📁 目录结构
 
 ```
@@ -173,70 +235,10 @@ app/src/main/java/asia/rxh/apibalance/
 
 ---
 
-## 🔒 隐私与安全
-
-- **密钥存储**：Android Keystore 生成 AES-256 密钥，AES/GCM 加密后存 SharedPreferences，明文不落盘（自动登录 Key 与多账户 Key 均加密）
-- **网络**：仅请求各家官方余额 API（api.deepseek.com / api.moonshot.ai / open.bigmodel.cn / api.anthropic.com）与 GitHub 版本检查；TLS 证书校验恒开启
-- **备份包**：导出前用你设定的密码加密，恢复需同一密码；恢复代码修改需先验证锁屏密码
-- **无任何私人服务器**，无广告 SDK，无第三方统计
-
----
-
-## 📄 开源协议
-
-本项目基于 **GNU Affero General Public License v3.0** 开源。
-
-- 本软件永远开源免费。如您是付费购买的，请联系对应方退款。
-- 仅调用各家服务商官方余额 API，仅供学习交流使用，作者不承担滥用 API 导致的任何账号风险。
-- 图标说明：App 图标为Deepseek的萌化版形象；QQ 图标取自系统素材；GitHub 图标为 GitHub 官方 Octicons（MIT 许可）；其余图标为 Material Design Icons 风格（Apache 2.0）。
-
----
-
-## 📲 安装方式
-
-1. 从 Releases 下载最新 APK（APIBalance_vx.x.apk）
-2. 在手机上允许"安装未知来源应用"
-3. 安装后打开，输入 API Key 即可查询
-
-> 签名说明：正式版使用作者签名（*.keystore）。若从源码自编译，签名会不同，无法覆盖安装官方版，属正常现象。安全中心会据此提示是否与官方证书一致。
-
----
-
-## 🖼 截图
-
-（待补充：欢迎贡献截图）
-
----
-
-## 🤝 贡献指南
-
-欢迎任何形式的贡献：
-
-- 提 Issue：报告 Bug、建议新功能
-- 提 PR：修复问题、优化代码
-- 翻译：完善 values/values-en/values-zh-rTW/values-eo 等多语言
-
-开发约定：
-- 所有新增 Java 文件必须带 AGPL 版权头（见现有文件）
-- 不引入第三方统计/广告 SDK
-- 不擅自修改各家 API 端点
-
----
-
-## 📜 版本历史
-- 为保证说明书整洁性，自1.5.3版本起，此处将不再提供历史版本更新公告，如需查看请前往Github讨论区 QQ群 资源发布界面查看!
-## ⚠️ 免责声明
-
-- 本项目仅供学习交流使用，请勿用于任何违法用途
-- 使用本项目查询余额不产生额外费用；但调用各家 API 会产生 token 消耗，请自行注意
-- 作者不承担因滥用 API、泄露 API Key 导致的任何账号风险与损失
-- 本软件永远开源免费；如您是付费购买的，请联系对应方退款
-
----
-
 ## 📮 联系方式
 
 - 项目仓库：https://github.com/RXHrxh520/APIBalance
 - 交流群：235492286（QQ）
+- 作者个人QQ:406992556
 
 > 欢迎 Star、Fork、提 Issue，让 APIBalance 变得更好。
