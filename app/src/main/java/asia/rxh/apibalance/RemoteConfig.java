@@ -88,8 +88,9 @@ public final class RemoteConfig {
     public static void get(Context ctx, Callback callback) {
         Config local = cached;
         if (local == null) local = load(ctx);
-        if (local != null) {
-            if (callback != null) MAIN.post(() -> callback.onConfig(local));
+        final Config hit = local;
+        if (hit != null) {
+            if (callback != null) MAIN.post(() -> callback.onConfig(hit));
             return;
         }
         if (callback == null) return;
