@@ -19,16 +19,16 @@
     <string name="login_footer">Supports DeepSeek / Kimi / Zhipu GLM balance query.\nUses official balance APIs only, no private servers.\nAPI keys are encrypted and stored locally.</string>
 
     <string name="err_empty_key">Enter an API key first</string>
-    <string name="err_bad_key">That key doesn't look right — have another look</string>
+    <string name="err_bad_key">That key doesn\'t look right — have another look</string>
     <string name="err_empty_captcha">Please answer the captcha</string>
     <string name="err_bad_captcha">Wrong answer, try again</string>
     <string name="err_captcha_num">Please enter a number</string>
-    <string name="err_key_invalid">This API key isn't valid — check it and try again</string>
+    <string name="err_key_invalid">This API key isn\'t valid — check it and try again</string>
     <string name="err_too_frequent">Too many requests — give it a moment</string>
     <string name="err_timeout">Timed out — check your connection and try again</string>
-    <string name="err_no_network">Can't reach the server — check your connection</string>
+    <string name="err_no_network">Can\'t reach the server — check your connection</string>
     <string name="err_network">Network error: %1$s</string>
-    <string name="err_parse">Couldn't read the response: %1$s</string>
+    <string name="err_parse">Couldn\'t read the response: %1$s</string>
 
     <string name="total_balance">Available balance</string>
     <string name="granted_balance">Bonus credit</string>
@@ -40,7 +40,7 @@
     <string name="about">About</string>
     <string name="about_desc">Version info and contact</string>
     <string name="change_key">Change API key</string>
-    <string name="change_key_desc">You'll re-verify after switching</string>
+    <string name="change_key_desc">You\'ll re-verify after switching</string>
     <string name="switch_provider">Switch provider</string>
     <string name="current_provider">Current: %1$s</string>
     <string name="balance_trend">Balance trend</string>
@@ -416,7 +416,7 @@ For learning only. Author is not liable for API misuse.</string>
     <string name="onboarding_title">Run setup again</string>
     <string name="onboarding_desc">Walk through first-run setup once more</string>
     <string name="onb_welcome_title">Welcome to APIBalance</string>
-    <string name="onb_welcome_sub">Thirty seconds of setup, then every provider's balance in one place</string>
+    <string name="onb_welcome_sub">Thirty seconds of setup, then every provider\'s balance in one place</string>
     <string name="onb_provider_title">Pick a provider</string>
     <string name="onb_provider_sub">You can change it later in Settings → Switch provider</string>
     <string name="onb_key_title">Enter your API key</string>
@@ -427,7 +427,7 @@ For learning only. Author is not liable for API misuse.</string>
     <string name="onb_pers_title">Make it yours</string>
     <string name="onb_pers_sub">You can change all of this later in Settings</string>
     <string name="onb_done_title">All set</string>
-    <string name="onb_done_sub">Everything's saved — check your balances now</string>
+    <string name="onb_done_sub">Everything\'s saved — check your balances now</string>
     <string name="onb_next">Next</string>
     <string name="onb_done_btn">Done</string>
     <string name="onb_skip">Skip</string>
@@ -438,7 +438,7 @@ For learning only. Author is not liable for API misuse.</string>
     <string name="onb_pro_desc">Enable all advanced features &amp; custom options</string>
     <string name="onb_connecting">Connecting to provider…</string>
     <string name="onb_test_ok">✓ Connected — balance %s</string>
-    <string name="onb_test_fail">Couldn't connect:\n%s\n\nTry again, or skip</string>
+    <string name="onb_test_fail">Couldn\'t connect:\n%s\n\nTry again, or skip</string>
     <string name="custom_title">Custom provider</string>
     <string name="custom_name_hint">Provider name (≤20 chars)</string>
     <string name="custom_url_hint">Balance URL (https://…)</string>
@@ -619,7 +619,7 @@ For learning only. Author is not liable for API misuse.</string>
     <string name="f_022">• User-defined FX-rate JSON URL (optional)\n\n</string>
     <string name="f_023">── Licenses ──\n</string>
     <string name="f_024">• GNU AGPL v3.0 (license of this app)\n</string>
-    <string name="f_025">• Provider APIs are used under each provider's terms of service\n</string>
+    <string name="f_025">• Provider APIs are used under each provider\'s terms of service\n</string>
     <string name="f_026">\n... (truncated)</string>
     <string name="f_027">=== Recent crash (redacted) ===\n</string>
     <string name="f_028">Stack trace (code location):\n</string>
@@ -1090,8 +1090,8 @@ For learning only. Author is not liable for API misuse.</string>
     <string name="agreement_title">Terms of Service and Privacy Policy</string>
     <string name="agreement_agree">Agree and continue</string>
     <string name="agreement_reject">Decline</string>
-    <string name="agreement_user">[Terms of Service]\n\n1. Scope\nThis app is a locally running API balance checker used to query account balance and usage from model providers you configure yourself. The app provides no model service of its own, and does not proxy, resell or top up any provider's product.\n\n2. Accounts and keys\nYou enter your own API Key in the app. The key is stored only on this device: it is encrypted with AES/GCM using a key generated by Android Keystore and written into the app's private directory. It is never uploaded to any server, and the developer cannot access it. Please keep your keys safe; any loss caused by a leaked key is your own responsibility.\n\n3. Acceptable use\nYou must comply with each provider's terms of service and your local laws, and must not use this tool for any unlawful purpose. You are solely responsible for the consequences of your use.\n\n4. Disclaimer\nBalances, exchange rates and token estimates come from third-party APIs or local approximation and may be delayed or inaccurate. They are for personal reference only and do not constitute financial advice. This app is distributed under AGPL-3.0 without any express or implied warranty.\n\n5. Changes\nThese terms may change with releases; the app will prompt you again after an update. Continued use means you accept the updated terms.</string>
-    <string name="agreement_privacy">[Privacy Policy]\n\n1. What we collect\nNothing. This app includes no analytics, advertising or crash-reporting SDK, does not read device identifiers (IMEI / OAID / Android ID), and requests no permissions unrelated to its features, such as contacts, SMS, location or camera.\n\n2. Where data lives\nAPI keys: encrypted via Android Keystore and stored in the app's private directory, readable only by this app;\nBalance history and token usage: stored as local files in the app's private directory;\nTheme, font and language preferences: stored in SharedPreferences on this device.\nNone of this is uploaded automatically. Backup files (.bin / .zip) are written wherever you choose, and are yours to keep safe.\n\n3. Network requests\nThe app sends HTTPS requests only to the official endpoints of the providers you configured, and only when you trigger a query or enable scheduled refresh. The API key is sent only to that provider, never through a third-party relay. If you configure a custom proxy, requests go through your own proxy.\n\n4. Permissions\nNetwork: query balances;\nNotifications: balance alerts and persistent notification;\nOverlay: desktop floating ball;\nInstall unknown apps: installing updates from inside the app;\nFingerprint: local lock screen verification.\nEach permission can be revoked at any time in system settings.\n\n5. Your rights\nYou can clear all local data in settings at any time. Doing so also deletes the encryption key in Keystore, after which older backups can no longer be decrypted, so export a backup first.\n\n6. Contact\nFor privacy questions, reach the author through the project repository or the community group.</string>
+    <string name="agreement_user">[Terms of Service]\n\n1. Scope\nThis app is a locally running API balance checker used to query account balance and usage from model providers you configure yourself. The app provides no model service of its own, and does not proxy, resell or top up any provider\'s product.\n\n2. Accounts and keys\nYou enter your own API Key in the app. The key is stored only on this device: it is encrypted with AES/GCM using a key generated by Android Keystore and written into the app\'s private directory. It is never uploaded to any server, and the developer cannot access it. Please keep your keys safe; any loss caused by a leaked key is your own responsibility.\n\n3. Acceptable use\nYou must comply with each provider\'s terms of service and your local laws, and must not use this tool for any unlawful purpose. You are solely responsible for the consequences of your use.\n\n4. Disclaimer\nBalances, exchange rates and token estimates come from third-party APIs or local approximation and may be delayed or inaccurate. They are for personal reference only and do not constitute financial advice. This app is distributed under AGPL-3.0 without any express or implied warranty.\n\n5. Changes\nThese terms may change with releases; the app will prompt you again after an update. Continued use means you accept the updated terms.</string>
+    <string name="agreement_privacy">[Privacy Policy]\n\n1. What we collect\nNothing. This app includes no analytics, advertising or crash-reporting SDK, does not read device identifiers (IMEI / OAID / Android ID), and requests no permissions unrelated to its features, such as contacts, SMS, location or camera.\n\n2. Where data lives\nAPI keys: encrypted via Android Keystore and stored in the app\'s private directory, readable only by this app;\nBalance history and token usage: stored as local files in the app\'s private directory;\nTheme, font and language preferences: stored in SharedPreferences on this device.\nNone of this is uploaded automatically. Backup files (.bin / .zip) are written wherever you choose, and are yours to keep safe.\n\n3. Network requests\nThe app sends HTTPS requests only to the official endpoints of the providers you configured, and only when you trigger a query or enable scheduled refresh. The API key is sent only to that provider, never through a third-party relay. If you configure a custom proxy, requests go through your own proxy.\n\n4. Permissions\nNetwork: query balances;\nNotifications: balance alerts and persistent notification;\nOverlay: desktop floating ball;\nInstall unknown apps: installing updates from inside the app;\nFingerprint: local lock screen verification.\nEach permission can be revoked at any time in system settings.\n\n5. Your rights\nYou can clear all local data in settings at any time. Doing so also deletes the encryption key in Keystore, after which older backups can no longer be decrypted, so export a backup first.\n\n6. Contact\nFor privacy questions, reach the author through the project repository or the community group.</string>
     <string name="share_style_title">Share card color scheme</string>
     <string name="share_style_default">Deep blue (default)</string>
     <string name="share_style_pink">Pink</string>
@@ -1141,6 +1141,6 @@ For learning only. Author is not liable for API misuse.</string>
     <string name="lock_limit_title">Wrong-password limit</string>
     <string name="lock_limit_desc">Lock for 60 seconds after 5 failed attempts</string>
     <string name="lock_too_many_fmt">Too many attempts. Try again in %1$d s</string>
-    <string name="update_notice_title_fmt">What's new in v%1$s</string>
+    <string name="update_notice_title_fmt">What\'s new in v%1$s</string>
     <string name="backup_sig_bad">Backup verification failed: the file was modified or not exported by this app</string>
 </resources>
