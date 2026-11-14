@@ -1123,4 +1123,7 @@
     <string name="quota_status">狀態</string>
     <string name="quota_plan">方案</string>
     <string name="quota_footer_none">方案配額</string>
+    <string name="lock_limit_title">密碼錯誤限制</string>
+    <string name="lock_limit_desc">連續輸錯 5 次後鎖定 60 秒</string>
+    <string name="lock_too_many_fmt">嘗試次數過多，請 %1$d 秒後再試</string>
 </resources>

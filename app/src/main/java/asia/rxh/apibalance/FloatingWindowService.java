@@ -195,8 +195,15 @@ public class FloatingWindowService extends Service {
         if (cp.isQuotaMode()) return "配额";
         if (cp.isCostMode()) return "成本";
         List<BalanceHistoryStore.HistoryItem> items = BalanceHistoryStore.getAll(this);
-        if (items.isEmpty()) return "¥?";
-        BalanceHistoryStore.HistoryItem last = items.get(items.size() - 1);
+        // 只认当前服务商的记录，切服务商后不能还挂着上一家的金额
+        BalanceHistoryStore.HistoryItem last = null;
+        for (int i = items.size() - 1; i >= 0; i--) {
+            if (items.get(i).providerId == currentPid) {
+                last = items.get(i);
+                break;
+            }
+        }
+        if (last == null) return "¥?";
         if (PrivacyPrefs.shouldMaskBalance(this)) return "••••";
         String symbol = "CNY".equals(last.currency) ? "¥" : "$";
         return MoneyFmt.withSymbol(symbol, last.total);

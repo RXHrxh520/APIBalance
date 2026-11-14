@@ -168,6 +168,15 @@ public final class AppPrefs {
         sp(c).edit().putBoolean(KEY_ALERT_ENABLED, b).apply();
     }
 
+    /** 锁屏连续输错限制：默认开启，用户可在设置里关掉。 */
+    public static boolean isLockLimitEnabled(Context c) {
+        return sp(c).getBoolean("lock_limit_enabled", true);
+    }
+
+    public static void setLockLimitEnabled(Context c, boolean enabled) {
+        sp(c).edit().putBoolean("lock_limit_enabled", enabled).apply();
+    }
+
     public static double getAlertThreshold(Context c) {
         return sp(c).getFloat(KEY_ALERT_THRESHOLD, 10f);
     }

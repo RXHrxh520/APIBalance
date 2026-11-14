@@ -1158,4 +1158,7 @@
     <string name="quota_status">状态</string>
     <string name="quota_plan">套餐</string>
     <string name="quota_footer_none">套餐配额</string>
+    <string name="lock_limit_title">密码错误限制</string>
+    <string name="lock_limit_desc">连续输错 5 次后锁定 60 秒</string>
+    <string name="lock_too_many_fmt">尝试次数过多，请 %1$d 秒后再试</string>
 </resources>

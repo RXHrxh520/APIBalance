@@ -26,6 +26,7 @@ permalink: /
 | **[隐私与安全](security.html)** | 密钥怎么存、请求发到哪、备份怎么加密 |
 | **[构建与源码结构](build.html)** | 自己编译、签名说明、目录结构 |
 | **[发版同步清单](release-checklist.html)** | 每次发版要改哪些文件、哪些页面 |
+| **[公告配置](announcement.html)** | 改 `app.json` 就能发公告，不用发版 |
 | **[权限说明](permissions.html)** | 每项权限用来做什么，不授权会怎样 |
 | **[错误码速查](errors.html)** | 401 / 403 / 429 / 超时的对应处理 |
 | **[路线图](roadmap.html)** | 正在做、计划做、明确不做 |

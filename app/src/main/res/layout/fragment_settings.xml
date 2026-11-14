@@ -238,6 +238,14 @@
         </LinearLayout>
         <android.widget.Switch android:id="@+id/sw_lock" android:layout_width="wrap_content" android:layout_height="wrap_content" />
     </LinearLayout>
+    <LinearLayout android:id="@+id/row_lock_limit" android:layout_width="match_parent" android:layout_height="56dp" android:layout_marginTop="8dp" android:gravity="center_vertical" android:orientation="horizontal" android:paddingLeft="16dp" android:paddingRight="16dp" android:background="@drawable/bg_card_balance" android:foreground="@drawable/bg_ripple_24" android:clickable="true" android:focusable="false">
+        <ImageView android:layout_width="24dp" android:layout_height="24dp" android:src="@drawable/ic_lock" android:contentDescription="@string/lock_limit_title" />
+        <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:layout_marginLeft="16dp" android:orientation="vertical">
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/lock_limit_title" android:textColor="@color/text_primary" android:textSize="15sp" />
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/lock_limit_desc" android:textColor="@color/text_hint" android:textSize="12sp" />
+        </LinearLayout>
+        <android.widget.Switch android:id="@+id/sw_lock_limit" android:layout_width="wrap_content" android:layout_height="wrap_content" />
+    </LinearLayout>
     <LinearLayout android:id="@+id/row_auto_lock" android:layout_width="match_parent" android:layout_height="56dp" android:layout_marginTop="8dp" android:gravity="center_vertical" android:orientation="horizontal" android:paddingLeft="16dp" android:paddingRight="16dp" android:background="@drawable/bg_card_balance" android:foreground="@drawable/bg_ripple_24" android:clickable="true" android:focusable="false">
         <ImageView android:layout_width="24dp" android:layout_height="24dp" android:src="@drawable/ic_timer" android:contentDescription="自动锁" />
         <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:layout_marginLeft="16dp" android:orientation="vertical">

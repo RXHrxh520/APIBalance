@@ -49,11 +49,13 @@ public class AutoRefreshReceiver extends BroadcastReceiver {
                     BalanceWidgetProvider.updateAll(ctx);
                     return;
                 }
-                double threshold = AppPrefs.getAlertThreshold(ctx);
+                double thresholdCny = AppPrefs.getAlertThreshold(ctx);
+                double threshold = "USD".equals(result.currency)
+                        ? thresholdCny / AppPrefs.getUsdCnyRate(ctx) : thresholdCny;
                 if (AppPrefs.isAlertEnabled(ctx) && result.totalBalance < threshold) {
                     Notifier.notifyBalance(ctx, ctx.getString(R.string.j_116),
                             p.name + ctx.getString(R.string.j_117) + PrivacyPrefs.maskBalance(ctx, String.format("%.2f %s", result.totalBalance, result.currency))
-                                    + ctx.getString(R.string.j_118) + PrivacyPrefs.maskBalance(ctx, String.format("%.2f", threshold)));
+                                    + ctx.getString(R.string.j_118) + PrivacyPrefs.maskBalance(ctx, MoneyFmt.format(threshold) + " " + result.currency));
                 } else {
                     Notifier.notifyBalance(ctx, ctx.getString(R.string.j_134),
                             p.name + ctx.getString(R.string.j_135) + PrivacyPrefs.maskBalance(ctx, String.format("%.2f %s", result.totalBalance, result.currency)));

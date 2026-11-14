@@ -299,6 +299,8 @@ public class SettingsFragment extends Fragment {
         TextView tvTimeoutDesc = view.findViewById(R.id.tv_timeout_desc);
         TextView tvCurrencyDesc = view.findViewById(R.id.tv_currency_desc);
         Switch swLock = view.findViewById(R.id.sw_lock);
+        Switch swLockLimit = view.findViewById(R.id.sw_lock_limit);
+        View rowLockLimit = view.findViewById(R.id.row_lock_limit);
         Switch swHideBalance = view.findViewById(R.id.sw_hide_balance);
         Switch swNoScreenshot = view.findViewById(R.id.sw_no_screenshot);
         Switch swNoNotify = view.findViewById(R.id.sw_no_notify);
@@ -458,6 +460,14 @@ public class SettingsFragment extends Fragment {
         }
 
         // 隐私开关
+        if (swLockLimit != null) {
+            swLockLimit.setChecked(AppPrefs.isLockLimitEnabled(getActivity()));
+            swLockLimit.setOnCheckedChangeListener((b, isChecked) ->
+                    AppPrefs.setLockLimitEnabled(getActivity(), isChecked));
+            if (rowLockLimit != null) {
+                rowLockLimit.setOnClickListener(v -> swLockLimit.setChecked(!swLockLimit.isChecked()));
+            }
+        }
         if (swLock != null) {
             swLock.setChecked(PrivacyPrefs.isLockEnabled(getActivity()));
             swLock.setOnCheckedChangeListener((b, isChecked) -> {
