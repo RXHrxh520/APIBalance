@@ -244,12 +244,17 @@ public class BalanceFragment extends Fragment {
                 if (act != null && AppPrefs.isStickyNotify(act)) act.showStickyNotify();
                 // 余额提醒
                 if (!result.isQuota() && AppPrefs.isAlertEnabled(getActivity())) {
-                    double threshold = AppPrefs.getAlertThreshold(getActivity());
-                    if (result.totalBalance < threshold) {
+                    // 阈值统一按 CNY 保存；先换算到该服务商的币种再比较，避免 USD 账户被 CNY 阈值误判
+                    double threshold = result.totalBalance;
+                    double thresholdCny = AppPrefs.getAlertThreshold(getActivity());
+                    double thresholdLocal = "USD".equals(result.currency)
+                            ? thresholdCny / AppPrefs.getUsdCnyRate(getActivity()) : thresholdCny;
+                    threshold = thresholdLocal;
+                    if (result.totalBalance < thresholdLocal) {
                         Notifier.notifyBalance(getActivity(), getString(R.string.j_116),
                                 ProviderConfig.get(getActivity(), pid).name + getString(R.string.j_117)
                                         + PrivacyPrefs.maskBalance(getActivity(), MoneyFmt.format(result.totalBalance) + " " + result.currency)
-                                        + getString(R.string.j_118) + PrivacyPrefs.maskBalance(getActivity(), MoneyFmt.format(threshold)));
+                                        + getString(R.string.j_118) + PrivacyPrefs.maskBalance(getActivity(), MoneyFmt.format(thresholdLocal) + " " + result.currency));
                     }
                 }
                 if (isFirstLoad) {

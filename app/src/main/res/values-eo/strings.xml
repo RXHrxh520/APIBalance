@@ -1117,4 +1117,7 @@
     <string name="quota_status">状态</string>
     <string name="quota_plan">套餐</string>
     <string name="quota_footer_none">套餐还剩多少</string>
+    <string name="lock_limit_title">输错太多次就歇一会儿</string>
+    <string name="lock_limit_desc">连着错 5 回，先锁 60 秒再让你试</string>
+    <string name="lock_too_many_fmt">试太多啦，%1$d 秒后再来吧</string>
 </resources>

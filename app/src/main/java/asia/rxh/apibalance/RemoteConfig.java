@@ -35,6 +35,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
  */
 public final class RemoteConfig {
 
+    private static final String PREFS = "remote_config";
     private static final String URL =
             "https://raw.githubusercontent.com/RXHrxh520/APIBalance/main/app.json";
     private static volatile Config cached;
@@ -71,7 +72,10 @@ public final class RemoteConfig {
                     if (response.code() == 200 && response.body() != null) {
                         String text = response.body().string();
                         Config parsed = parse(text);
-                        if (parsed != null) cached = parsed;
+                        if (parsed != null) {
+                            cached = parsed;
+                            save(app, parsed);
+                        }
                     }
                 }
             } catch (Throwable ignored) {
@@ -83,6 +87,7 @@ public final class RemoteConfig {
 
     public static void get(Context ctx, Callback callback) {
         Config local = cached;
+        if (local == null) local = load(ctx);
         if (local != null) {
             if (callback != null) MAIN.post(() -> callback.onConfig(local));
             return;
@@ -110,17 +115,81 @@ public final class RemoteConfig {
         });
     }
 
+    /**
+     * 公告解析。兼容两种写法：
+     * 1）老格式：{"notice": "...", "notice_url": "..."}
+     * 2）新格式：{"notices": [ { "id": "...", "enabled": true, "text": "...",
+     *              "url": "...", "start": "2026-01-01", "end": "" } ]}
+     * 新格式按顺序取第一条「启用且在有效期内的」，全部过期就回退到 notice 字段。
+     * 字段含义见 docs/announcement.md。
+     */
+    private static void save(Context ctx, Config config) {
+        ctx.getSharedPreferences(PREFS, Context.MODE_PRIVATE).edit()
+                .putString("notice", config.notice)
+                .putString("notice_url", config.noticeUrl)
+                .apply();
+    }
+
+    private static Config load(Context ctx) {
+        android.content.SharedPreferences sp = ctx.getSharedPreferences(PREFS, Context.MODE_PRIVATE);
+        String notice = sp.getString("notice", "");
+        if (notice == null || notice.isEmpty()) return null;
+        return new Config(notice, sp.getString("notice_url", ""));
+    }
+
     private static Config parse(String text) {
         try {
             JsonObject root = JsonParser.parseString(text).getAsJsonObject();
+            Config fromList = parseList(root);
+            if (fromList != null) return fromList;
             String notice = string(root, "notice");
             if (notice.isEmpty()) notice = string(root, "announcement");
             if (notice.isEmpty()) notice = string(root, "text");
             String url = string(root, "notice_url");
             if (url.isEmpty()) url = string(root, "noticeUrl");
+            // notice 也可能是对象 {text,url}
+            JsonElement noticeEl = root.get("notice");
+            if (noticeEl != null && noticeEl.isJsonObject()) {
+                JsonObject o = noticeEl.getAsJsonObject();
+                if (string(o, "text").length() > 0) notice = string(o, "text");
+                if (url.isEmpty()) url = string(o, "url");
+            }
             return new Config(notice, url);
         } catch (Throwable ignored) {
             return null;
+        }
+    }
+
+    private static Config parseList(JsonObject root) {
+        JsonElement el = root.get("notices");
+        if (el == null || !el.isJsonArray()) return null;
+        String today = new java.text.SimpleDateFormat("yyyy-MM-dd", java.util.Locale.US)
+                .format(new java.util.Date());
+        for (JsonElement item : el.getAsJsonArray()) {
+            if (item == null || !item.isJsonObject()) continue;
+            JsonObject o = item.getAsJsonObject();
+            if (!bool(o, "enabled", true)) continue;
+            String start = string(o, "start");
+            String end = string(o, "end");
+            // 日期都按 yyyy-MM-dd 字符串比较；留空表示不限
+            if (!start.isEmpty() && today.compareTo(start) < 0) continue;
+            if (!end.isEmpty() && today.compareTo(end) > 0) continue;
+            String text = string(o, "text");
+            if (text.isEmpty()) continue;
+            String url = string(o, "url");
+            if (url.isEmpty()) url = string(o, "notice_url");
+            return new Config(text, url);
+        }
+        return new Config("", "");
+    }
+
+    private static boolean bool(JsonObject o, String key, boolean def) {
+        try {
+            JsonElement e = o.get(key);
+            return e != null && e.isJsonPrimitive() && e.getAsJsonPrimitive().isBoolean()
+                    ? e.getAsBoolean() : def;
+        } catch (Throwable t) {
+            return def;
         }
     }
 

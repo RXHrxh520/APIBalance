@@ -83,10 +83,10 @@ public final class ProviderConfig {
                 AUTH_GLM, "CNY", TYPE_BALANCE, null, "预存余额"),
         new Provider(PROVIDER_OPENAI, "OpenAI", new String[]{"sk-"},
                 "https://api.openai.com/v1/organization/costs", AUTH_BEARER, "USD", TYPE_COST,
-                null, "组织成本"),
+                null, "近30天成本"),
         new Provider(PROVIDER_ANTHROPIC, "Anthropic", new String[]{"sk-ant-"},
                 "https://api.anthropic.com/v1/organizations/cost_report", AUTH_X_API_KEY, "USD",
-                TYPE_COST, null, "累计成本"),
+                TYPE_COST, null, "本月成本"),
         new Provider(PROVIDER_VOLCENGINE, "火山方舟", new String[]{},
                 VOLC_BILLING_URL, AUTH_VOLC, "CNY", TYPE_BALANCE, null, "账户余额"),
         new Provider(PROVIDER_KIMI_CODE, "Kimi Code", new String[]{},
@@ -320,7 +320,9 @@ public final class ProviderConfig {
             double available = dbl(data, "availableBalance", dbl(data, "balance", 0));
             double grant = dbl(data, "giveAmount", 0);
             double recharge = dbl(data, "rechargeAmount", 0);
-            double topped = recharge > 0 ? recharge : Math.max(0, available - grant);
+            // 直接用 available - grant 推导充值额；rechargeAmount 字段在赠金混算时会把赠金算进充值，
+            // 只有接口没给 available 时才退回使用它。
+            double topped = available > 0 ? Math.max(0, available - grant) : Math.max(0, recharge);
             return BalanceResult.balance("CNY", available, grant, topped);
         }
 
@@ -408,8 +410,8 @@ public final class ProviderConfig {
             if (five == null && weekly == null) {
                 throw new IllegalStateException(ctx.getString(R.string.err_provider_response));
             }
-            String main = quotaText(five, false);
-            String sub = quotaText(weekly, false);
+            String main = quotaText(five, true);
+            String sub = quotaText(weekly, true);
             String reset = resetText(five != null ? str(five, "resetTime", "") : "");
             String weeklyReset = resetText(weekly != null ? str(weekly, "resetTime", "") : "");
             String membership = "";
@@ -670,18 +672,30 @@ public final class ProviderConfig {
         JsonElement cur = root;
         Matcher m = Pattern.compile("([^.\\[\\]]+)|\\[(\\d+)\\]").matcher(path);
         while (m.find()) {
-            if (cur == null) return 0;
+            if (cur == null || cur.isJsonNull()) {
+                throw new IllegalStateException("余额字段路径不存在：" + path);
+            }
             if (m.group(1) != null) {
                 String key = m.group(1);
-                if (!cur.isJsonObject()) return 0;
+                if (!cur.isJsonObject() || !cur.getAsJsonObject().has(key)) {
+                    throw new IllegalStateException("余额字段路径不存在：" + path);
+                }
                 cur = cur.getAsJsonObject().get(key);
             } else {
                 int idx = Integer.parseInt(m.group(2));
-                if (!cur.isJsonArray()) return 0;
+                if (!cur.isJsonArray()) {
+                    throw new IllegalStateException("余额字段路径不是数组：" + path);
+                }
                 JsonArray arr = cur.getAsJsonArray();
-                cur = (idx >= 0 && idx < arr.size()) ? arr.get(idx) : null;
+                if (idx < 0 || idx >= arr.size()) {
+                    throw new IllegalStateException("余额字段路径下标越界：" + path);
+                }
+                cur = arr.get(idx);
             }
         }
-        return primitiveNumber(cur, 0);
+        if (cur == null || !cur.isJsonPrimitive() || !cur.getAsJsonPrimitive().isNumber()) {
+            throw new IllegalStateException("余额字段不是数字：" + path);
+        }
+        return cur.getAsDouble();
     }
 }

@@ -145,8 +145,45 @@ public class LockFragment extends Fragment {
         if (tvError != null) tvError.setVisibility(View.GONE);
     }
 
+    private static final String GUARD_PREFS = "lock_guard";
+    private static final int MAX_FAILS = 5;
+    private static final long BLOCK_MS = 60_000L;
+
+    /** 连续输错达到上限后返回剩余锁定毫秒数，未锁定返回 0。 */
+    private long lockRemainMs() {
+        if (getActivity() == null || !AppPrefs.isLockLimitEnabled(getActivity())) return 0;
+        long until = getActivity().getSharedPreferences(GUARD_PREFS, 0).getLong("until", 0);
+        return Math.max(0, until - System.currentTimeMillis());
+    }
+
+    private void registerFailure() {
+        if (getActivity() == null) return;
+        android.content.SharedPreferences sp = getActivity().getSharedPreferences(GUARD_PREFS, 0);
+        int fails = sp.getInt("fails", 0) + 1;
+        android.content.SharedPreferences.Editor e = sp.edit();
+        if (fails >= MAX_FAILS) {
+            e.putInt("fails", 0).putLong("until", System.currentTimeMillis() + BLOCK_MS);
+        } else {
+            e.putInt("fails", fails);
+        }
+        e.apply();
+    }
+
+    private void clearFailures() {
+        if (getActivity() == null) return;
+        getActivity().getSharedPreferences(GUARD_PREFS, 0).edit()
+                .putInt("fails", 0).putLong("until", 0).apply();
+    }
+
     private void submit() {
         String pw = input.toString();
+        long remain = lockRemainMs();
+        if (remain > 0) {
+            showError(getString(R.string.lock_too_many_fmt, (int) Math.ceil(remain / 1000.0)));
+            input.setLength(0);
+            renderDots();
+            return;
+        }
         if (mode == MODE_SET_FIRST) {
             if (pw.length() < 4) {
                 showError(getString(R.string.j_lock_set_hint));
@@ -181,8 +218,10 @@ public class LockFragment extends Fragment {
             return;
         }
         if (PrivacyPrefs.checkPassword(getActivity(), pw)) {
+            clearFailures();
             unlock();
         } else {
+            registerFailure();
             showError(getString(R.string.lock_wrong));
             input.setLength(0);
             renderDots();

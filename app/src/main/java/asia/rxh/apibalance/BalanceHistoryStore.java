@@ -113,7 +113,8 @@ public final class BalanceHistoryStore {
             //   同一服务商、余额各项数值完全一致、时间相差不超过 10 分钟。
             // 之前要求时间戳一模一样，而实际重复记录的时间戳总是差几秒，
             // 所以「明明有重复却清不掉」；只按金额合并又会误删正常的持平历史。
-            final long WINDOW = 10 * 60 * 1000L;
+            // 与写入侧保持一致：同一服务商、同一组金额的重复点在 6 小时内只保留一条
+            final long WINDOW = 6 * 3600_000L;
             java.util.HashMap<String, Long> lastTs = new java.util.HashMap<String, Long>();
             for (int i = 0; i < arr.length(); i++) {
                 JSONObject o = arr.getJSONObject(i);
