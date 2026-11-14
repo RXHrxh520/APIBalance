@@ -1065,7 +1065,7 @@
     <string name="exp_emergency_title">允许紧急备份</string>
     <string name="exp_emergency_desc">忘记密码、进不了应用时，用一次性口令导出加密备份；文件里有密钥，拿到文件和口令的人都能恢复。</string>
     <string name="exp_responsive_title">响应式设置导航</string>
-    <string name="exp_responsive_desc">仅在屏幕最短边 ≥ 600dp 的平板/折叠屏生效，把设置页导航放到左侧或顶部；手机仍固定在底部。</string>
+    <string name="exp_responsive_desc">开启后可把设置页导航放到底部、顶部、左侧或右侧；小屏建议用底部，侧边栏按钮已适配窄屏。</string>
     <string name="exp_nav_bottom">底部</string>
     <string name="exp_nav_position_title">设置页导航位置</string>
     <string name="exp_nav_left">左侧</string>

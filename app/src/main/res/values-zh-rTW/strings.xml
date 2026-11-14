@@ -1036,7 +1036,7 @@
     <string name="exp_emergency_title">允許緊急備份</string>
     <string name="exp_emergency_desc">忘記密碼、進不了應用時，用一次性口令匯出加密備份；檔案裡有金鑰，拿到檔案和口令的人都能恢復。</string>
     <string name="exp_responsive_title">響應式設定導覽</string>
-    <string name="exp_responsive_desc">僅在螢幕最短邊 ≥ 600dp 的平板／摺疊機生效，把設定導覽放到左側或頂部；手機仍固定在底部。</string>
+    <string name="exp_responsive_desc">開啟後可把設定頁導覽放到底部、頂部、左側或右側；小螢幕建議用底部，側邊欄按鈕已適配窄螢幕。</string>
     <string name="exp_nav_bottom">底部</string>
     <string name="exp_nav_position_title">設定頁導覽位置</string>
     <string name="exp_nav_left">左側</string>

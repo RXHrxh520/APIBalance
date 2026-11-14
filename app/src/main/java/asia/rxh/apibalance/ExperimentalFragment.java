@@ -66,10 +66,7 @@ public class ExperimentalFragment extends Fragment {
                 if (getActivity() instanceof MainActivity) {
                     ((MainActivity) getActivity()).applyNavBarPosition();
                 }
-                if (getResources().getConfiguration().smallestScreenWidthDp < 600) {
-                    android.widget.Toast.makeText(getActivity(), getString(R.string.exp_nav_phone_hint),
-                            android.widget.Toast.LENGTH_SHORT).show();
-                }
+
             });
         }
 
