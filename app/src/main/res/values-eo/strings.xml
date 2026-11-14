@@ -1084,4 +1084,24 @@
     <string name="cost_hint_title">这查的是花销，不是余额</string>
     <string name="cost_hint_ok">知道啦</string>
     <string name="quota_left_label">还剩多少</string>
+    <string name="dep_build_r8">• R8 / ProGuard（release 时压一压、藏一藏）\n\n</string>
+    <string name="dep_runtime_okhttp">• OkHttp 4.12.1（Apache License 2.0）——上网用的\n</string>
+    <string name="dep_runtime_gson">• Gson 2.14.0（Apache License 2.0）——读 JSON 用的\n</string>
+    <string name="dep_runtime_selfmade">• 剩下的（图表、动画、骨架屏、主题）都是自己画的，没借别人的界面库\n\n</string>
+    <string name="dep_platform_keystore">• Android Keystore + AES/GCM（钥匙加密后只存在你手机里）\n</string>
+    <string name="dep_platform_biometric">• 系统 BiometricPrompt（指纹／人脸开锁，API 28+）\n</string>
+    <string name="dep_platform_alarm">• AlarmManager（定时刷新，系统可能让你多等会儿）\n</string>
+    <string name="dep_svc_deepseek">• DeepSeek      GET https://api.deepseek.com/user/balance（Bearer）\n</string>
+    <string name="dep_svc_kimi">• Kimi          GET https://api.moonshot.cn/v1/users/me/balance（Bearer）\n</string>
+    <string name="dep_svc_glm">• 智谱 GLM      GET https://open.bigmodel.cn/api/biz/account/query-customer-account-report（新钥匙直接给／旧 id.secret 现场签 JWT）\n</string>
+    <string name="dep_svc_anthropic">• Anthropic     GET https://api.anthropic.com/v1/organizations/cost_report（要 Admin Key，金额按美分算）\n</string>
+    <string name="dep_svc_volc">• 火山方舟      POST https://billing.volcengineapi.com（AK|SK 走 HMAC-SHA256 签名）\n</string>
+    <string name="dep_svc_kimicode">• Kimi Code     GET https://api.kimi.com/coding/v1/usages（套餐还剩多少）\n</string>
+    <string name="dep_svc_glmcode">• GLM Coding    GET https://open.bigmodel.cn/api/monitor/usage/quota/limit（套餐还剩多少）\n</string>
+    <string name="dep_svc_codex">• Codex         GET https://chatgpt.com/backend-api/wham/usage（Bearer + Account-Id）\n</string>
+    <string name="dep_svc_openai">• OpenAI        组织成本接口要 Admin Key，默认不进可选列表\n</string>
+    <string name="dep_svc_custom">• 自定义服务商：地址、认证方式和余额字段由你自己填\n</string>
+    <string name="dep_license_agpl">• 本项目按 AGPL-3.0 发布，源码公开可查\n</string>
+    <string name="dep_license_avatar">• 开发者头像来自 GitHub 公开头像接口 github.com/RXHrxh520.png，只作展示\n</string>
+    <string name="dep_license_fx">• 汇率默认按离线近似算，想用自定义汇率地址也可以自己填\n</string>
 </resources>

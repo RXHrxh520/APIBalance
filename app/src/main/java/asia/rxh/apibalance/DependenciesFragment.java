@@ -47,43 +47,41 @@ public class DependenciesFragment extends Fragment {
         sb.append("• Gradle 9.8.2\n");
         sb.append("• Android Gradle Plugin 9.4.0\n");
         sb.append("• Android SDK build-tools 37.0.0（aapt2 / d8 / zipalign）\n");
-        sb.append("• R8 / ProGuard（release 混淆与裁剪）\n\n");
+        sb.append(getString(R.string.dep_build_r8));
 
         // ===== 运行时依赖 =====
         sb.append(getString(R.string.dep_section_runtime)).append("\n");
-        sb.append("• OkHttp 4.12.1（Apache License 2.0）——HTTP 客户端\n");
-        sb.append("• Gson 2.14.0（Apache License 2.0）——JSON 解析\n");
-        sb.append("• 其余功能（图表、图表动画、骨架屏、主题）均为本项目自绘，无第三方 UI 库\n\n");
+        sb.append(getString(R.string.dep_runtime_okhttp));
+        sb.append(getString(R.string.dep_runtime_gson));
+        sb.append(getString(R.string.dep_runtime_selfmade));
 
         // ===== 平台能力 =====
         sb.append(getString(R.string.dep_section_platform)).append("\n");
         sb.append("• Android API 37（minSdk 26 / targetSdk 37 / compileSdk 37）\n");
-        sb.append("• Android Keystore + AES/GCM（API Key 本地加密存储）\n");
-        sb.append("• 平台 BiometricPrompt（指纹/人脸解锁，API 28+）\n");
-        sb.append("• AlarmManager（定时刷新，系统可能延迟）\n");
+        sb.append(getString(R.string.dep_platform_keystore));
+        sb.append(getString(R.string.dep_platform_biometric));
+        sb.append(getString(R.string.dep_platform_alarm));
         sb.append("• MediaStore / ShortcutManager / WindowManager / NotificationManager\n\n");
 
         // ===== 服务商接口 =====
         sb.append(getString(R.string.dep_section_service)).append("\n");
-        sb.append("• DeepSeek      GET https://api.deepseek.com/user/balance（Bearer）\n");
-        sb.append("• Kimi          GET https://api.moonshot.cn/v1/users/me/balance（Bearer）\n");
-        sb.append("• 智谱 GLM      GET https://open.bigmodel.cn/api/biz/account/query-customer-account-report");
-        sb.append("（新密钥直传 / 旧 id.secret 现场签 JWT）\n");
-        sb.append("• Anthropic     GET https://api.anthropic.com/v1/organizations/cost_report");
-        sb.append("（需 Admin Key，金额单位为美分）\n");
-        sb.append("• 火山方舟      POST https://billing.volcengineapi.com（AK|SK HMAC-SHA256 签名）\n");
-        sb.append("• Kimi Code     GET https://api.kimi.com/coding/v1/usages（套餐配额）\n");
-        sb.append("• GLM Coding    GET https://open.bigmodel.cn/api/monitor/usage/quota/limit（套餐配额）\n");
-        sb.append("• Codex         GET https://chatgpt.com/backend-api/wham/usage（Bearer + Account-Id）\n");
-        sb.append("• OpenAI        需 Admin Key 的组织成本接口，默认不出现在可选列表\n");
-        sb.append("• 自定义服务商：由用户自行填写地址、认证方式与余额字段路径\n\n");
+        sb.append(getString(R.string.dep_svc_deepseek));
+        sb.append(getString(R.string.dep_svc_kimi));
+        sb.append(getString(R.string.dep_svc_glm));
+        sb.append(getString(R.string.dep_svc_anthropic));
+        sb.append(getString(R.string.dep_svc_volc));
+        sb.append(getString(R.string.dep_svc_kimicode));
+        sb.append(getString(R.string.dep_svc_glmcode));
+        sb.append(getString(R.string.dep_svc_codex));
+        sb.append(getString(R.string.dep_svc_openai));
+        sb.append(getString(R.string.dep_svc_custom)).append("\n");
 
         // ===== 许可与合规 =====
         sb.append(getString(R.string.dep_section_license)).append("\n");
-        sb.append("• 本项目以 AGPL-3.0 分发，源码公开可查\n");
-        sb.append("• 开发者头像取自 GitHub 公开头像接口 github.com/RXHrxh520.png，仅做展示\n");
+        sb.append(getString(R.string.dep_license_agpl));
+        sb.append(getString(R.string.dep_license_avatar));
         sb.append("• ").append(getString(R.string.dep_note_no_tracking)).append("\n");
-        sb.append("• 汇率换算默认离线近似，若使用自定义汇率地址则由用户自行提供\n\n");
+        sb.append(getString(R.string.dep_license_fx));
         TextView tv = view.findViewById(R.id.tv_deps);
         tv.setText(sb.toString());
 
