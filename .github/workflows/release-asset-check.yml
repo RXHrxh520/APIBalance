@@ -1,0 +1,25 @@
+name: 发布资产核验
+on:
+  release:
+    types: [published]
+permissions:
+  contents: read
+  issues: write
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/github-script@v7
+        with:
+          script: |
+            const assets = context.payload.release.assets || [];
+            const hasApk = assets.some(a => a.name.toLowerCase().endsWith('.apk'));
+            if (!hasApk) {
+              await github.rest.issues.create({
+                owner: context.repo.owner, repo: context.repo.repo,
+                title: '发布缺少 APK 资产：' + context.payload.release.tag_name,
+                body: '该 Release 未检测到 .apk 附件，下载页会失效，请补传。'
+              });
+            } else {
+              console.log('资产核验通过：' + assets.map(a => a.name).join(', '));
+            }

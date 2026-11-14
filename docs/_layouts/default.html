@@ -5,13 +5,14 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>{{ page.title | default: site.title }}</title>
 <meta name="description" content="{{ page.description | default: site.description }}">
+<link rel="icon" href="{{ site.baseurl }}/assets/brand/logo.png">
 <link rel="stylesheet" href="{{ site.baseurl }}/assets/css/style.css">
 </head>
 <body>
 <header class="site-header">
   <div class="wrap header-inner">
     <div class="brand">
-      <a href="{{ site.baseurl }}/" class="brand-name">APIBalance</a>
+      <a href="{{ site.baseurl }/" class="brand-name"><img class="logo" src="{{ site.baseurl }}/assets/brand/logo.png" alt="APIBalance">APIBalance</a>
       <span class="brand-sub">Android · 多服务商余额查询</span>
     </div>
     <nav class="nav">

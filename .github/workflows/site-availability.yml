@@ -1,0 +1,37 @@
+name: 线上站点可用性监测
+on:
+  schedule:
+    - cron: '0 22 * * *'
+  workflow_dispatch:
+permissions:
+  contents: read
+  issues: write
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    steps:
+      - name: 逐页探测文档站
+        id: probe
+        run: |
+          set -u
+          base="https://rxhrxh520.github.io/APIBalance"
+          fail=0
+          out=""
+          for p in "" features.html faq.html errors.html permissions.html security.html build.html roadmap.html 404.html; do
+            code=$(curl -s -o /dev/null -w '%{http_code}' --max-time 25 --retry 2 --retry-delay 3 "$base/$p")
+            out="$out\n| /$p | $code |"
+            case "$code" in 200|404) ;; *) fail=1 ;; esac
+          done
+          echo -e "$out"
+          echo "fail=$fail" >> "$GITHUB_OUTPUT"
+      - name: 异常时开 Issue 提醒
+        if: steps.probe.outputs.fail == '1'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            await github.rest.issues.create({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              title: '文档站可用性异常 ' + new Date().toISOString().slice(0,10),
+              body: '每日探测发现部分页面未返回 200，请查看 Actions 运行日志。'
+            })
