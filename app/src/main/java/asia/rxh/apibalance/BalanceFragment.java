@@ -107,8 +107,8 @@ public class BalanceFragment extends Fragment {
         tvProviderTitle.setText(startProvider.name + " · " + startProvider.modeLabel);
         tvProviderTitle.setTextColor(ThemePrefs.getColor(getActivity()));
         if (tvTotalLabel != null) {
-            tvTotalLabel.setText(startProvider.isQuotaMode() ? "套餐剩余"
-                    : startProvider.isCostMode() ? "累计成本"
+            tvTotalLabel.setText(startProvider.isQuotaMode() ? getString(R.string.quota_left_label)
+                    : startProvider.isCostMode() ? getString(R.string.cost_total_label)
                     : getString(R.string.str_012));
         }
         if (startProvider.isCostMode() || startProvider.isQuotaMode()) {
@@ -286,9 +286,9 @@ public class BalanceFragment extends Fragment {
         }
         ProviderConfig.Provider provider = ProviderConfig.get(getActivity(), providerId);
         tvCurrencySymbol.setVisibility(View.VISIBLE);
-        tvTotalLabel.setText(provider.isCostMode() ? "累计成本" : getString(R.string.str_012));
-        tvGrantedLabel.setText(provider.isCostMode() ? "说明" : getString(R.string.str_018));
-        tvToppedLabel.setText(provider.isCostMode() ? "说明" : getString(R.string.str_019));
+        tvTotalLabel.setText(provider.isCostMode() ? getString(R.string.cost_total_label) : getString(R.string.str_012));
+        tvGrantedLabel.setText(provider.isCostMode() ? getString(R.string.cost_note_label) : getString(R.string.str_018));
+        tvToppedLabel.setText(provider.isCostMode() ? getString(R.string.cost_note_label) : getString(R.string.str_019));
         if (cardDetails != null) cardDetails.setVisibility(provider.isCostMode() ? View.GONE : View.VISIBLE);
         if (cardPeak != null && provider.isCostMode()) cardPeak.setVisibility(View.GONE);
 
@@ -298,7 +298,7 @@ public class BalanceFragment extends Fragment {
         lastGranted = conv[1];
         lastTopped = conv[2];
 
-        tvCurrency.setText(provider.isCostMode() ? "本月至今 · " + lastCurrency : currencyLabel(result.currency));
+        tvCurrency.setText(provider.isCostMode() ? getString(R.string.cost_since_month) + " · " + lastCurrency : currencyLabel(result.currency));
         String symbol = lastCurrency.contains("CNY") ? "¥" : "$";
         tvCurrencySymbol.setText(symbol);
 
@@ -347,14 +347,14 @@ public class BalanceFragment extends Fragment {
         }
         ProviderConfig.Provider provider = ProviderConfig.get(getActivity(), providerId);
         tvCurrencySymbol.setVisibility(View.VISIBLE);
-        tvTotalLabel.setText(provider.isCostMode() ? "累计成本" : getString(R.string.str_012));
-        tvGrantedLabel.setText(provider.isCostMode() ? "说明" : getString(R.string.str_018));
-        tvToppedLabel.setText(provider.isCostMode() ? "说明" : getString(R.string.str_019));
+        tvTotalLabel.setText(provider.isCostMode() ? getString(R.string.cost_total_label) : getString(R.string.str_012));
+        tvGrantedLabel.setText(provider.isCostMode() ? getString(R.string.cost_note_label) : getString(R.string.str_018));
+        tvToppedLabel.setText(provider.isCostMode() ? getString(R.string.cost_note_label) : getString(R.string.str_019));
         if (cardDetails != null) {
             cardDetails.setVisibility(provider.isCostMode() ? View.GONE : View.VISIBLE);
         }
         double[] conv = convertBalance(result);
-        tvCurrency.setText(provider.isCostMode() ? "本月至今 · " + currencyLabel(result.currency)
+        tvCurrency.setText(provider.isCostMode() ? getString(R.string.cost_since_month) + " · " + currencyLabel(result.currency)
                 : currencyLabel(result.currency));
         String symbol = currencyLabel(result.currency).contains("CNY") ? "¥" : "$";
         tvCurrencySymbol.setText(symbol);

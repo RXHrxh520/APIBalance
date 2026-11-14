@@ -1077,4 +1077,11 @@
     <string name="key_hint_glm_code">GLM Coding Key（sk-、数字、字母均可）</string>
     <string name="key_hint_anthropic">Anthropic Admin Key（sk-ant-admin…）</string>
     <string name="err_provider_response">服务商返回的数据不完整，接口可能已变更</string>
+    <string name="cost_total_label">花掉多少</string>
+    <string name="cost_note_label">说明</string>
+    <string name="cost_since_month">这个月到现在</string>
+    <string name="cost_admin_hint">这家只报花掉多少，不报余额。要用 Admin Key（Anthropic 是 sk-ant-admin…，OpenAI 是 sk-admin-…），普通钥匙会被挡回来。</string>
+    <string name="cost_hint_title">这查的是花销，不是余额</string>
+    <string name="cost_hint_ok">知道啦</string>
+    <string name="quota_left_label">还剩多少</string>
 </resources>

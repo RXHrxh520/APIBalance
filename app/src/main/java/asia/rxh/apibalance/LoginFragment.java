@@ -293,7 +293,38 @@ public class LoginFragment extends Fragment {
                     providerId = ids[pos];
                     tvProvider.setText(opts[pos]);
                     applyKeyHint();
+                    maybeShowCostHint(providerId);
                 }));
+    }
+
+    /**
+     * 成本型服务商（Anthropic / OpenAI）只有「花了多少」，没有余额。
+     * 简体中文用户首次选到这类服务商时说明一次，避免把成本当成余额；
+     * 同时提醒需要 Admin Key，普通密钥必然 403。
+     */
+    private void maybeShowCostHint(int pid) {
+        try {
+            if (getActivity() == null) return;
+            ProviderConfig.Provider p = ProviderConfig.get(getActivity(), pid);
+            if (!p.isCostMode()) return;
+            java.util.Locale loc = java.util.Locale.getDefault();
+            boolean simplified = "zh".equals(loc.getLanguage())
+                    && !"TW".equalsIgnoreCase(loc.getCountry())
+                    && !"HK".equalsIgnoreCase(loc.getCountry())
+                    && !"MO".equalsIgnoreCase(loc.getCountry());
+            if (!simplified) return;
+            String key = "cost_hint_shown_" + pid;
+            android.content.SharedPreferences sp = getActivity()
+                    .getSharedPreferences("provider_hints", android.content.Context.MODE_PRIVATE);
+            if (sp.getBoolean(key, false)) return;
+            sp.edit().putBoolean(key, true).apply();
+            UiDialog.showConfirm(getActivity(),
+                    getString(R.string.cost_hint_title),
+                    getString(R.string.cost_admin_hint),
+                    getString(R.string.cost_hint_ok),
+                    null, null, null);
+        } catch (Throwable ignored) {
+        }
     }
 
     /** 配置自定义供应商：名→URL→认证方式→币种→余额字段路径，逐项输入并严格校验。 */

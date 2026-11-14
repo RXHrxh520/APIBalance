@@ -1098,4 +1098,11 @@ For learning only. Author is not liable for API misuse.</string>
     <string name="share_style_minimal">Minimal white</string>
     <string name="share_style_theme">Follow theme accent color</string>
     <string name="share_style_saved">Card color updated</string>
+    <string name="cost_total_label">Cost so far</string>
+    <string name="cost_note_label">Note</string>
+    <string name="cost_since_month">This month</string>
+    <string name="cost_admin_hint">This provider reports cost, not balance. It needs an Admin key (Anthropic: sk-ant-admin…, OpenAI: sk-admin-…); a normal key returns 403.</string>
+    <string name="cost_hint_title">This reports cost, not balance</string>
+    <string name="cost_hint_ok">Got it</string>
+    <string name="quota_left_label">Plan left</string>
 </resources>
