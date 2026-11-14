@@ -980,9 +980,9 @@
     <string name="donate_qr_placeholder">二維碼佔位</string>
     <string name="donate_placeholder_note">收款碼尚未接入，此處僅保留版面位置，不會展示任何真實賬戶資訊。</string>
     <string name="exp_title">實驗性功能</string>
-    <string name="exp_desc">這裏的開關都還在試驗階段，行爲和界面都可能隨版本調整。開啓前請先閱讀風險說明。</string>
+    <string name="exp_desc">這些功能仍在實驗階段，可能隨版本調整或移除。開啟前會先說明風險；界面異常時回到本頁關掉開關即可恢復。</string>
     <string name="exp_md3_title">啓用 MD3 組件</string>
-    <string name="exp_md3_desc">使用 Material Design 3 風格的圓角與色調錶面</string>
+    <string name="exp_md3_desc">把部分卡片換成 Material 3 的圓角與色調表面，只影響外觀，不改變查詢邏輯。</string>
     <string name="exp_risk_title">風險協議</string>
     <string name="exp_risk_body">實驗性功能可能帶來以下影響：
 
@@ -1034,16 +1034,16 @@
     <string name="emergency_done_title">備份完成</string>
     <string name="emergency_failed">緊急備份失敗，請稍後重試</string>
     <string name="exp_emergency_title">允許緊急備份</string>
-    <string name="exp_emergency_desc">崩潰頁無密碼時可用一次性口令導出</string>
-    <string name="exp_responsive_title">響應式設定佈局</string>
-    <string name="exp_responsive_desc">平板/摺疊屏使用側邊或頂部導航</string>
+    <string name="exp_emergency_desc">忘記密碼、進不了應用時，用一次性口令匯出加密備份；檔案裡有金鑰，拿到檔案和口令的人都能恢復。</string>
+    <string name="exp_responsive_title">響應式設定導覽</string>
+    <string name="exp_responsive_desc">僅在螢幕最短邊 ≥ 600dp 的平板／摺疊機生效，把設定導覽放到左側或頂部；手機仍固定在底部。</string>
     <string name="exp_nav_bottom">底部</string>
-    <string name="exp_nav_position_title">設定導航位置</string>
+    <string name="exp_nav_position_title">設定頁導覽位置</string>
     <string name="exp_nav_left">左側</string>
     <string name="exp_nav_top">頂部</string>
     <string name="exp_nav_right">右側</string>
     <string name="exp_back_guard_title">返回二次確認</string>
-    <string name="exp_back_guard_desc">首頁側滑/返回需連按兩次才退出</string>
+    <string name="exp_back_guard_desc">首頁返回需連按兩次才退出，避免側滑誤觸直接關閉。</string>
     <string name="share_style_button">換配色</string>
     <string name="share_template_button">換文案</string>
     <string name="share_style_orange">暖橙</string>

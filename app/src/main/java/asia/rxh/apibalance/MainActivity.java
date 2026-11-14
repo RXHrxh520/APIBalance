@@ -311,13 +311,19 @@ public class MainActivity extends Activity {
             if (nav == null || !(nav.getParent() instanceof android.widget.LinearLayout)) return;
             android.widget.LinearLayout root = (android.widget.LinearLayout) nav.getParent();
             View container = findViewById(R.id.container);
-            int pos = AppPrefs.isResponsiveSettings(this)
-                    ? AppPrefs.getSettingsNavPosition(this) : 0;
+            // 响应式导航只对平板/折叠屏有意义；手机（最短边 < 600dp）强制底部，
+            // 避免把 0dp 宽的横向 tab 塞进竖排导航后变成一条点不动的空栏。
+            int pos = 0;
+            if (AppPrefs.isResponsiveSettings(this)
+                    && getResources().getConfiguration().smallestScreenWidthDp >= 600) {
+                pos = AppPrefs.getSettingsNavPosition(this);
+            }
             root.removeAllViews();
             boolean horizontalBar = (pos == 0 || pos == 1);
             nav.setOrientation(horizontalBar
                     ? android.widget.LinearLayout.HORIZONTAL
                     : android.widget.LinearLayout.VERTICAL);
+            applyNavChildLayout(nav, !horizontalBar);
             if (pos == 0) {
                 root.setOrientation(android.widget.LinearLayout.VERTICAL);
                 root.addView(container, new android.widget.LinearLayout.LayoutParams(
@@ -344,6 +350,30 @@ public class MainActivity extends Activity {
                         dp(72), android.view.ViewGroup.LayoutParams.MATCH_PARENT));
             }
         } catch (Throwable ignored) {
+        }
+    }
+
+    /** 横排 tab 用 0dp 宽 + weight 平分；竖排必须改成撑满宽 + 0dp 高 + weight，否则宽为 0 不可见也点不到。 */
+    private void applyNavChildLayout(android.widget.LinearLayout nav, boolean vertical) {
+        for (int i = 0; i < nav.getChildCount(); i++) {
+            View child = nav.getChildAt(i);
+            android.widget.LinearLayout.LayoutParams lp;
+            if (child.getLayoutParams() instanceof android.widget.LinearLayout.LayoutParams) {
+                lp = (android.widget.LinearLayout.LayoutParams) child.getLayoutParams();
+            } else {
+                lp = new android.widget.LinearLayout.LayoutParams(
+                        android.view.ViewGroup.LayoutParams.MATCH_PARENT,
+                        android.view.ViewGroup.LayoutParams.MATCH_PARENT);
+            }
+            if (vertical) {
+                lp.width = android.view.ViewGroup.LayoutParams.MATCH_PARENT;
+                lp.height = 0;
+            } else {
+                lp.width = 0;
+                lp.height = android.view.ViewGroup.LayoutParams.MATCH_PARENT;
+            }
+            lp.weight = 1f;
+            child.setLayoutParams(lp);
         }
     }
 
