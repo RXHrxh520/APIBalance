@@ -239,6 +239,9 @@ public final class NetworkClient {
             case ProviderConfig.AUTH_RAW:
                 rb.header("Authorization", clean);
                 break;
+            case ProviderConfig.AUTH_GLM:
+                rb.header("Authorization", GlmAuth.authorization(clean));
+                break;
             case ProviderConfig.AUTH_CODEX: {
                 String[] parts = clean.split("\\|", 2);
                 rb.header("Authorization", "Bearer " + parts[0].trim());
@@ -383,6 +386,9 @@ public final class NetworkClient {
                 break;
             case ProviderConfig.AUTH_RAW:
                 conn.setRequestProperty("Authorization", key);
+                break;
+            case ProviderConfig.AUTH_GLM:
+                conn.setRequestProperty("Authorization", GlmAuth.authorization(key));
                 break;
             case ProviderConfig.AUTH_CODEX: {
                 String[] parts = key.split("\\|", 2);

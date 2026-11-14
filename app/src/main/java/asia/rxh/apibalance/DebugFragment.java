@@ -356,8 +356,7 @@ public class DebugFragment extends Fragment {
         showProgress("probing endpoints...");
         new Thread(() -> {
             StringBuilder sb = new StringBuilder();
-            for (int i = 0; i < ProviderConfig.count(); i++) {
-                ProviderConfig.Provider p = ProviderConfig.get(i);
+            for (ProviderConfig.Provider p : ProviderConfig.list()) {
                 String status;
                 try {
                     HttpURLConnection conn = (HttpURLConnection) new URL(p.balanceUrl).openConnection();
