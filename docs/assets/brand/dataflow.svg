@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1120 460" width="1120" height="460" role="img" aria-label="APIBalance 数据流向：本机加密存储，直连各家官方 API">
+  <defs>
+    <linearGradient id="g1" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#0b1220"/><stop offset="1" stop-color="#1b3f6b"/>
+    </linearGradient>
+  </defs>
+  <rect x="0" y="0" width="1120" height="460" rx="18" fill="#f6f8fc"/>
+  <rect x="40" y="52" width="300" height="356" rx="16" fill="url(#g1)"/>
+  <text x="190" y="96" fill="#ffffff" font-family="system-ui,-apple-system,'PingFang SC',sans-serif" font-size="20" font-weight="700" text-anchor="middle">APIBalance</text>
+  <text x="190" y="122" fill="#9fc2ef" font-family="system-ui,'PingFang SC',sans-serif" font-size="13" text-anchor="middle">运行在你的手机上</text>
+  <rect x="88" y="146" width="204" height="76" rx="12" fill="rgba(255,255,255,.08)" stroke="rgba(255,255,255,.18)"/>
+  <text x="190" y="176" fill="#ffffff" font-family="system-ui,'PingFang SC',sans-serif" font-size="14" text-anchor="middle">API Key 加密存储</text>
+  <text x="190" y="200" fill="#8fd3c7" font-family="system-ui,'PingFang SC',sans-serif" font-size="12" text-anchor="middle">Android Keystore · AES/GCM</text>
+  <rect x="88" y="238" width="204" height="76" rx="12" fill="rgba(255,255,255,.08)" stroke="rgba(255,255,255,.18)"/>
+  <text x="190" y="268" fill="#ffffff" font-family="system-ui,'PingFang SC',sans-serif" font-size="14" text-anchor="middle">只读余额与配额</text>
+  <text x="190" y="292" fill="#9fc2ef" font-family="system-ui,'PingFang SC',sans-serif" font-size="12" text-anchor="middle">不转发对话、不做代理</text>
+  <text x="190" y="356" fill="#7f8ea3" font-family="system-ui,'PingFang SC',sans-serif" font-size="12" text-anchor="middle">无中转服务器 · 无后端</text>
+
+  <path d="M350 200 H470" stroke="#4ea1ff" stroke-width="2" fill="none"/>
+  <path d="M462 194 L472 200 L462 206" stroke="#4ea1ff" stroke-width="2" fill="none"/>
+  <text x="410" y="188" fill="#5b6478" font-family="system-ui,'PingFang SC',sans-serif" font-size="12" text-anchor="middle">HTTPS 直连</text>
+
+  <rect x="480" y="70" width="580" height="330" rx="16" fill="#ffffff" stroke="#e6e9f0"/>
+  <text x="506" y="104" fill="#0f1b33" font-family="system-ui,'PingFang SC',sans-serif" font-size="15" font-weight="700">各家官方接口（请求只发往这里）</text>
+  <rect x="506" y="124" width="256" height="48" rx="10" fill="#f2f6ff" stroke="#d8e3f6"/>
+  <text x="522" y="153" fill="#1b64c9" font-family="system-ui,sans-serif" font-size="14">DeepSeek · api.deepseek.com</text>
+  <rect x="778" y="124" width="256" height="48" rx="10" fill="#f2f6ff" stroke="#d8e3f6"/>
+  <text x="794" y="153" fill="#1b64c9" font-family="system-ui,sans-serif" font-size="14">Kimi · api.moonshot.ai</text>
+  <rect x="506" y="184" width="256" height="48" rx="10" fill="#f2f6ff" stroke="#d8e3f6"/>
+  <text x="522" y="213" fill="#1b64c9" font-family="system-ui,sans-serif" font-size="14">智谱 GLM · open.bigmodel.cn</text>
+  <rect x="778" y="184" width="256" height="48" rx="10" fill="#f2f6ff" stroke="#d8e3f6"/>
+  <text x="794" y="213" fill="#1b64c9" font-family="system-ui,sans-serif" font-size="14">Anthropic · api.anthropic.com</text>
+  <rect x="506" y="244" width="256" height="48" rx="10" fill="#f2f6ff" stroke="#d8e3f6"/>
+  <text x="522" y="273" fill="#1b64c9" font-family="system-ui,sans-serif" font-size="14">火山方舟 · 账户余额</text>
+  <rect x="778" y="244" width="256" height="48" rx="10" fill="#f2f6ff" stroke="#d8e3f6"/>
+  <text x="794" y="273" fill="#1b64c9" font-family="system-ui,sans-serif" font-size="14">Kimi Code / GLM Coding</text>
+  <rect x="506" y="310" width="528" height="64" rx="10" fill="#fff7e8" stroke="#f0dcae"/>
+  <text x="522" y="336" fill="#8a6220" font-family="system-ui,'PingFang SC',sans-serif" font-size="13">不会发生的事：上传密钥到第三方服务器、请求经过中转、读取你的聊天内容、</text>
+  <text x="522" y="358" fill="#8a6220" font-family="system-ui,'PingFang SC',sans-serif" font-size="13">向广告或统计 SDK 上报行为。</text>
+</svg>

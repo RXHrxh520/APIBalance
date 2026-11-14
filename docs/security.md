@@ -9,6 +9,8 @@ permalink: /security.html
 
 > 密钥怎么存、请求发到哪、备份怎么加密。由原说明书原样迁移。
 
+<div class="figure"><img src="assets/brand/dataflow.svg" alt="数据流向：本机加密存储，直连各家官方 API"></div>
+
 ## 概览：四条承诺
 
 - **密钥存储**：Android Keystore 生成 AES-256 密钥，AES/GCM 加密后存 SharedPreferences，明文不落盘（自动登录 Key 与多账户 Key 均加密）

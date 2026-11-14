@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1120 300" width="1120" height="300" role="img" aria-label="三步上手：下载安装、粘贴 Key、打开查看余额">
+  <rect x="0" y="0" width="1120" height="300" rx="18" fill="#f6f8fc"/>
+  <g font-family="system-ui,-apple-system,'PingFang SC',sans-serif">
+    <rect x="40" y="52" width="320" height="196" rx="14" fill="#ffffff" stroke="#e6e9f0"/>
+    <circle cx="76" cy="92" r="18" fill="#1b64c9"/>
+    <text x="76" y="98" fill="#fff" font-size="16" font-weight="700" text-anchor="middle">1</text>
+    <text x="106" y="98" fill="#0f1b33" font-size="17" font-weight="700">下载并安装</text>
+    <text x="72" y="140" fill="#5b6478" font-size="13">从 Releases 取最新 APK，</text>
+    <text x="72" y="164" fill="#5b6478" font-size="13">允许「安装未知来源应用」。</text>
+    <text x="72" y="206" fill="#98a1b3" font-size="12">覆盖安装会保留原有数据</text>
+
+    <rect x="400" y="52" width="320" height="196" rx="14" fill="#ffffff" stroke="#e6e9f0"/>
+    <circle cx="436" cy="92" r="18" fill="#1b64c9"/>
+    <text x="436" y="98" fill="#fff" font-size="16" font-weight="700" text-anchor="middle">2</text>
+    <text x="466" y="98" fill="#0f1b33" font-size="17" font-weight="700">粘贴 API Key</text>
+    <text x="432" y="140" fill="#5b6478" font-size="13">到各家控制台新建 Key，</text>
+    <text x="432" y="164" fill="#5b6478" font-size="13">粘贴进 App，可选命名保存。</text>
+    <text x="432" y="206" fill="#98a1b3" font-size="12">Key 经系统级加密，只存本机</text>
+
+    <rect x="760" y="52" width="320" height="196" rx="14" fill="#ffffff" stroke="#e6e9f0"/>
+    <circle cx="796" cy="92" r="18" fill="#1b64c9"/>
+    <text x="796" y="98" fill="#fff" font-size="16" font-weight="700" text-anchor="middle">3</text>
+    <text x="826" y="98" fill="#0f1b33" font-size="17" font-weight="700">打开就看见余额</text>
+    <text x="792" y="140" fill="#5b6478" font-size="13">想要更省事：开定时刷新、</text>
+    <text x="792" y="164" fill="#5b6478" font-size="13">加桌面小组件或悬浮球。</text>
+    <text x="792" y="206" fill="#98a1b3" font-size="12">套餐类显示周期剩余，不作金额</text>
+  </g>
+  <path d="M378 150 L396 150" stroke="#cdd8ea" stroke-width="2"/><path d="M738 150 L756 150" stroke="#cdd8ea" stroke-width="2"/>
+</svg>

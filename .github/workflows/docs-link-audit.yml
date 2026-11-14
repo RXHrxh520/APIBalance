@@ -1,0 +1,18 @@
+name: 文档链接巡检
+on:
+  schedule:
+    - cron: '30 1 * * 1'
+  workflow_dispatch:
+permissions:
+  contents: read
+  issues: write
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: 扫描 README 与 docs 的外链
+        uses: lycheeverse/lychee-action@v2
+        with:
+          args: --no-progress --max-concurrency 4 --accept 200,206,429 --format markdown './README.md' './docs/**/*.md'
+          fail: false

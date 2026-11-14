@@ -1,4 +1,4 @@
-name: 文档自检
+name: 文档质量检查
 on:
   push:
     paths:
@@ -8,13 +8,18 @@ on:
     paths:
       - 'docs/**'
   workflow_dispatch:
+concurrency:
+  group: docs-quality-${{ github.ref }}
+  cancel-in-progress: true
+permissions:
+  contents: read
 jobs:
-  check:
+  validate:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
         with:
           python-version: '3.x'
-      - name: 检查 front matter、permalink、站内链接
+      - name: 校验 front matter / permalink / 站内链接
         run: python3 scripts/check-docs.py
