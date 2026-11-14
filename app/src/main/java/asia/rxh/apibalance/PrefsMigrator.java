@@ -74,6 +74,7 @@ public final class PrefsMigrator {
         }
     }
 
+    @SuppressWarnings("unchecked")
     private static void copy(Context ctx, String from, String to) {
         try {
             SharedPreferences oldSp = ctx.getSharedPreferences(from, Context.MODE_PRIVATE);

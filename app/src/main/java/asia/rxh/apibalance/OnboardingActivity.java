@@ -515,12 +515,31 @@ public class OnboardingActivity extends Activity {
         tvN.setTextColor(ThemeUtils.textPrimary(this));
         tvN.setPadding(0, dp(10), 0, dp(10));
         tvN.setText(getString(R.string.onb_perm_notif) + "：" + (notif ? getString(R.string.onb_perm_granted) : getString(R.string.onb_perm_denied)));
+        if (!notif) {
+            tvN.setClickable(true);
+            tvN.setOnClickListener(v -> {
+                if (android.os.Build.VERSION.SDK_INT >= 33) {
+                    requestPermissions(new String[]{android.Manifest.permission.POST_NOTIFICATIONS}, 9002);
+                }
+            });
+        }
         root.addView(tvN);
         TextView tvO = new TextView(this);
         tvO.setTextSize(15);
         tvO.setTextColor(ThemeUtils.textPrimary(this));
         tvO.setPadding(0, dp(10), 0, dp(10));
         tvO.setText(getString(R.string.onb_perm_overlay) + "：" + (overlay ? getString(R.string.onb_perm_granted) : getString(R.string.onb_perm_denied)));
+        if (!overlay) {
+            tvO.setClickable(true);
+            tvO.setOnClickListener(v -> {
+                try {
+                    startActivity(new android.content.Intent(
+                            android.provider.Settings.ACTION_MANAGE_OVERLAY_PERMISSION,
+                            android.net.Uri.parse("package:" + getPackageName())));
+                } catch (Throwable ignored) {
+                }
+            });
+        }
         root.addView(tvO);
         TextView tvTip = new TextView(this);
         tvTip.setTextSize(13);
