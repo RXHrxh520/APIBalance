@@ -41,10 +41,10 @@ public final class MoneyFmt {
         try {
             BigDecimal exact = BigDecimal.valueOf(value);
             BigDecimal two = exact.setScale(2, RoundingMode.HALF_UP);
-            if (two.signum() == 0 && value < 0) {
-                // 欠费不足一分钱：保留四位，去掉多余的零
+            if (two.signum() == 0 && value != 0) {
+                // 不足一分钱（正负都算）：保留四位并去掉末尾零，别显示成 0.00
                 BigDecimal fine = exact.setScale(4, RoundingMode.HALF_UP);
-                if (fine.signum() == 0 && exact.signum() != 0) {
+                if (fine.signum() == 0) {
                     return exact.stripTrailingZeros().toPlainString();
                 }
                 return fine.stripTrailingZeros().toPlainString();
@@ -55,10 +55,8 @@ public final class MoneyFmt {
         }
     }
 
-    /** 带符号前缀，例如 ¥-0.0031。 */
+    /** 带符号前缀，例如 ¥-0.0031；负号由数字本身携带，避免出现 ¥--0.01。 */
     public static String withSymbol(String symbol, double value) {
-        String text = format(value);
-        if (text.startsWith("-")) return symbol + text;
-        return symbol + text;
+        return symbol + format(value);
     }
 }

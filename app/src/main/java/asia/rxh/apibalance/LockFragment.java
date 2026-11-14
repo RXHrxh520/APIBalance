@@ -170,6 +170,11 @@ public class LockFragment extends Fragment {
                 return;
             }
             PrivacyPrefs.setPassword(getActivity(), pw);
+            if (!PrivacyPrefs.hasPassword(getActivity())) {
+                showError(getString(R.string.lock_wrong));
+                input.setLength(0);
+                return;
+            }
             PrivacyPrefs.setLockEnabled(getActivity(), true);
             Toast.makeText(getActivity(), getString(R.string.lock_set_done), Toast.LENGTH_SHORT).show();
             unlock();

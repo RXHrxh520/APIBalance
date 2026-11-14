@@ -31,6 +31,54 @@ permalink: /build.html
 RXH_STORE_FILE / RXH_STORE_PASS / RXH_KEY_ALIAS / RXH_KEY_PASS，
 口令缺失会直接报错终止，不会产出未签名或错误签名的包。开源分发时请使用你自己的密钥库。
 
+## 用你自己的证书签名，怎么让应用认这个包
+
+自编译出来的 APK 用的是**你自己的证书**，而应用内有两处地方按「官方证书指纹」做判断：
+
+| 位置 | 作用 |
+|---|---|
+| `EnvChecker.java` 里的 `OFFICIAL_CERT_SHA256` | 安全中心判断「当前安装包是不是官方签名」，不匹配会提示被重新打包 |
+| `UpdateChecker.java` 的 `verifySignature()` | 应用内更新下载完 APK 后校验签名，不匹配直接拒绝安装 |
+
+**所以自编译包要改的只有一处**——`EnvChecker.java` 第 41–43 行附近那个常量：
+
+```java
+static final String OFFICIAL_CERT_SHA256 =
+        "AA:BB:CC:...";   // 换成你自己证书的 SHA-256
+```
+
+### 怎么拿到自己证书的 SHA-256
+
+用 JDK 自带的 `keytool`（把路径换成你的 keystore）：
+
+```bash
+keytool -list -v -keystore my-release.jks -alias mykey -storepass 你的口令
+```
+
+输出里找 `Certificate fingerprints:` 下面的 `SHA256:` 那一行，格式是
+`AA:BB:CC:...`（32 组、每组两位十六进制、大写、冒号分隔）。
+
+也可以直接查已编译出来的包：
+
+```bash
+apksigner verify --print-certs app-release.apk
+```
+
+### 改完之后会发生什么
+
+- 你自己的包：安全中心显示「官方签名」，应用内更新可以装**用同一证书签的**新版本；
+- 官方包：用你的证书签的包会被应用内更新拒绝——**这是预期行为**，不是 bug；
+- 想同时接受官方与自己的两个证书：把 `verifySignature()` 里的比较逻辑改成「命中任一指纹即通过」。
+  当前代码已支持多签名（遍历 `sigs`），只需再补一个常量数组即可。
+
+### 两个容易踩的坑
+
+1. **debug 构建也走 release 签名配置**。没配 `keystore.properties` 时，连 `./gradlew assembleDebug`
+   都会因为找不到密钥库而失败。想跑调试，先在根目录放一份 `keystore.properties`（模板见
+   `keystore.properties.example`），或者临时把 `app/build.gradle` 里的 `signingConfig` 换回 debug。
+2. **证书换了就不能覆盖安装**。Android 只允许同证书升级；从官方版换到自编译版必须先卸载，
+   卸载会清掉应用私有目录里的密钥与历史，装之前先做一次备份。
+
 ## 目录结构
 
 ```

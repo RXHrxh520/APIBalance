@@ -275,13 +275,17 @@ public final class UpdateChecker {
             }
             if (sigs == null || sigs.length == 0) return false;
             MessageDigest md = MessageDigest.getInstance("SHA-256");
-            byte[] d = md.digest(sigs[0].toByteArray());
-            StringBuilder sb = new StringBuilder();
-            for (int i = 0; i < d.length; i++) {
-                if (i > 0) sb.append(':');
-                sb.append(String.format("%02X", d[i]));
+            // 多签名 / 证书轮换时，只要有一个签名对上官方指纹就算通过
+            for (Signature sig : sigs) {
+                byte[] d = md.digest(sig.toByteArray());
+                StringBuilder sb = new StringBuilder();
+                for (int i = 0; i < d.length; i++) {
+                    if (i > 0) sb.append(':');
+                    sb.append(String.format("%02X", d[i]));
+                }
+                if (sb.toString().equalsIgnoreCase(EnvChecker.OFFICIAL_CERT_SHA256)) return true;
             }
-            return sb.toString().equalsIgnoreCase(EnvChecker.OFFICIAL_CERT_SHA256);
+            return false;
         } catch (Throwable t) {
             return false;
         }

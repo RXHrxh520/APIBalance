@@ -404,16 +404,16 @@ public class BalanceFragment extends Fragment {
         ProviderConfig.Provider provider = ProviderConfig.get(getActivity(), providerId);
         tvProviderTitle.setTextColor(ThemePrefs.getColor(getActivity()));
         tvProviderTitle.setText(provider.name + " · " + provider.modeLabel);
-        tvTotalLabel.setText(result.mainLabel == null ? "套餐剩余" : result.mainLabel);
+        tvTotalLabel.setText(result.mainLabel == null ? getString(R.string.quota_left_label) : result.mainLabel);
         tvTotalBalance.setText(result.mainValue == null ? "—" : result.mainValue);
         tvCurrencySymbol.setVisibility(View.GONE);
         tvCurrency.setText(result.footer == null || result.footer.isEmpty()
-                ? "套餐配额" : result.footer);
+                ? getString(R.string.quota_footer_none) : result.footer);
         if (cardDetails != null) cardDetails.setVisibility(View.VISIBLE);
-        if (tvGrantedLabel != null) tvGrantedLabel.setText(result.subLabel == null ? "下一窗口" : result.subLabel);
+        if (tvGrantedLabel != null) tvGrantedLabel.setText(result.subLabel == null ? getString(R.string.quota_next_window) : result.subLabel);
         if (tvGrantedBalance != null) tvGrantedBalance.setText(result.subValue == null ? "—" : result.subValue);
-        if (tvToppedLabel != null) tvToppedLabel.setText("状态");
-        if (tvToppedUpBalance != null) tvToppedUpBalance.setText("套餐");
+        if (tvToppedLabel != null) tvToppedLabel.setText(getString(R.string.quota_status));
+        if (tvToppedUpBalance != null) tvToppedUpBalance.setText(getString(R.string.quota_plan));
         if (cardPeak != null) cardPeak.setVisibility(View.GONE);
         lastTotal = 0;
         lastGranted = 0;
