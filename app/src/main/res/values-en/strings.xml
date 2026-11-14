@@ -996,16 +996,16 @@ For learning only. Author is not liable for API misuse.</string>
     <string name="emergency_failed">Emergency backup failed; try again later</string>
 
     <string name="exp_emergency_title">Allow emergency backup</string>
-    <string name="exp_emergency_desc">Crash page may export with a one-time passphrase when no password is set</string>
-    <string name="exp_responsive_title">Responsive settings layout</string>
-    <string name="exp_responsive_desc">Use side or top navigation on tablets and foldables</string>
+    <string name="exp_emergency_desc">Export an encrypted backup with a one-time passphrase when you cannot unlock the app. The file contains keys; anyone with the file and passphrase can restore them.</string>
+    <string name="exp_responsive_title">Responsive settings navigation</string>
+    <string name="exp_responsive_desc">Only on tablets and foldables with smallest width ≥ 600dp: places settings navigation on the left or top. Phones stay on the bottom.</string>
     <string name="exp_nav_bottom">Bottom</string>
     <string name="exp_nav_position_title">Settings navigation position</string>
     <string name="exp_nav_left">Left</string>
     <string name="exp_nav_top">Top</string>
     <string name="exp_nav_right">Right</string>
     <string name="exp_back_guard_title">Confirm before exit</string>
-    <string name="exp_back_guard_desc">Require two back gestures on the home page</string>
+    <string name="exp_back_guard_desc">Require a second Back press on the home page to avoid accidental swipe-out.</string>
 
     <string name="share_style_button">Colors</string>
     <string name="share_template_button">Text</string>
@@ -1068,9 +1068,9 @@ For learning only. Author is not liable for API misuse.</string>
     <string name="donate_qr_placeholder">QR code placeholder</string>
     <string name="donate_placeholder_note">No payment code is connected yet. This space is reserved for layout only and never shows a real account.</string>
     <string name="exp_title">Experimental features</string>
-    <string name="exp_desc">These switches are still experimental; behavior and interface may change between versions. Read the risk notice before turning them on.</string>
+    <string name="exp_desc">These features are experimental and may change or be removed. A risk notice appears before enabling; if the UI misbehaves, turn the switch off on this page.</string>
     <string name="exp_md3_title">Enable Material Design 3 components</string>
-    <string name="exp_md3_desc">Use Material Design 3 style rounded shapes and tonal surfaces</string>
+    <string name="exp_md3_desc">Applies Material 3 corner radii and tonal surfaces to some cards. Appearance only; query logic is unchanged.</string>
     <string name="exp_risk_title">Risk notice</string>
     <string name="exp_risk_body">Experimental features may cause:\n\n1. misaligned layouts and irregular spacing on some pages;\n2. colors that clash with older themes (such as Retro 2000);\n3. the switch being removed in a later version, in which case the setting stops applying automatically.\n\nThis project is distributed under AGPL-3.0 with no warranty of any kind. Only turn it on after you have read the risks above.</string>
     <string name="exp_risk_ok">I understand, turn it on</string>
