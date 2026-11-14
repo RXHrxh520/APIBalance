@@ -311,13 +311,10 @@ public class MainActivity extends Activity {
             if (nav == null || !(nav.getParent() instanceof android.widget.LinearLayout)) return;
             android.widget.LinearLayout root = (android.widget.LinearLayout) nav.getParent();
             View container = findViewById(R.id.container);
-            // 响应式导航只对平板/折叠屏有意义；手机（最短边 < 600dp）强制底部，
-            // 避免把 0dp 宽的横向 tab 塞进竖排导航后变成一条点不动的空栏。
-            int pos = 0;
-            if (AppPrefs.isResponsiveSettings(this)
-                    && getResources().getConfiguration().smallestScreenWidthDp >= 600) {
-                pos = AppPrefs.getSettingsNavPosition(this);
-            }
+            // 开关开启后，底部/顶部/左侧/右侧都由用户选；小屏同样允许，
+            // 竖排 tab 的宽高已在 applyNavChildLayout 里修正，不会再有空白栏。
+            int pos = AppPrefs.isResponsiveSettings(this)
+                    ? AppPrefs.getSettingsNavPosition(this) : 0;
             root.removeAllViews();
             boolean horizontalBar = (pos == 0 || pos == 1);
             nav.setOrientation(horizontalBar

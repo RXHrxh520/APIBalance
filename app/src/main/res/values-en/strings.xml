@@ -998,7 +998,7 @@ For learning only. Author is not liable for API misuse.</string>
     <string name="exp_emergency_title">Allow emergency backup</string>
     <string name="exp_emergency_desc">Export an encrypted backup with a one-time passphrase when you cannot unlock the app. The file contains keys; anyone with the file and passphrase can restore them.</string>
     <string name="exp_responsive_title">Responsive settings navigation</string>
-    <string name="exp_responsive_desc">Only on tablets and foldables with smallest width ≥ 600dp: places settings navigation on the left or top. Phones stay on the bottom.</string>
+    <string name="exp_responsive_desc">Move settings navigation to the bottom, top, left or right. Bottom is recommended on small screens; the side rail now fits narrow widths.</string>
     <string name="exp_nav_bottom">Bottom</string>
     <string name="exp_nav_position_title">Settings navigation position</string>
     <string name="exp_nav_left">Left</string>
