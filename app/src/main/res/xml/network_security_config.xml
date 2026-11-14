@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <network-security-config>
-    <!-- 默认仍由代码强制 HTTPS；仅调试开关下的汇率请求允许明文，其他接口不允许 -->
-    <base-config cleartextTrafficPermitted="true">
+    <!-- 默认禁止明文 HTTP：余额接口与更新下载必须走 HTTPS。
+         自建 HTTP 汇率地址会被拦下，这是有意的安全取舍。 -->
+    <base-config cleartextTrafficPermitted="false">
         <trust-anchors>
             <certificates src="system" />
         </trust-anchors>

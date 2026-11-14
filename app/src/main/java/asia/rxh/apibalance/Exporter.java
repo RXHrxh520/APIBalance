@@ -41,6 +41,12 @@ public final class Exporter {
             }
         }
         File dir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS);
+        // Android 8/9 公共目录要 WRITE 权限；没有就退回应用私有外部目录，不能直接抛错
+        boolean canPublic = ctx.checkSelfPermission(android.Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                == android.content.pm.PackageManager.PERMISSION_GRANTED;
+        if (!canPublic || dir == null || (!dir.exists() && !dir.mkdirs())) {
+            dir = ctx.getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS);
+        }
         if (dir == null) throw new java.io.IOException("no downloads dir");
         if (!dir.exists() && !dir.mkdirs()) throw new java.io.IOException("mkdir failed");
         File f = new File(dir, name);

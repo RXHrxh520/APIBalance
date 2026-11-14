@@ -1143,4 +1143,5 @@ For learning only. Author is not liable for API misuse.</string>
     <string name="lock_too_many_fmt">Too many attempts. Try again in %1$d s</string>
     <string name="update_notice_title_fmt">What\'s new in v%1$s</string>
     <string name="backup_sig_bad">Backup verification failed: the file was modified or not exported by this app</string>
+    <string name="update_need_install_perm">Allow "Install unknown apps" first. Settings has been opened for you.</string>
 </resources>
