@@ -2,7 +2,7 @@
 layout: default
 title: 完整功能清单 · APIBalance
 description: APIBalance 全部功能逐条说明：余额查询、趋势统计、主题中心、安全中心、小组件等 10 类 57 项。
-permalink: /apibalance/features.html
+permalink: /features.html
 ---
 
 # 完整功能清单
@@ -94,4 +94,4 @@ permalink: /apibalance/features.html
 
 ---
 
-返回：[项目主页](../../README.md) · [安装与常见问题](faq.md) · [自己编译](build.md)
+返回：[GitHub 仓库](https://github.com/RXHrxh520/APIBalance) · [安装与常见问题](faq.html) · [自己编译](build.html)

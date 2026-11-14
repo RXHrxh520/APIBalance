@@ -2,7 +2,7 @@
 layout: default
 title: 隐私与安全 · APIBalance
 description: APIBalance 的密钥存储方式、请求发往哪些域名、备份加密与安全中心体检项说明。
-permalink: /apibalance/security.html
+permalink: /security.html
 ---
 
 # 隐私与安全
@@ -48,4 +48,4 @@ App 支持指纹 / 密码锁，并可设置离开 1 / 5 / 15 分钟自动锁；�
 
 ---
 
-返回：[项目主页](../../README.md) · [安装与常见问题](faq.md) · [完整功能清单](features.md)
+返回：[GitHub 仓库](https://github.com/RXHrxh520/APIBalance) · [安装与常见问题](faq.html) · [完整功能清单](features.html)

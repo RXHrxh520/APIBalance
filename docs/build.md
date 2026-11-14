@@ -2,7 +2,7 @@
 layout: default
 title: 构建与源码结构 · APIBalance
 description: APIBalance 自行编译环境、签名配置与源码目录结构说明。
-permalink: /apibalance/build.html
+permalink: /build.html
 ---
 
 # 构建、签名与源码结构
@@ -82,4 +82,4 @@ app/src/main/java/asia/rxh/apibalance/
 
 ---
 
-返回：[项目主页](../../README.md) · [完整功能清单](features.md)
+返回：[GitHub 仓库](https://github.com/RXHrxh520/APIBalance) · [完整功能清单](features.html)
