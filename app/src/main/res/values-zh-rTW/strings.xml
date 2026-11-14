@@ -1083,4 +1083,11 @@
     <string name="key_hint_glm_code">GLM Coding Key（sk-、數字、字母均可）</string>
     <string name="key_hint_anthropic">Anthropic Admin Key（sk-ant-admin…）</string>
     <string name="err_provider_response">服務商返回的數據不完整，接口可能已變更</string>
+    <string name="cost_total_label">累計成本</string>
+    <string name="cost_note_label">說明</string>
+    <string name="cost_since_month">本月至今</string>
+    <string name="cost_admin_hint">此服務商只提供「成本」統計，沒有餘額。需要 Admin Key（Anthropic：sk-ant-admin…；OpenAI：sk-admin-…），一般金鑰會回 403。</string>
+    <string name="cost_hint_title">這是成本介面，不是餘額</string>
+    <string name="cost_hint_ok">我知道了</string>
+    <string name="quota_left_label">方案剩餘</string>
 </resources>

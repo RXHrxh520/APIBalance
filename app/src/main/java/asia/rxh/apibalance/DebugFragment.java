@@ -322,11 +322,7 @@ public class DebugFragment extends Fragment {
 
     private void runNetworkTest() {
         showProgress("testing network...");
-        final String[] hosts = {
-                "https://api.deepseek.com",
-                "https://api.moonshot.ai",
-                "https://open.bigmodel.cn"
-        };
+        final String[] hosts = providerBaseUrls();
         new Thread(() -> {
             StringBuilder sb = new StringBuilder();
             for (String host : hosts) {
@@ -586,11 +582,36 @@ public class DebugFragment extends Fragment {
         }
     }
 
+    /** 全部真实服务商的基础地址（去重），网络测试用。 */
+    private static String[] providerBaseUrls() {
+        java.util.LinkedHashSet<String> set = new java.util.LinkedHashSet<>();
+        for (ProviderConfig.Provider p : ProviderConfig.list()) {
+            try {
+                java.net.URL u = new java.net.URL(p.balanceUrl);
+                set.add(u.getProtocol() + "://" + u.getHost());
+            } catch (Throwable ignored) {
+            }
+        }
+        return set.toArray(new String[0]);
+    }
+
+    /** 全部真实服务商的主机名（去重），DNS 检查用。 */
+    private static String[] providerHosts() {
+        java.util.LinkedHashSet<String> set = new java.util.LinkedHashSet<>();
+        for (ProviderConfig.Provider p : ProviderConfig.list()) {
+            try {
+                set.add(new java.net.URL(p.balanceUrl).getHost());
+            } catch (Throwable ignored) {
+            }
+        }
+        return set.toArray(new String[0]);
+    }
+
     private void runDnsCheck() {
         showResult(getString(R.string.e_021));
         new Thread(() -> {
             StringBuilder sb = new StringBuilder(getString(R.string.f_035));
-            String[] hosts = {"api.deepseek.com", "api.moonshot.cn", "open.bigmodel.cn"};
+            String[] hosts = providerHosts();
             for (String h : hosts) {
                 long t0 = System.currentTimeMillis();
                 try {
