@@ -1,5 +1,7 @@
-title: APIBalance
-description: 安卓端多服务商 AI API 余额与套餐配额查询工具
+title: RXH 项目文档
+description: 开源项目文档中心
 theme: jekyll-theme-cayman
 lang: zh-CN
 show_downloads: false
+url: https://rxh.asia
+baseurl: ""
