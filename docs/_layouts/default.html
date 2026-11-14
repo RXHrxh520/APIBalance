@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{{ page.title | default: site.title }}</title>
+<meta name="description" content="{{ page.description | default: site.description }}">
+<link rel="stylesheet" href="{{ site.baseurl }}/assets/css/style.css">
+</head>
+<body>
+<header class="site-header">
+  <div class="wrap header-inner">
+    <div class="brand">
+      <a href="{{ site.baseurl }}/" class="brand-name">APIBalance</a>
+      <span class="brand-sub">Android · 多服务商余额查询</span>
+    </div>
+    <nav class="nav">
+      <a href="{{ site.baseurl }}/"{% if page.url == "/" %} class="on"{% endif %}>总览</a>
+      <a href="{{ site.baseurl }}/features.html">功能</a>
+      <a href="{{ site.baseurl }}/faq.html">安装与 FAQ</a>
+      <a href="{{ site.baseurl }}/errors.html">错误码</a>
+      <a href="{{ site.baseurl }}/permissions.html">权限</a>
+      <a href="{{ site.baseurl }}/security.html">隐私</a>
+      <a href="{{ site.baseurl }}/build.html">构建</a>
+      <a href="{{ site.baseurl }}/roadmap.html">路线图</a>
+      <a href="https://github.com/RXHrxh520/APIBalance" class="gh">GitHub</a>
+    </nav>
+  </div>
+</header>
+<main class="wrap main">
+{{ content }}
+</main>
+<footer class="site-footer">
+  <div class="wrap">
+    <p>APIBalance · 开源免费 · AGPL-3.0 · <a href="https://github.com/RXHrxh520/APIBalance">GitHub 仓库</a> · <a href="https://github.com/RXHrxh520/APIBalance/releases/latest">下载 APK</a></p>
+    <p class="muted">文档站不收集访问者数据</p>
+  </div>
+</footer>
+</body>
+</html>

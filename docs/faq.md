@@ -2,7 +2,7 @@
 layout: default
 title: 常见问题 · APIBalance
 description: APIBalance 安装失败、401/429 报错、后台不提醒、换手机迁移等常见问题的解决方法。
-permalink: /apibalance/faq.html
+permalink: /faq.html
 ---
 
 # 常见问题（FAQ）
@@ -68,7 +68,7 @@ App 只读各家**官方接口**返回的值，不做任何推算。若不一致
 ## 四、数据与隐私
 
 ### 我的 API Key 会被上传吗
-不会。密钥用 Android Keystore 生成的 AES-256 密钥加密后存在本机，**不经过任何第三方服务器**，App 只直接请求各家官方接口。详见 [隐私与安全](security.md)。
+不会。密钥用 Android Keystore 生成的 AES-256 密钥加密后存在本机，**不经过任何第三方服务器**，App 只直接请求各家官方接口。详见 [隐私与安全](security.html)。
 
 ### 换手机怎么迁移
 设置 → 备份与恢复 → 导出 `.bin` / `.zip`（密码加密，含 API Key）→ 新手机导入同一密码恢复。
@@ -95,4 +95,4 @@ App 只读各家**官方接口**返回的值，不做任何推算。若不一致
 
 ---
 
-返回：[项目主页](../../README.md) · [完整功能清单](features.md) · [自己编译](build.md)
+返回：[GitHub 仓库](https://github.com/RXHrxh520/APIBalance) · [完整功能清单](features.html) · [自己编译](build.html)
