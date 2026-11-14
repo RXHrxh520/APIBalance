@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="https://count.getloli.com/get/@RXHrxh520.APIBalance?theme=moebooru" alt="" height="64">
+  <img src="https://count.getloli.com/get/@RXHrxh520.APIBalance?theme=moebooru" alt="" height="72">
   <br>
   <img src="https://hits.sh/github.com/RXHrxh520/APIBalance.svg?label=%E8%AE%BF%E9%97%AE" alt="" height="20">
 </p>
@@ -26,7 +26,7 @@
   <img src="https://img.shields.io/github/stars/RXHrxh520/APIBalance?style=social" alt="Stars">
   <img src="https://img.shields.io/github/downloads/RXHrxh520/APIBalance/total?style=social" alt="Downloads">
   <br>
-  <img src="https://img.shields.io/github/v/release/RXHrxh520/APIBalance?label=最新版本&color=brightgreen" alt="Release">
+  <img src="https://img.shields.io/github/v/release/RXHrxh520/APIBalance?label=%E6%9C%80%E6%96%B0%E7%89%88%E6%9C%AC&color=brightgreen" alt="Release">
   <img src="https://img.shields.io/github/license/RXHrxh520/APIBalance?color=brightgreen" alt="License">
   <img src="https://img.shields.io/badge/Android-8.0%2B-3DDC84?logo=android&logoColor=white" alt="Platform">
   <img src="https://img.shields.io/badge/语言-中文%20%7C%20English%20%7C%20繁體%20%7C%20萌语-blue" alt="Language">
