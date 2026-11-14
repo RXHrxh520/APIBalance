@@ -152,9 +152,8 @@ public class BackupActivity extends Activity {
     private byte[] collectIntoZip() throws Throwable {
         ByteArrayOutputStream bos = new ByteArrayOutputStream();
         ZipOutputStream zos = new ZipOutputStream(bos);
-        File dataDir = getFilesDir().getParentFile();
-        addDir(zos, new File(dataDir, "shared_prefs"), "shared_prefs/");
-        addDir(zos, new File(dataDir, "databases"), "databases/");
+        // 只导出 keys.txt：导入侧只恢复密钥与账户，设置类偏好不再进备份包，
+        // 免得导出体积大、也免得别人拿备份包当“改设置”的工具。
         addKeys(zos);
         zos.finish();
         zos.close();
@@ -200,7 +199,8 @@ public class BackupActivity extends Activity {
             String n = f.getName();
             if (n.endsWith("-journal") || n.endsWith("-wal")) continue;
             // 旧备份口令和本机 Keystore 密文没有恢复价值，不带走
-            if ("ds_backup_prefs.xml".equals(n) || "ds_secure_prefs.xml".equals(n)) continue;
+            if ("backup_prefs.xml".equals(n) || "secure_prefs.xml".equals(n)
+                    || "ds_backup_prefs.xml".equals(n) || "ds_secure_prefs.xml".equals(n)) continue;
             ByteArrayOutputStream b = new ByteArrayOutputStream();
             try (InputStream in = new java.io.FileInputStream(f)) {
                 byte[] buf = new byte[8192];
@@ -304,29 +304,14 @@ public class BackupActivity extends Activity {
         String base = dataDir.getCanonicalPath();
         ZipInputStream zis = new ZipInputStream(new ByteArrayInputStream(zip));
         ZipEntry e;
-        long total = 0;
         while ((e = zis.getNextEntry()) != null) {
             String name = e.getName().replace('\\', '/');
+            // 恢复白名单：只认 keys.txt。shared_prefs / databases 一律不写，
+            // 否则伪造备份可以塞 lock_enabled、hide_balance 这类行为开关。
             if ("keys.txt".equals(name)) {
                 readKeysInto(zis);
-                continue;
             }
-            if (name.contains("..")) continue;
-            if (!name.startsWith("shared_prefs/") && !name.startsWith("databases/")) continue;
-            if (name.endsWith("ds_backup_prefs.xml") || name.endsWith("ds_secure_prefs.xml")) continue;
-
-            File out = new File(dataDir, name);
-            String canonical = out.getCanonicalPath();
-            if (!canonical.startsWith(base + File.separator)) continue;
-            File parent = out.getParentFile();
-            if (parent != null && !parent.exists() && !parent.mkdirs()) continue;
-
-            byte[] content = readEntry(zis, MAX_ENTRY_BYTES);
-            total += content.length;
-            if (total > MAX_TOTAL_BYTES) throw new java.io.IOException("backup too large");
-            try (FileOutputStream fos = new FileOutputStream(out)) {
-                fos.write(content);
-            }
+            // 其余条目直接跳过，不落盘
         }
         zis.close();
     }
@@ -369,9 +354,7 @@ public class BackupActivity extends Activity {
     private static byte[] collectZipStatic(android.content.Context ctx) throws Throwable {
         ByteArrayOutputStream bos = new ByteArrayOutputStream();
         ZipOutputStream zos = new ZipOutputStream(bos);
-        File dataDir = ctx.getFilesDir().getParentFile();
-        addDirStatic(zos, new File(dataDir, "shared_prefs"), "shared_prefs/");
-        addDirStatic(zos, new File(dataDir, "databases"), "databases/");
+        // 同上：只带密钥与账户
         addKeysStatic(ctx, zos);
         zos.finish();
         zos.close();
@@ -415,7 +398,8 @@ public class BackupActivity extends Activity {
             if (f == null || !f.isFile()) continue;
             String n = f.getName();
             if (n.endsWith("-journal") || n.endsWith("-wal")) continue;
-            if ("ds_backup_prefs.xml".equals(n) || "ds_secure_prefs.xml".equals(n)) continue;
+            if ("backup_prefs.xml".equals(n) || "secure_prefs.xml".equals(n)
+                    || "ds_backup_prefs.xml".equals(n) || "ds_secure_prefs.xml".equals(n)) continue;
             ByteArrayOutputStream b = new ByteArrayOutputStream();
             try (InputStream in = new java.io.FileInputStream(f)) {
                 byte[] buf = new byte[8192];
@@ -472,13 +456,21 @@ public class BackupActivity extends Activity {
     /** 备份尾部 40 字节：32 字节 HMAC + 8 字节标记；标记用于区分老备份。 */
     private static final byte[] SIG_MAGIC = "APIBAL01".getBytes(java.nio.charset.StandardCharsets.UTF_8);
 
-    /** 口令派生签名密钥；口令本身不落盘，换设备也能校验。 */
+    /**
+     * 签名密钥 = PBKDF2(口令) 再混入应用内置密钥。
+     * 只靠口令派生的话，拿到口令的人可以自己造一份“合法签名”的备份；
+     * 混入内置密钥后，至少要先从安装包里把这个常量挖出来，门槛高一层。
+     */
     private static byte[] signKey(String pwd) throws Throwable {
         javax.crypto.SecretKeyFactory f = javax.crypto.SecretKeyFactory
                 .getInstance("PBKDF2WithHmacSHA256");
         javax.crypto.spec.PBEKeySpec spec = new javax.crypto.spec.PBEKeySpec(
-                pwd.toCharArray(), "APIBalance-backup-sign-v1".getBytes("UTF-8"), 10000, 256);
-        return f.generateSecret(spec).getEncoded();
+                pwd.toCharArray(), "APIBalance-backup-sign-v2".getBytes("UTF-8"), 10000, 256);
+        byte[] pwdKey = f.generateSecret(spec).getEncoded();
+        javax.crypto.Mac mac = javax.crypto.Mac.getInstance("HmacSHA256");
+        mac.init(new javax.crypto.spec.SecretKeySpec(pwdKey, "HmacSHA256"));
+        return mac.doFinal(("APIBalance/" + EnvChecker.OFFICIAL_CERT_SHA256)
+                .getBytes("UTF-8"));
     }
 
     private static byte[] hmac(byte[] data, String pwd) throws Throwable {
