@@ -1,0 +1,20 @@
+name: 文档自检
+on:
+  push:
+    paths:
+      - 'docs/**'
+      - 'scripts/check-docs.py'
+  pull_request:
+    paths:
+      - 'docs/**'
+  workflow_dispatch:
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
+      - name: 检查 front matter、permalink、站内链接
+        run: python3 scripts/check-docs.py
