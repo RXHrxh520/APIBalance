@@ -140,6 +140,18 @@
                 android:text="@string/str_015"
                 android:textColor="@color/title_sub"
                 android:textSize="13sp" />
+
+            <ProgressBar
+                android:id="@+id/quota_progress"
+                style="?android:attr/progressBarStyleHorizontal"
+                android:layout_width="match_parent"
+                android:layout_height="6dp"
+                android:layout_marginTop="14dp"
+                android:max="100"
+                android:progress="0"
+                android:progressBackgroundTint="#33FFFFFF"
+                android:progressTint="@color/text_on_primary"
+                android:visibility="gone" />
         </LinearLayout>
 
         <!-- 峰谷趣味卡片 -->

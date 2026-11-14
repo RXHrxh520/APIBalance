@@ -304,7 +304,7 @@ public class MainActivity extends Activity {
      * 底部标签栏位置：0 底部、1 顶部、2 左侧（竖排）、3 右侧（竖排）。
      * 仅在实验性「可移动导航」开启时生效，关闭时一律回到底部。
      */
-    private void applyNavBarPosition() {
+    void applyNavBarPosition() {
         try {
             android.widget.LinearLayout nav =
                     (android.widget.LinearLayout) findViewById(R.id.bottom_nav);

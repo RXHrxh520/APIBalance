@@ -1131,4 +1131,26 @@
     <string name="update_need_install_perm">需要先允許「安裝未知應用程式」，已為你開啟設定</string>
     <string name="float_bg_processing">正在把圖片存進應用程式內，避免系統回收授權</string>
     <string name="float_bg_failed">儲存失敗，請換一張圖片再試</string>
+    <string name="nav_tab_balance">餘額</string>
+    <string name="nav_tab_trend">趨勢</string>
+    <string name="history_export_btn">匯出</string>
+    <string name="deps_title">第三方依賴統計</string>
+    <string name="settings_icon_title">更換應用圖標</string>
+    <string name="settings_icon_desc">應用圖標 + 主界面圖標 + 登入頭像</string>
+    <string name="settings_android_title">安卓主題設定</string>
+    <string name="settings_android_desc">仿 4.4 / 5.1.1 / 8 / 12 四種 UI 風格</string>
+    <string name="settings_deps_title">第三方依賴統計</string>
+    <string name="settings_deps_desc">程式語言 / 建置工具鏈 / 授權聲明</string>
+    <string name="about_policy_user">使用者條款</string>
+    <string name="about_policy_privacy">隱私政策</string>
+    <string name="float_mode_quota">配額</string>
+    <string name="float_mode_cost">成本</string>
+    <string name="onb_step_fmt">"第 %1$d 步 / 共 %2$d 步"</string>
+    <string name="exp_nav_phone_hint">目前螢幕寬度不足 600dp，導覽仍固定在底部；平板／摺疊機才會切到側邊或頂部。</string>
+    <string name="mode_balance">預存餘額</string>
+    <string name="mode_cost_30d">近 30 天成本</string>
+    <string name="mode_cost_month">本月成本</string>
+    <string name="mode_quota">套餐配額</string>
+    <string name="mode_custom">自訂餘額</string>
+    <string name="mode_unknown">未知模式</string>
 </resources>

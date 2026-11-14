@@ -38,6 +38,8 @@ public final class MoneyFmt {
 
     public static String format(double value) {
         if (Double.isNaN(value) || Double.isInfinite(value)) return "0.00";
+        // 接口会把欠费返回成字符串 "-0.00"；double 的 -0.0 与 0 相等，普通比较会丢掉负号
+        if (isNegativeZero(value)) return "-0.00";
         try {
             BigDecimal exact = BigDecimal.valueOf(value);
             BigDecimal two = exact.setScale(2, RoundingMode.HALF_UP);
@@ -53,6 +55,11 @@ public final class MoneyFmt {
         } catch (Throwable t) {
             return String.format(java.util.Locale.US, "%.2f", value);
         }
+    }
+
+    /** 是否是「负零」：值等于 0，但符号位为负。 */
+    public static boolean isNegativeZero(double value) {
+        return value == 0.0 && Double.doubleToRawLongBits(value) != 0L;
     }
 
     /** 带符号前缀，例如 ¥-0.0031；负号由数字本身携带，避免出现 ¥--0.01。 */

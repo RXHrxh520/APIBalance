@@ -126,15 +126,15 @@
     <LinearLayout android:id="@+id/btn_icon" android:layout_width="match_parent" android:layout_height="56dp" android:layout_marginTop="8dp" android:gravity="center_vertical" android:orientation="horizontal" android:paddingLeft="16dp" android:paddingRight="16dp" android:background="@drawable/bg_card_balance" android:foreground="@drawable/bg_ripple_24" android:clickable="true" android:focusable="false">
         <ImageView android:layout_width="24dp" android:layout_height="24dp" android:src="@drawable/ic_image" android:contentDescription="更换应用图标" />
         <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:layout_marginLeft="16dp" android:orientation="vertical">
-            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="更换应用图标" android:textColor="@color/text_primary" android:textSize="15sp" />
-            <TextView android:id="@+id/tv_icon_desc" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="应用图标 + 主界面图标 + 登录头像" android:textColor="@color/text_hint" android:textSize="12sp" />
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/settings_icon_title" android:textColor="@color/text_primary" android:textSize="15sp" />
+            <TextView android:id="@+id/tv_icon_desc" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/settings_icon_desc" android:textColor="@color/text_hint" android:textSize="12sp" />
         </LinearLayout>
     </LinearLayout>
     <LinearLayout android:id="@+id/btn_android_theme" android:layout_width="match_parent" android:layout_height="56dp" android:layout_marginTop="8dp" android:gravity="center_vertical" android:orientation="horizontal" android:paddingLeft="16dp" android:paddingRight="16dp" android:background="@drawable/bg_card_balance" android:foreground="@drawable/bg_ripple_24" android:clickable="true" android:focusable="false">
         <ImageView android:layout_width="24dp" android:layout_height="24dp" android:src="@drawable/ic_android" android:contentDescription="安卓主题设置" />
         <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:layout_marginLeft="16dp" android:orientation="vertical">
-            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="安卓主题设置" android:textColor="@color/text_primary" android:textSize="15sp" />
-            <TextView android:id="@+id/tv_android_desc" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="仿 4.4 / 5.1.1 / 8 / 12 四种 UI 风格" android:textColor="@color/text_hint" android:textSize="12sp" />
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/settings_android_title" android:textColor="@color/text_primary" android:textSize="15sp" />
+            <TextView android:id="@+id/tv_android_desc" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/settings_android_desc" android:textColor="@color/text_hint" android:textSize="12sp" />
         </LinearLayout>
     </LinearLayout>
     <LinearLayout android:id="@+id/btn_font_size" android:layout_width="match_parent" android:layout_height="56dp" android:layout_marginTop="8dp" android:gravity="center_vertical" android:orientation="horizontal" android:paddingLeft="16dp" android:paddingRight="16dp" android:background="@drawable/bg_card_balance" android:foreground="@drawable/bg_ripple_24" android:clickable="true" android:focusable="false">
@@ -311,8 +311,8 @@
     <LinearLayout android:id="@+id/btn_deps" android:layout_width="match_parent" android:layout_height="56dp" android:layout_marginTop="8dp" android:gravity="center_vertical" android:orientation="horizontal" android:paddingLeft="16dp" android:paddingRight="16dp" android:background="@drawable/bg_card_balance" android:foreground="@drawable/bg_ripple_24" android:clickable="true" android:focusable="false">
         <ImageView android:layout_width="24dp" android:layout_height="24dp" android:src="@drawable/ic_tools" android:contentDescription="依赖统计" />
         <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:layout_marginLeft="16dp" android:orientation="vertical">
-            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="第三方依赖统计" android:textColor="@color/text_primary" android:textSize="15sp" />
-            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="编程语言 / 构建工具链 / 许可声明" android:textColor="@color/text_hint" android:textSize="12sp" />
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/settings_deps_title" android:textColor="@color/text_primary" android:textSize="15sp" />
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/settings_deps_desc" android:textColor="@color/text_hint" android:textSize="12sp" />
         </LinearLayout>
     </LinearLayout>
     <LinearLayout android:id="@+id/btn_experimental" android:layout_width="match_parent" android:layout_height="56dp" android:layout_marginTop="8dp" android:gravity="center_vertical" android:orientation="horizontal" android:paddingLeft="16dp" android:paddingRight="16dp" android:background="@drawable/bg_card_balance" android:foreground="@drawable/bg_ripple_24" android:clickable="true" android:focusable="false">
