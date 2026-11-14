@@ -87,7 +87,7 @@ public class BackupActivity extends Activity {
         AppExecutors.io().execute(() -> {
             try {
                 byte[] zip = collectIntoZip();
-                byte[] blob = encrypt(zip, pwd);
+                byte[] blob = encrypt(signZip(zip, pwd), pwd);
                 byte[] payload = blob;
                 String ext = ".bin";
                 if (format == 1) {
@@ -254,6 +254,8 @@ public class BackupActivity extends Activity {
                     z0.close();
                 }
                 byte[] zip = decrypt(raw, pwd);
+                // 先验签再落盘：签名不对或没有签名，直接拒绝，避免恶意备份注入偏好
+                zip = verifyAndStrip(zip, pwd);
                 unpackZip(zip);
                 runOnUiThread(() -> UiDialog.showConfirm(this, getString(R.string.backup_row_title),
                         getString(R.string.backup_restored), getString(R.string.h_004), null,
@@ -264,7 +266,9 @@ public class BackupActivity extends Activity {
                             android.os.Process.killProcess(android.os.Process.myPid());
                         }, null));
             } catch (Throwable t) {
-                runOnUiThread(() -> toast(getString(R.string.backup_restore_failed)));
+                final boolean sigBad = t instanceof SecurityException;
+                runOnUiThread(() -> toast(getString(sigBad
+                        ? R.string.backup_sig_bad : R.string.backup_restore_failed)));
             }
         });
     }
@@ -357,7 +361,7 @@ public class BackupActivity extends Activity {
     /** 崩溃页使用：导出与普通备份相同格式的加密文件，返回保存位置。 */
     public static String emergencyExport(android.content.Context ctx, String pwd) throws Throwable {
         byte[] zip = collectZipStatic(ctx);
-        byte[] blob = encrypt(zip, pwd);
+        byte[] blob = encrypt(signZip(zip, pwd), pwd);
         String name = "APIBalance_emergency_" + System.currentTimeMillis() + ".bin";
         return saveToDownloadsStatic(ctx, blob, name);
     }
@@ -464,6 +468,50 @@ public class BackupActivity extends Activity {
     }
 
     // ---------- 加密 ----------
+
+    /** 备份尾部 40 字节：32 字节 HMAC + 8 字节标记；标记用于区分老备份。 */
+    private static final byte[] SIG_MAGIC = "APIBAL01".getBytes(java.nio.charset.StandardCharsets.UTF_8);
+
+    /** 口令派生签名密钥；口令本身不落盘，换设备也能校验。 */
+    private static byte[] signKey(String pwd) throws Throwable {
+        javax.crypto.SecretKeyFactory f = javax.crypto.SecretKeyFactory
+                .getInstance("PBKDF2WithHmacSHA256");
+        javax.crypto.spec.PBEKeySpec spec = new javax.crypto.spec.PBEKeySpec(
+                pwd.toCharArray(), "APIBalance-backup-sign-v1".getBytes("UTF-8"), 10000, 256);
+        return f.generateSecret(spec).getEncoded();
+    }
+
+    private static byte[] hmac(byte[] data, String pwd) throws Throwable {
+        javax.crypto.Mac mac = javax.crypto.Mac.getInstance("HmacSHA256");
+        mac.init(new javax.crypto.spec.SecretKeySpec(signKey(pwd), "HmacSHA256"));
+        return mac.doFinal(data);
+    }
+
+    /** 给 zip 追加签名尾巴，再整体加密。 */
+    private static byte[] signZip(byte[] zip, String pwd) throws Throwable {
+        byte[] tag = hmac(zip, pwd);
+        byte[] out = new byte[zip.length + tag.length + SIG_MAGIC.length];
+        System.arraycopy(zip, 0, out, 0, zip.length);
+        System.arraycopy(tag, 0, out, zip.length, tag.length);
+        System.arraycopy(SIG_MAGIC, 0, out, zip.length + tag.length, SIG_MAGIC.length);
+        return out;
+    }
+
+    /** 校验并去掉签名尾巴；老备份（没有标记）一律拒绝，提示重新导出。 */
+    private static byte[] verifyAndStrip(byte[] blob, String pwd) throws Throwable {
+        int tail = 32 + SIG_MAGIC.length;
+        if (blob.length <= tail + 64) throw new SecurityException("backup unsigned");
+        int n = blob.length - tail;
+        for (int i = 0; i < SIG_MAGIC.length; i++) {
+            if (blob[n + 32 + i] != SIG_MAGIC[i]) throw new SecurityException("backup unsigned");
+        }
+        byte[] body = java.util.Arrays.copyOfRange(blob, 0, n);
+        byte[] expect = hmac(body, pwd);
+        int diff = 0;
+        for (int i = 0; i < 32; i++) diff |= expect[i] ^ blob[n + i];
+        if (diff != 0) throw new SecurityException("backup tampered");
+        return body;
+    }
 
     private static byte[] encrypt(byte[] data, String pwd) throws Throwable {
         byte[] salt = new byte[16];

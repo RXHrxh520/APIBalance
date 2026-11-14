@@ -1127,4 +1127,5 @@
     <string name="lock_limit_desc">連續輸錯 5 次後鎖定 60 秒</string>
     <string name="lock_too_many_fmt">嘗試次數過多，請 %1$d 秒後再試</string>
     <string name="update_notice_title_fmt">v%1$s 更新內容</string>
+    <string name="backup_sig_bad">備份校驗失敗：檔案被修改過或不是本應用程式匯出的</string>
 </resources>
