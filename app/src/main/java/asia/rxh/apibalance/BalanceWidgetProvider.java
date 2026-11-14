@@ -51,7 +51,7 @@ public class BalanceWidgetProvider extends AppWidgetProvider {
         RemoteViews rv = new RemoteViews(context.getPackageName(), R.layout.widget_balance);
         // 从历史取最近一条
         List<BalanceHistoryStore.HistoryItem> items = BalanceHistoryStore.getAll(context);
-        int currentPid = context.getSharedPreferences("ds_balance_prefs", 0)
+        int currentPid = context.getSharedPreferences("balance_prefs", 0)
                 .getInt("provider_id", ProviderConfig.PROVIDER_DEEPSEEK);
         String providerName = ProviderConfig.get(context, currentPid).name;
         String balance = "¥ 0.00";

@@ -35,7 +35,7 @@ import java.util.List;
  */
 public final class AccountManager {
 
-    private static final String PREFS = "ds_accounts";
+    private static final String PREFS = "accounts";
     private static final String KEY_DATA = "accounts";
 
     private AccountManager() {

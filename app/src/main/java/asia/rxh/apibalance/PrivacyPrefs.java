@@ -23,7 +23,7 @@ import android.content.SharedPreferences;
 /** 锁屏密码、恢复代码与隐私开关。密码和恢复代码只保存加盐慢哈希。 */
 public final class PrivacyPrefs {
 
-    private static final String PREFS = "ds_privacy";
+    private static final String PREFS = "privacy";
     private static final String KEY_LOCK = "lock_enabled";
     private static final String KEY_HIDE_BALANCE = "hide_balance";
     private static final String KEY_PASSWORD = "lock_password";

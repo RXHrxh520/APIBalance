@@ -41,7 +41,7 @@ public final class CryptoManager {
 
     private static final String ANDROID_KEYSTORE = "AndroidKeyStore";
     private static final String KEY_ALIAS = "rxh_ds_apikey";
-    private static final String PREFS = "ds_secure_prefs";
+    private static final String PREFS = "secure_prefs";
     private static final String KEY_CIPHER = "enc_apikey";
     private static final String KEY_IV = "enc_apikey_iv";
 

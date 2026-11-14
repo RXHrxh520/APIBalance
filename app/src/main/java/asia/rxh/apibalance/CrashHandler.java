@@ -31,7 +31,7 @@ import java.io.StringWriter;
 
 public class CrashHandler implements Thread.UncaughtExceptionHandler {
 
-    private static final String CRASH_PREFS = "ds_crash_prefs";
+    private static final String CRASH_PREFS = "crash_prefs";
     static final String KEY_HAS_CRASH = "has_crash";
     static final String KEY_CRASH_MSG = "crash_message";
     static final String KEY_CRASH_TRACE = "crash_trace";

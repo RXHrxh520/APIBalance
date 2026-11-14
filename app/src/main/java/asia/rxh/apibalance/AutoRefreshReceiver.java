@@ -33,7 +33,7 @@ public class AutoRefreshReceiver extends BroadcastReceiver {
         if (!manual && !AppPrefs.isAutoRefresh(context)) return;
         final Context ctx = context.getApplicationContext();
 
-        int providerId = ctx.getSharedPreferences("ds_balance_prefs", 0)
+        int providerId = ctx.getSharedPreferences("balance_prefs", 0)
                 .getInt("provider_id", ProviderConfig.PROVIDER_DEEPSEEK);
         String key = CryptoManager.read(ctx, "provider_" + providerId + "_api_key");
         if (key == null || key.isEmpty()) return;

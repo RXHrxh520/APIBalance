@@ -29,7 +29,7 @@ import android.content.SharedPreferences;
  */
 public final class ThemePrefs {
 
-    private static final String PREFS = "ds_theme";
+    private static final String PREFS = "theme";
     private static final String KEY_STYLE = "style_index";
     private static final String KEY_COLOR = "color_index";
 

@@ -28,7 +28,7 @@ import android.content.SharedPreferences;
  */
 public final class AppPrefs {
 
-    private static final String PREFS = "ds_settings";
+    private static final String PREFS = "settings";
 
     private static final String KEY_TIMEOUT = "timeout_sec";
     private static final String KEY_RETRY = "retry_count";
