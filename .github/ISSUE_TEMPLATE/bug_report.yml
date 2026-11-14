@@ -1,0 +1,109 @@
+name: 🐛 Bug 报告
+description: 报告一个 bug 或问题
+title: "[Bug] "
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        感谢您报告问题！请填写以下信息以帮助我们快速定位和解决问题。
+  - type: dropdown
+    id: module
+    attributes:
+      label: 分类
+      description: 您认为这是什么问题？
+      options:
+        - 📚 一：安全问题
+        - 🔍 二：代码问题
+        - 🤖 三：功能问题
+        - 🔀 问题很多（涉及多个问题）
+        - ❓ 不确定 / 其他
+    validations:
+      required: true
+  - type: dropdown
+    id: bug_type
+    attributes:
+      label: 问题类型
+      description: 先选一个最符合的类型，如果都不符合再在下面补充说明
+      options:
+        - ❌ 报错 / 崩溃（抛异常、报错信息）
+        - ⚠️ 结果不对（行为明显不符合预期）
+        - 🐌 性能问题（很慢 / 卡顿）
+        - 🔁 更新问题 (无法更新)
+        - ⚙️ 配置相关问题（环境 / 配置文件）
+        - 🧱 界面 / 交互问题
+        - 🧪 本地开发 / 调试问题
+        - 其他
+    validations:
+      required: true
+  - type: dropdown
+    id: frequency
+    attributes:
+      label: 发生频率
+      description: 这个问题出现的频率
+      options:
+        - 每次都会出现
+        - 经常出现（> 50% 的概率）
+        - 偶尔出现（< 50% 的概率）
+        - 只出现过一次
+        - 暂不清楚
+    validations:
+      required: true
+  - type: checkboxes
+    id: scenario
+    attributes:
+      label: 出问题时你在做什么？
+      description: 勾选一个或多个最接近的场景
+      options:
+        - label: 在本地运行项目（开发 / 调试）
+        - label: 更新后启动或首次启动
+        - label: 点击某个功能
+        - label: 构建或更新代码
+        - label: 修改配置后运行
+        - label: 其它场景
+  - type: dropdown
+    id: component
+    attributes:
+      label: 相关组件
+      description: 这个问题涉及哪个组件？
+      options:
+        - 余额页
+        - 设置页
+        - 趋势页
+        - 分享页
+        - 彩蛋页
+        - 配置文件
+        - 其他
+    validations:
+      required: true
+  - type: dropdown
+    id: severity
+    attributes:
+      label: 严重程度
+      description: 这个问题的严重程度如何？
+      options:
+        - 🔴 严重 - 系统无法使用
+        - 🟠 高 - 主要功能受影响
+        - 🟡 中 - 部分功能受影响
+        - 🟢 低 - 轻微问题，不影响使用
+    validations:
+      required: true
+  - type: dropdown
+    id: environment
+    attributes:
+      label: 运行环境（大致）
+      description: 先选一个大致环境，如果都不符合再在下面补充说明
+      options:
+        - Linux
+        - macOS
+        - Windows
+        - Android
+        - Docker / 容器环境
+        - 云服务器环境
+        - 其他 / 不确定
+  - type: textarea
+    id: additional
+    attributes:
+      label: 补充说明（可选）
+      description: 只有当上面的选项都不太符合，或你有额外信息（报错信息 / 截图 / 特殊场景）时再简单写几句
+      placeholder: 例如：实际报错信息、和预期不符的地方、特殊运行方式等
