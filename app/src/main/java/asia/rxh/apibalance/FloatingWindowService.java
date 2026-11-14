@@ -192,8 +192,8 @@ public class FloatingWindowService extends Service {
         int currentPid = getSharedPreferences("balance_prefs", 0)
                 .getInt("provider_id", ProviderConfig.PROVIDER_DEEPSEEK);
         ProviderConfig.Provider cp = ProviderConfig.get(this, currentPid);
-        if (cp.isQuotaMode()) return "配额";
-        if (cp.isCostMode()) return "成本";
+        if (cp.isQuotaMode()) return getString(R.string.float_mode_quota);
+        if (cp.isCostMode()) return getString(R.string.float_mode_cost);
         List<BalanceHistoryStore.HistoryItem> items = BalanceHistoryStore.getAll(this);
         // 只认当前服务商的记录，切服务商后不能还挂着上一家的金额
         BalanceHistoryStore.HistoryItem last = null;
@@ -260,12 +260,20 @@ public class FloatingWindowService extends Service {
             floatPanel.setBackgroundResource(R.drawable.bg_dialog);
             return;
         }
-        android.graphics.Bitmap bmp = decodePanelBackground(uri);
-        if (bmp != null) {
-            floatPanel.setBackground(new android.graphics.drawable.BitmapDrawable(getResources(), bmp));
-        } else {
-            floatPanel.setBackgroundResource(R.drawable.bg_dialog);
-        }
+        // 先挂默认背景，解码放到后台线程：大图在主线程解码会直接把悬浮窗卡住
+        floatPanel.setBackgroundResource(R.drawable.bg_dialog);
+        final View panel = floatPanel;
+        new Thread(() -> {
+            android.graphics.Bitmap bmp = decodePanelBackground(uri);
+            if (bmp == null) return;
+            new android.os.Handler(getMainLooper()).post(() -> {
+                if (panel == floatPanel && floatPanel != null) {
+                    floatPanel.setBackground(new android.graphics.drawable.BitmapDrawable(getResources(), bmp));
+                } else {
+                    bmp.recycle();
+                }
+            });
+        }, "float-bg-decode").start();
     }
 
     /** 背景图降采样解码；优先读应用私有文件，兼容旧的 content:// 记录。 */

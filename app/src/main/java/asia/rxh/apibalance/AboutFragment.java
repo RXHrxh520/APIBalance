@@ -87,6 +87,17 @@ public class AboutFragment extends Fragment {
         });
 
 
+        TextView tvAgreement = view.findViewById(R.id.tv_agreement);
+        if (tvAgreement != null) {
+            tvAgreement.setOnClickListener(v -> UiDialog.showInfo(getActivity(),
+                    getString(R.string.about_policy_user), getString(R.string.agreement_user)));
+        }
+        TextView tvPrivacy = view.findViewById(R.id.tv_privacy);
+        if (tvPrivacy != null) {
+            tvPrivacy.setOnClickListener(v -> UiDialog.showInfo(getActivity(),
+                    getString(R.string.about_policy_privacy), getString(R.string.agreement_privacy)));
+        }
+
         // 内容入场动画：淡入 + 上滑
         view.setAlpha(0f);
         view.setTranslationY(24f);

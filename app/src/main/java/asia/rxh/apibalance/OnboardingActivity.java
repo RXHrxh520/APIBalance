@@ -52,6 +52,7 @@ public class OnboardingActivity extends Activity {
 
     private FrameLayout content;
     private TextView btnSkip, btnNext;
+    private TextView tvStep;
 
     private int step = 0;
     private int providerId = ProviderConfig.PROVIDER_DEEPSEEK;
@@ -111,6 +112,7 @@ public class OnboardingActivity extends Activity {
         content = findViewById(R.id.onboarding_content);
         btnSkip = findViewById(R.id.btn_onboard_skip);
         btnNext = findViewById(R.id.btn_onboard_next);
+        tvStep = findViewById(R.id.tv_onboard_step);
 
         btnSkip.setOnClickListener(v -> skip());
         btnNext.setOnClickListener(v -> next());
@@ -219,6 +221,7 @@ public class OnboardingActivity extends Activity {
         View v = buildStep(s);
         if (v != null) content.addView(v);
         animateIn(v);
+        if (tvStep != null) tvStep.setText(getString(R.string.onb_step_fmt, s + 1, 7));
 
         // 第 2 屏要填密钥、第 3 屏要跑测试，这两屏不能跳过；最后一屏也没有跳过
         boolean canSkip = (s == 0 || s == 1 || s == 4 || s == 5);
@@ -331,8 +334,8 @@ public class OnboardingActivity extends Activity {
         LinearLayout root = page(getString(R.string.onb_welcome_title), getString(R.string.onb_welcome_sub));
 
         ImageView logo = new ImageView(this);
-        logo.setImageResource(R.drawable.ic_sparkle);
-        logo.setColorFilter(ThemeUtils.accent(this));
+        // 欢迎页直接用应用图标，比通用 sparkle 更像“这个应用”
+        logo.setImageResource(R.mipmap.ic_launcher);
         LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(dp(96), dp(96));
         lp.bottomMargin = dp(24);
         root.addView(logo, lp);

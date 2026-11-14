@@ -154,6 +154,24 @@ public final class UiDialog {
         showSafely(d);
     }
 
+    /** 纯信息弹窗：只有一个「知道了」，用于查看协议、说明等长文本。 */
+    public static void showInfo(Context ctx, String title, String message) {
+        Dialog d = baseDialog(ctx);
+        TextView titleView = d.findViewById(R.id.dialog_title);
+        TextView msg = d.findViewById(R.id.dialog_message);
+        TextView posBtn = d.findViewById(R.id.dialog_positive);
+        TextView negBtn = d.findViewById(R.id.dialog_negative);
+        titleView.setText(title);
+        if (message != null) {
+            msg.setText(message);
+            msg.setVisibility(View.VISIBLE);
+        }
+        posBtn.setText(ctx.getString(R.string.update_notice_ok));
+        negBtn.setVisibility(View.GONE);
+        posBtn.setOnClickListener(v -> d.dismiss());
+        showSafely(d);
+    }
+
     /** 文本输入弹窗（单输入框）。 */
     public static void showInput(Context ctx, String title, String hint, String initial,
                                  final OnInputListener l) {

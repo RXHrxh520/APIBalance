@@ -230,6 +230,13 @@ public class ShareFragment extends Fragment {
         long ts = (last != null) ? last.ts : System.currentTimeMillis();
         c.drawText(getString(R.string.j_162) + sdf.format(new Date(ts)), 80, 1060, time);
 
+        // 分享文案：用户选中的模板直接画进图片，不再只出现在分享文字里
+        Paint sharePaint = new Paint(Paint.ANTI_ALIAS_FLAG);
+        sharePaint.setColor(cSub);
+        sharePaint.setTextSize(32);
+        String shareText = buildShareText(provider.name, total);
+        drawWrappedText(c, shareText, 80, 1140, W - 160, 44, 4, sharePaint);
+
         // 品牌水印
         Paint watermark = new Paint(Paint.ANTI_ALIAS_FLAG);
         watermark.setColor(0xFF3A4660);
@@ -239,6 +246,45 @@ public class ShareFragment extends Fragment {
         return bmp;
     }
 
+
+    /** 按字符宽度折行，最多 maxLines 行，超出部分省略。 */
+    private void drawWrappedText(Canvas c, String text, float x, float y,
+                                 float maxWidth, float lineHeight, int maxLines, Paint p) {
+        if (text == null || text.isEmpty()) return;
+        java.util.ArrayList<String> lines = new java.util.ArrayList<>();
+        StringBuilder line = new StringBuilder();
+        for (int i = 0; i < text.length(); i++) {
+            char ch = text.charAt(i);
+            if (ch == '\n') {
+                lines.add(line.toString());
+                line.setLength(0);
+                continue;
+            }
+            String next = line.toString() + ch;
+            if (p.measureText(next) > maxWidth && line.length() > 0) {
+                lines.add(line.toString());
+                line.setLength(0);
+            }
+            line.append(ch);
+        }
+        if (line.length() > 0) lines.add(line.toString());
+        for (int i = 0; i < lines.size() && i < maxLines; i++) {
+            String out = lines.get(i);
+            if (i == maxLines - 1 && lines.size() > maxLines) out = out + "…";
+            c.drawText(out, x, y + i * lineHeight, p);
+        }
+    }
+
+    /** 文案或配色变了以后重画预览图。 */
+    private void refreshCard() {
+        if (cardBitmap != null && !cardBitmap.isRecycled()) cardBitmap.recycle();
+        cardBitmap = buildCard();
+        View root = getView();
+        if (root != null && cardBitmap != null) {
+            ImageView iv = root.findViewById(R.id.iv_preview);
+            if (iv != null) iv.setImageBitmap(cardBitmap);
+        }
+    }
 
     /** 内置 10 套分享文案，最后一项是自定义。%1$s=服务商  %2$s=余额 */
     public static final String[] TEMPLATES = {
@@ -299,11 +345,13 @@ public class ShareFragment extends Fragment {
                                 text -> {
                                     AppPrefs.setShareTplCustom(ctx, text);
                                     AppPrefs.setShareTpl(ctx, TEMPLATES.length);
+                                    refreshCard();
                                     Toast.makeText(ctx, getString(R.string.share_tpl_saved),
                                             Toast.LENGTH_SHORT).show();
                                 });
                     } else {
                         AppPrefs.setShareTpl(ctx, idx);
+                        refreshCard();
                         Toast.makeText(ctx, getString(R.string.share_tpl_saved),
                                 Toast.LENGTH_SHORT).show();
                     }

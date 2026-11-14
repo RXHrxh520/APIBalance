@@ -11,7 +11,7 @@
             android:focusable="false" android:contentDescription="@string/h_004"
             android:background="?android:attr/selectableItemBackgroundBorderless" />
         <TextView android:layout_width="0dp" android:layout_height="wrap_content"
-            android:layout_weight="1" android:text="捐赠支持"
+            android:layout_weight="1" android:text="@string/donate_title"
             android:textColor="@color/text_primary" android:textSize="20sp"
             android:textStyle="bold" />
     </LinearLayout>

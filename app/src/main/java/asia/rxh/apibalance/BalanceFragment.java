@@ -47,6 +47,7 @@ public class BalanceFragment extends Fragment {
     private ImageView ivBalanceLogo;
     private LinearLayout layoutLoading;
     private LinearLayout cardTotal, cardGranted, cardTopped, cardDetails, btnRefresh;
+    private android.widget.ProgressBar quotaProgress;
     private View cardPeak;
     private Handler handler;
     private boolean isFirstLoad = true;
@@ -80,6 +81,7 @@ public class BalanceFragment extends Fragment {
         tvCurrencySymbol = view.findViewById(R.id.tv_currency_symbol);
         tvTotalBalance = view.findViewById(R.id.tv_total_balance);
         tvCurrency = view.findViewById(R.id.tv_currency);
+        quotaProgress = view.findViewById(R.id.quota_progress);
         tvGrantedBalance = view.findViewById(R.id.tv_granted_balance);
         tvToppedUpBalance = view.findViewById(R.id.tv_topped_up_balance);
         tvTotalLabel = view.findViewById(R.id.tv_total_label);
@@ -291,6 +293,7 @@ public class BalanceFragment extends Fragment {
         }
         ProviderConfig.Provider provider = ProviderConfig.get(getActivity(), providerId);
         tvCurrencySymbol.setVisibility(View.VISIBLE);
+        if (quotaProgress != null) quotaProgress.setVisibility(View.GONE);
         tvTotalLabel.setText(provider.isCostMode() ? getString(R.string.cost_total_label) : getString(R.string.str_012));
         tvGrantedLabel.setText(provider.isCostMode() ? getString(R.string.cost_note_label) : getString(R.string.str_018));
         tvToppedLabel.setText(provider.isCostMode() ? getString(R.string.cost_note_label) : getString(R.string.str_019));
@@ -352,6 +355,7 @@ public class BalanceFragment extends Fragment {
         }
         ProviderConfig.Provider provider = ProviderConfig.get(getActivity(), providerId);
         tvCurrencySymbol.setVisibility(View.VISIBLE);
+        if (quotaProgress != null) quotaProgress.setVisibility(View.GONE);
         tvTotalLabel.setText(provider.isCostMode() ? getString(R.string.cost_total_label) : getString(R.string.str_012));
         tvGrantedLabel.setText(provider.isCostMode() ? getString(R.string.cost_note_label) : getString(R.string.str_018));
         tvToppedLabel.setText(provider.isCostMode() ? getString(R.string.cost_note_label) : getString(R.string.str_019));
@@ -412,6 +416,7 @@ public class BalanceFragment extends Fragment {
         tvTotalLabel.setText(result.mainLabel == null ? getString(R.string.quota_left_label) : result.mainLabel);
         tvTotalBalance.setText(result.mainValue == null ? "—" : result.mainValue);
         tvCurrencySymbol.setVisibility(View.GONE);
+        updateQuotaProgress(result.mainValue);
         tvCurrency.setText(result.footer == null || result.footer.isEmpty()
                 ? getString(R.string.quota_footer_none) : result.footer);
         if (cardDetails != null) cardDetails.setVisibility(View.VISIBLE);
@@ -423,6 +428,25 @@ public class BalanceFragment extends Fragment {
         lastTotal = 0;
         lastGranted = 0;
         lastTopped = 0;
+    }
+
+    /** 配额服务商把主值里的百分比画成进度条；没有百分比就隐藏，不硬凑。 */
+    private void updateQuotaProgress(String mainValue) {
+        if (quotaProgress == null) return;
+        int pct = -1;
+        if (mainValue != null) {
+            java.util.regex.Matcher m = java.util.regex.Pattern
+                    .compile("(\\d{1,3})\\%").matcher(mainValue);
+            if (m.find()) {
+                try { pct = Integer.parseInt(m.group(1)); } catch (Throwable ignored) { }
+            }
+        }
+        if (pct < 0) {
+            quotaProgress.setVisibility(View.GONE);
+            return;
+        }
+        quotaProgress.setProgress(Math.max(0, Math.min(100, pct)));
+        quotaProgress.setVisibility(View.VISIBLE);
     }
 
     private void bindRemoteNotice() {

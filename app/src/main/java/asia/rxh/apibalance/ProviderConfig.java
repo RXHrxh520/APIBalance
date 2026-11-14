@@ -74,30 +74,30 @@ public final class ProviderConfig {
     private static final Provider[] PROVIDERS = {
         new Provider(PROVIDER_DEEPSEEK, "DeepSeek", new String[]{"sk-"},
                 "https://api.deepseek.com/user/balance", AUTH_BEARER, "CNY", TYPE_BALANCE,
-                null, "预存余额"),
+                null, "@balance"),
         new Provider(PROVIDER_KIMI, "Kimi", new String[]{"sk-"},
                 "https://api.moonshot.cn/v1/users/me/balance", AUTH_BEARER, "CNY", TYPE_BALANCE,
-                null, "预存余额"),
+                null, "@balance"),
         new Provider(PROVIDER_GLM, "智谱GLM", new String[]{},
                 "https://open.bigmodel.cn/api/biz/account/query-customer-account-report",
-                AUTH_GLM, "CNY", TYPE_BALANCE, null, "预存余额"),
+                AUTH_GLM, "CNY", TYPE_BALANCE, null, "@balance"),
         new Provider(PROVIDER_OPENAI, "OpenAI", new String[]{"sk-"},
                 "https://api.openai.com/v1/organization/costs", AUTH_BEARER, "USD", TYPE_COST,
-                null, "近30天成本"),
+                null, "@cost30"),
         new Provider(PROVIDER_ANTHROPIC, "Anthropic", new String[]{"sk-ant-"},
                 "https://api.anthropic.com/v1/organizations/cost_report", AUTH_X_API_KEY, "USD",
-                TYPE_COST, null, "本月成本"),
+                TYPE_COST, null, "@costmonth"),
         new Provider(PROVIDER_VOLCENGINE, "火山方舟", new String[]{},
-                VOLC_BILLING_URL, AUTH_VOLC, "CNY", TYPE_BALANCE, null, "账户余额"),
+                VOLC_BILLING_URL, AUTH_VOLC, "CNY", TYPE_BALANCE, null, "@balance"),
         new Provider(PROVIDER_KIMI_CODE, "Kimi Code", new String[]{},
                 "https://api.kimi.com/coding/v1/usages", AUTH_BEARER, "QUOTA", TYPE_QUOTA,
-                null, "套餐配额"),
+                null, "@quota"),
         new Provider(PROVIDER_GLM_CODE, "GLM Coding", new String[]{},
                 "https://open.bigmodel.cn/api/monitor/usage/quota/limit", AUTH_GLM, "QUOTA",
-                TYPE_QUOTA, null, "套餐配额"),
+                TYPE_QUOTA, null, "@quota"),
         new Provider(PROVIDER_CODEX, "Codex", new String[]{},
                 "https://chatgpt.com/backend-api/wham/usage", AUTH_CODEX, "QUOTA", TYPE_QUOTA,
-                null, "套餐配额"),
+                null, "@quota"),
     };
 
     private ProviderConfig() {
@@ -114,7 +114,7 @@ public final class ProviderConfig {
     public static Provider get(int providerId) {
         if (providerId == PROVIDER_CUSTOM) {
             return new Provider(PROVIDER_CUSTOM, "自定义服务商", new String[]{},
-                    null, AUTH_BEARER, "CNY", TYPE_BALANCE, null, "自定义余额");
+                    null, AUTH_BEARER, "CNY", TYPE_BALANCE, null, "@custom");
         }
         for (Provider p : PROVIDERS) {
             if (p.id == providerId) return p;
@@ -123,7 +123,7 @@ public final class ProviderConfig {
         // 现在返回一个显式的“未知服务商”，让调用方直接报错，而不是给出错误的余额。
         android.util.Log.w("APIBalance", "unknown providerId=" + providerId);
         return new Provider(providerId, "未知服务商", new String[]{}, null,
-                AUTH_BEARER, "CNY", TYPE_BALANCE, null, "未知");
+                AUTH_BEARER, "CNY", TYPE_BALANCE, null, "@unknown");
     }
 
     /** 全部真实服务商（不含自定义），按表内顺序；遍历请用这个，不要按下标猜 ID。 */
@@ -132,8 +132,8 @@ public final class ProviderConfig {
     }
 
     public static Provider get(Context ctx, int providerId) {
-        if (providerId == PROVIDER_CUSTOM) return getCustom(ctx);
-        return get(providerId);
+        Provider p = (providerId == PROVIDER_CUSTOM) ? getCustom(ctx) : get(providerId);
+        return p.localized(ctx);
     }
 
     public static Provider getCustom(Context ctx) {
@@ -147,7 +147,7 @@ public final class ProviderConfig {
         if (currency.isEmpty()) currency = "CNY";
         String path = AppPrefs.getCustomProviderPath(ctx).trim();
         return new Provider(PROVIDER_CUSTOM, name, new String[]{}, url, auth, currency,
-                TYPE_BALANCE, path, "自定义余额");
+                TYPE_BALANCE, path, "@custom");
     }
 
     /** 界面上可选的服务商。OpenAI 使用组织成本接口，需要 Admin Key，默认不放入列表。 */
@@ -240,6 +240,19 @@ public final class ProviderConfig {
             this.modeLabel = modeLabel;
         }
 
+        /** 返回把模式标签换成当前语言的副本；名称保留品牌原文。 */
+        public Provider localized(Context c) {
+            String m = modeLabel;
+            if ("@balance".equals(m)) m = c.getString(R.string.mode_balance);
+            else if ("@cost30".equals(m)) m = c.getString(R.string.mode_cost_30d);
+            else if ("@costmonth".equals(m)) m = c.getString(R.string.mode_cost_month);
+            else if ("@quota".equals(m)) m = c.getString(R.string.mode_quota);
+            else if ("@custom".equals(m)) m = c.getString(R.string.mode_custom);
+            else if ("@unknown".equals(m)) m = c.getString(R.string.mode_unknown);
+            return new Provider(id, name, keyPrefixes, balanceUrl, authType,
+                    defaultCurrency, type, balancePath, m);
+        }
+
         public boolean isQuerySupported() {
             return type != TYPE_UNSUPPORTED && balanceUrl != null;
         }
@@ -296,9 +309,9 @@ public final class ProviderConfig {
             double granted = num(best, "granted_balance");
             double topped = num(best, "topped_up_balance");
             // 欠费时接口有时把 total 抹成 0，真实差额留在 topped / granted 上
-            if (total == 0.0) {
+            if (total == 0.0 && !MoneyFmt.isNegativeZero(total)) {
                 double alt = granted + topped;
-                if (alt < 0) total = alt;
+                if (alt < 0 || MoneyFmt.isNegativeZero(alt)) total = alt;
             }
             return BalanceResult.balance(currency, total, granted, topped);
         }

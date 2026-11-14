@@ -62,6 +62,14 @@ public class ExperimentalFragment extends Fragment {
                 int pos = (AppPrefs.getSettingsNavPosition(getActivity()) + 1) % 4;
                 AppPrefs.setSettingsNavPosition(getActivity(), pos);
                 updateNavRow();
+                // 只改偏好不会重排布局，必须立刻通知 Activity 应用新位置
+                if (getActivity() instanceof MainActivity) {
+                    ((MainActivity) getActivity()).applyNavBarPosition();
+                }
+                if (getResources().getConfiguration().smallestScreenWidthDp < 600) {
+                    android.widget.Toast.makeText(getActivity(), getString(R.string.exp_nav_phone_hint),
+                            android.widget.Toast.LENGTH_SHORT).show();
+                }
             });
         }
 

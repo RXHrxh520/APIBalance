@@ -120,7 +120,7 @@
                     android:layout_width="0dp" android:layout_height="56dp"
                     android:layout_weight="1" android:layout_margin="6dp"
                     android:background="@drawable/bg_keypad_key" android:gravity="center"
-                    android:text="确定" android:textColor="@color/text_primary"
+                    android:text="@string/str_117" android:textColor="@color/text_primary"
                     android:textSize="16sp" android:clickable="true"
                     android:focusable="false" />
             </LinearLayout>

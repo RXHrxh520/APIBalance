@@ -1125,4 +1125,26 @@
     <string name="update_need_install_perm">得先允许「装未知应用」，设置已经帮你打开了</string>
     <string name="float_bg_processing">Kopi ĝin en la aplikaĵo por eviti perdon de permeso</string>
     <string name="float_bg_failed">Ne eblis konservi. Provu alian bildon.</string>
+    <string name="nav_tab_balance">余额</string>
+    <string name="nav_tab_trend">趋势</string>
+    <string name="history_export_btn">导出</string>
+    <string name="deps_title">第三方依赖统计</string>
+    <string name="settings_icon_title">更换应用图标</string>
+    <string name="settings_icon_desc">应用图标 + 主界面图标 + 登录头像</string>
+    <string name="settings_android_title">安卓主题设置</string>
+    <string name="settings_android_desc">仿 4.4 / 5.1.1 / 8 / 12 四种风格</string>
+    <string name="settings_deps_title">第三方依赖统计</string>
+    <string name="settings_deps_desc">编程语言 / 构建链 / 许可</string>
+    <string name="about_policy_user">用户协议</string>
+    <string name="about_policy_privacy">隐私政策</string>
+    <string name="float_mode_quota">配额</string>
+    <string name="float_mode_cost">成本</string>
+    <string name="onb_step_fmt">"第 %1$d 步 / 共 %2$d 步"</string>
+    <string name="exp_nav_phone_hint">屏幕还不够宽（不到 600dp），导航就先待底部啦；平板和折叠屏才会切到侧边或顶上～</string>
+    <string name="mode_balance">预存余额</string>
+    <string name="mode_cost_30d">近 30 天成本</string>
+    <string name="mode_cost_month">本月成本</string>
+    <string name="mode_quota">套餐配额</string>
+    <string name="mode_custom">自定义余额</string>
+    <string name="mode_unknown">未知模式</string>
 </resources>

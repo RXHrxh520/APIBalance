@@ -1146,4 +1146,26 @@ For learning only. Author is not liable for API misuse.</string>
     <string name="update_need_install_perm">Allow "Install unknown apps" first. Settings has been opened for you.</string>
     <string name="float_bg_processing">Saving the image inside the app to survive URI revocation</string>
     <string name="float_bg_failed">Could not save this image. Try another one.</string>
+    <string name="nav_tab_balance">Balance</string>
+    <string name="nav_tab_trend">Trends</string>
+    <string name="history_export_btn">Export</string>
+    <string name="deps_title">Third-party dependencies</string>
+    <string name="settings_icon_title">App icon</string>
+    <string name="settings_icon_desc">App icon, home logo and login avatar</string>
+    <string name="settings_android_title">Android theme</string>
+    <string name="settings_android_desc">Android 4.4 / 5.1.1 / 8 / 12 styles</string>
+    <string name="settings_deps_title">Third-party dependencies</string>
+    <string name="settings_deps_desc">Languages, toolchain and licenses</string>
+    <string name="about_policy_user">Terms of Service</string>
+    <string name="about_policy_privacy">Privacy Policy</string>
+    <string name="float_mode_quota">Quota</string>
+    <string name="float_mode_cost">Cost</string>
+    <string name="onb_step_fmt">"Step %1$d of %2$d"</string>
+    <string name="exp_nav_phone_hint">This screen is narrower than 600dp, so navigation stays at the bottom. Side or top navigation is for tablets and foldables.</string>
+    <string name="mode_balance">Prepaid balance</string>
+    <string name="mode_cost_30d">Last 30 days cost</string>
+    <string name="mode_cost_month">This month cost</string>
+    <string name="mode_quota">Plan quota</string>
+    <string name="mode_custom">Custom balance</string>
+    <string name="mode_unknown">Unknown mode</string>
 </resources>

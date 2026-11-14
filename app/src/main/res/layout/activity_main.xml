@@ -41,7 +41,7 @@
                 android:id="@+id/nav_balance_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="余额"
+                android:text="@string/nav_tab_balance"
                 android:textColor="@color/primary"
                 android:textSize="11sp"
                 android:textStyle="bold" />
@@ -67,7 +67,7 @@
                 android:id="@+id/nav_trend_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="趋势"
+                android:text="@string/nav_tab_trend"
                 android:textColor="@color/text_hint"
                 android:textSize="11sp" />
         </LinearLayout>

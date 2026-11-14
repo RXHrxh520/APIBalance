@@ -40,6 +40,8 @@ import android.widget.Toast;
 public class FloatBgPickerActivity extends Activity {
 
     private static final int REQ_PICK = 41;
+    private android.widget.ProgressBar progress;
+    private Button pickButton, resetButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,7 +74,16 @@ public class FloatBgPickerActivity extends Activity {
         dlp.topMargin = dp(8);
         root.addView(desc, dlp);
 
+        progress = new android.widget.ProgressBar(this);
+        progress.setIndeterminate(true);
+        progress.setVisibility(android.view.View.GONE);
+        LinearLayout.LayoutParams plp = new LinearLayout.LayoutParams(
+                ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        plp.topMargin = dp(12);
+        root.addView(progress, plp);
+
         Button pick = new Button(this);
+        pickButton = pick;
         pick.setText(getString(R.string.float_bg_pick));
         pick.setAllCaps(false);
         pick.setOnClickListener(v -> pickImage());
@@ -82,6 +93,7 @@ public class FloatBgPickerActivity extends Activity {
         root.addView(pick, blp);
 
         Button reset = new Button(this);
+        resetButton = reset;
         reset.setText(getString(R.string.float_bg_reset));
         reset.setAllCaps(false);
         reset.setOnClickListener(v -> {
@@ -125,6 +137,9 @@ public class FloatBgPickerActivity extends Activity {
         }
         Uri uri = data.getData();
         Toast.makeText(this, getString(R.string.float_bg_processing), Toast.LENGTH_SHORT).show();
+        if (progress != null) progress.setVisibility(android.view.View.VISIBLE);
+        if (pickButton != null) pickButton.setEnabled(false);
+        if (resetButton != null) resetButton.setEnabled(false);
         new Thread(() -> {
             try {
                 String path = ImageStore.importImage(this, uri, "float_bg", 1600);
