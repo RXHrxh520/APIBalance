@@ -4,6 +4,10 @@
   <img src="https://hits.sh/github.com/RXHrxh520/APIBalance.svg?label=%E8%AE%BF%E9%97%AE" alt="" height="20">
 </p>
 
+<p align="center">
+  <img src="assets/brand/banner.jpg" alt="APIBalance" width="820">
+</p>
+
 <h1 align="center">APIBalance</h1>
 
 <p align="center">
@@ -122,11 +126,25 @@
 | 自己编译 / 源码结构 | [构建说明](docs/apibalance/build.md) |
 | 安全漏洞怎么报 | [安全策略](.github/SECURITY.md) |
 
+## 仓库结构
+
+| 目录 / 文件 | 内容 |
+|---|---|
+| `app/` | Android 源码与资源 |
+| `docs/` | 文档站源码（按项目分目录，`docs/apibalance/` 为本项目） |
+| `assets/brand/` | 横幅、Logo、社交预览图 |
+| `assets/screenshots/` | 应用截图（README 引用） |
+| `scripts/` | 发版辅助脚本（版本升位等） |
+| `.github/` | Issue/PR 模板、安全策略、贡献指南、行为准则、Actions |
+
 ## 参与贡献
 
-- 提 Issue：报告 Bug、建议新功能（仓库已内置模板）
-- 提 PR：修问题、优化代码（见 PR 模板）
+- 提 Issue：报告 Bug、建议新功能（模板已内置）
+- 提 PR：修问题、优化代码（见 [PR 模板](.github/PULL_REQUEST_TEMPLATE.md)）
 - 翻译：完善 `values/values-en`、`values-zh-rTW`、`values-eo` 等多语言
+- 报告安全问题：请走 [安全策略](.github/SECURITY.md) 的私密通道，不要公开贴细节
+
+细则见 [贡献指南](.github/CONTRIBUTING.md)，社区规范见 [行为准则](.github/CODE_OF_CONDUCT.md)。
 
 开发约定：新增 Java 文件必须带 AGPL 版权头；不引入第三方统计/广告 SDK；不擅自修改各家 API 端点。
 
