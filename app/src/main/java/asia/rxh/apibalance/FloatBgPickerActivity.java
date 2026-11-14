@@ -23,9 +23,20 @@ import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.view.Gravity;
+import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
-/** 悬浮窗背景选择：只替换背景图，余额数字和按钮仍由悬浮窗布局显示。 */
+/**
+ * 悬浮窗背景选择。
+ *
+ * 这里刻意做成一个有实体界面的普通 Activity，而不是“透明 Activity + 弹窗”：
+ * 部分国产 ROM 会在 DocumentsUI 返回前把透明的中间 Activity 回收，结果就是选完图
+ * 什么也没发生。实体界面能稳定活到 onActivityResult。
+ */
 public class FloatBgPickerActivity extends Activity {
 
     private static final int REQ_PICK = 41;
@@ -33,29 +44,75 @@ public class FloatBgPickerActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (savedInstanceState == null) showOptions();
+        setContentView(buildView());
     }
 
-    private void showOptions() {
-        String[] items = {getString(R.string.float_bg_pick), getString(R.string.float_bg_reset)};
-        UiDialog.showPicker(this, getString(R.string.float_bg_title), items, 0, index -> {
-            if (index == 0) {
-                Intent i = new Intent(Intent.ACTION_OPEN_DOCUMENT);
-                i.addCategory(Intent.CATEGORY_OPENABLE);
-                i.setType("image/*");
-                i.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION
-                        | Intent.FLAG_GRANT_PERSISTABLE_URI_PERMISSION);
-                try {
-                    startActivityForResult(i, REQ_PICK);
-                } catch (Throwable t) {
-                    finish();
-                }
-            } else {
-                AppPrefs.setFloatBgUri(this, "");
-                notifyService();
+    private LinearLayout buildView() {
+        LinearLayout root = new LinearLayout(this);
+        root.setOrientation(LinearLayout.VERTICAL);
+        root.setGravity(Gravity.CENTER_HORIZONTAL);
+        int pad = dp(24);
+        root.setPadding(pad, pad, pad, pad);
+
+        TextView title = new TextView(this);
+        title.setText(getString(R.string.float_bg_title));
+        title.setTextSize(20);
+        title.setGravity(Gravity.CENTER);
+        title.setTextColor(ThemeUtils.textPrimary(this));
+        root.addView(title, new LinearLayout.LayoutParams(
+                ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+
+        TextView desc = new TextView(this);
+        desc.setText(getString(R.string.float_bg_processing));
+        desc.setTextSize(13);
+        desc.setGravity(Gravity.CENTER);
+        desc.setTextColor(ThemeUtils.textSecondary(this));
+        LinearLayout.LayoutParams dlp = new LinearLayout.LayoutParams(
+                ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        dlp.topMargin = dp(8);
+        root.addView(desc, dlp);
+
+        Button pick = new Button(this);
+        pick.setText(getString(R.string.float_bg_pick));
+        pick.setAllCaps(false);
+        pick.setOnClickListener(v -> pickImage());
+        LinearLayout.LayoutParams blp = new LinearLayout.LayoutParams(
+                ViewGroup.LayoutParams.MATCH_PARENT, dp(48));
+        blp.topMargin = dp(20);
+        root.addView(pick, blp);
+
+        Button reset = new Button(this);
+        reset.setText(getString(R.string.float_bg_reset));
+        reset.setAllCaps(false);
+        reset.setOnClickListener(v -> {
+            AppPrefs.setFloatBgUri(this, "");
+            notifyService();
+            finish();
+        });
+        LinearLayout.LayoutParams rlp = new LinearLayout.LayoutParams(
+                ViewGroup.LayoutParams.MATCH_PARENT, dp(48));
+        rlp.topMargin = dp(10);
+        root.addView(reset, rlp);
+        return root;
+    }
+
+    private void pickImage() {
+        Intent i = new Intent(Intent.ACTION_OPEN_DOCUMENT);
+        i.addCategory(Intent.CATEGORY_OPENABLE);
+        i.setType("image/*");
+        try {
+            startActivityForResult(i, REQ_PICK);
+        } catch (Throwable t) {
+            // 没有 DocumentsUI 的 ROM 退回普通选择器
+            Intent fallback = new Intent(Intent.ACTION_GET_CONTENT);
+            fallback.setType("image/*");
+            try {
+                startActivityForResult(fallback, REQ_PICK);
+            } catch (Throwable t2) {
+                Toast.makeText(this, getString(R.string.float_bg_failed), Toast.LENGTH_LONG).show();
                 finish();
             }
-        });
+        }
     }
 
     @Override
@@ -67,15 +124,23 @@ public class FloatBgPickerActivity extends Activity {
             return;
         }
         Uri uri = data.getData();
-        try {
-            getContentResolver().takePersistableUriPermission(uri,
-                    Intent.FLAG_GRANT_READ_URI_PERMISSION);
-        } catch (Throwable ignored) {
-        }
-        AppPrefs.setFloatBgUri(this, uri.toString());
-        Toast.makeText(this, getString(R.string.float_bg_saved), Toast.LENGTH_SHORT).show();
-        notifyService();
-        finish();
+        Toast.makeText(this, getString(R.string.float_bg_processing), Toast.LENGTH_SHORT).show();
+        new Thread(() -> {
+            try {
+                String path = ImageStore.importImage(this, uri, "float_bg", 1600);
+                runOnUiThread(() -> {
+                    AppPrefs.setFloatBgUri(this, path);
+                    Toast.makeText(this, getString(R.string.float_bg_saved), Toast.LENGTH_SHORT).show();
+                    notifyService();
+                    finish();
+                });
+            } catch (Throwable t) {
+                runOnUiThread(() -> {
+                    Toast.makeText(this, getString(R.string.float_bg_failed), Toast.LENGTH_LONG).show();
+                    finish();
+                });
+            }
+        }, "float-bg-save").start();
     }
 
     private void notifyService() {
@@ -85,5 +150,9 @@ public class FloatBgPickerActivity extends Activity {
             startService(i);
         } catch (Throwable ignored) {
         }
+    }
+
+    private int dp(int v) {
+        return Math.round(v * getResources().getDisplayMetrics().density);
     }
 }

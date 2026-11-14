@@ -23,6 +23,17 @@ permalink: /build.html
 ```
 产出：`app/build/outputs/apk/release/app-release.apk`
 
+仓库自带 Gradle Wrapper 与三套入口脚本，效果等同于上面的命令：
+
+| 环境 | 命令 |
+|---|---|
+| Linux / macOS | `./build-release.sh` |
+| Windows cmd | `build-release.bat` |
+| Windows PowerShell | `powershell -ExecutionPolicy Bypass -File build-release.ps1` |
+
+脚本会先检查 `keystore.properties` 是否存在，再把参数原样透传给 `gradlew`。首次构建前确认
+`JAVA_HOME` 指向 JDK 27、`ANDROID_HOME` 指向已安装 `android-37` 与 `build-tools 37.0.0` 的 SDK。
+
 > 说明：工程已显式开启 `buildConfig`。若本机是 arm64 架构，需自备 arm64 版 aapt2，并追加
 > `-Pandroid.aapt2FromMavenOverride=<SDK>/build-tools/37.0.0/aapt2` 与 `-Pandroid.builder.sdkDownload=false`。
 
