@@ -38,7 +38,7 @@ a{color:#1b64c9;text-decoration:none}
 a:hover{text-decoration:underline}
 strong{color:#0d1730}
 
-table{width:100%;border-collapse:collapse;margin:16px 0;font-size:14.5px;display:block;overflow-x:auto}
+table{width:100%;border-collapse:collapse;margin:16px 0;font-size:14.5px;table-layout:auto}
 th,td{border:1px solid var(--line);padding:9px 12px;text-align:left;vertical-align:top}
 th{background:var(--soft);font-weight:600;white-space:nowrap}
 tbody tr:nth-child(even){background:#fbfcff}
@@ -81,5 +81,5 @@ pre code{background:none;border:0;color:inherit;padding:0}
   .site-header{padding:16px 0 10px}
   .nav{font-size:13px;gap:4px}
   .nav a{padding:4px 8px}
-  table{font-size:13.5px}
+  table{font-size:13.5px;display:block;overflow-x:auto;white-space:nowrap}
 }
