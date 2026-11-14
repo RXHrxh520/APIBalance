@@ -130,6 +130,7 @@ public class MainActivity extends Activity {
         }
 
         setContentView(R.layout.activity_main);
+        applyNavBarPosition();
         applyThemeBars();
 
         // 主题背景（Code CLI / 复古2000 深色），否则应用安卓主题窗口背景
@@ -296,6 +297,58 @@ public class MainActivity extends Activity {
         if (!isChangingConfigurations()) {
             pausedAt = System.currentTimeMillis();
         }
+    }
+
+
+    /**
+     * 底部标签栏位置：0 底部、1 顶部、2 左侧（竖排）、3 右侧（竖排）。
+     * 仅在实验性「可移动导航」开启时生效，关闭时一律回到底部。
+     */
+    private void applyNavBarPosition() {
+        try {
+            android.widget.LinearLayout nav =
+                    (android.widget.LinearLayout) findViewById(R.id.bottom_nav);
+            if (nav == null || !(nav.getParent() instanceof android.widget.LinearLayout)) return;
+            android.widget.LinearLayout root = (android.widget.LinearLayout) nav.getParent();
+            View container = findViewById(R.id.container);
+            int pos = AppPrefs.isResponsiveSettings(this)
+                    ? AppPrefs.getSettingsNavPosition(this) : 0;
+            root.removeAllViews();
+            boolean horizontalBar = (pos == 0 || pos == 1);
+            nav.setOrientation(horizontalBar
+                    ? android.widget.LinearLayout.HORIZONTAL
+                    : android.widget.LinearLayout.VERTICAL);
+            if (pos == 0) {
+                root.setOrientation(android.widget.LinearLayout.VERTICAL);
+                root.addView(container, new android.widget.LinearLayout.LayoutParams(
+                        android.view.ViewGroup.LayoutParams.MATCH_PARENT, 0, 1f));
+                root.addView(nav, new android.widget.LinearLayout.LayoutParams(
+                        android.view.ViewGroup.LayoutParams.MATCH_PARENT, dp(56)));
+            } else if (pos == 1) {
+                root.setOrientation(android.widget.LinearLayout.VERTICAL);
+                root.addView(nav, new android.widget.LinearLayout.LayoutParams(
+                        android.view.ViewGroup.LayoutParams.MATCH_PARENT, dp(56)));
+                root.addView(container, new android.widget.LinearLayout.LayoutParams(
+                        android.view.ViewGroup.LayoutParams.MATCH_PARENT, 0, 1f));
+            } else if (pos == 2) {
+                root.setOrientation(android.widget.LinearLayout.HORIZONTAL);
+                root.addView(nav, new android.widget.LinearLayout.LayoutParams(
+                        dp(72), android.view.ViewGroup.LayoutParams.MATCH_PARENT));
+                root.addView(container, new android.widget.LinearLayout.LayoutParams(
+                        0, android.view.ViewGroup.LayoutParams.MATCH_PARENT, 1f));
+            } else {
+                root.setOrientation(android.widget.LinearLayout.HORIZONTAL);
+                root.addView(container, new android.widget.LinearLayout.LayoutParams(
+                        0, android.view.ViewGroup.LayoutParams.MATCH_PARENT, 1f));
+                root.addView(nav, new android.widget.LinearLayout.LayoutParams(
+                        dp(72), android.view.ViewGroup.LayoutParams.MATCH_PARENT));
+            }
+        } catch (Throwable ignored) {
+        }
+    }
+
+    private int dp(int v) {
+        return (int) (v * getResources().getDisplayMetrics().density + 0.5f);
     }
 
     @Override

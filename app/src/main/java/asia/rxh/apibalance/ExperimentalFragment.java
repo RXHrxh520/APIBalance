@@ -59,7 +59,7 @@ public class ExperimentalFragment extends Fragment {
         updateNavRow();
         if (navRow != null) {
             navRow.setOnClickListener(v -> {
-                int pos = (AppPrefs.getSettingsNavPosition(getActivity()) + 1) % 3;
+                int pos = (AppPrefs.getSettingsNavPosition(getActivity()) + 1) % 4;
                 AppPrefs.setSettingsNavPosition(getActivity(), pos);
                 updateNavRow();
             });
@@ -117,8 +117,9 @@ public class ExperimentalFragment extends Fragment {
         if (value != null) {
             int pos = AppPrefs.getSettingsNavPosition(getActivity());
             value.setText(pos == 1 ? getString(R.string.exp_nav_top)
-                    : pos == 2 ? getString(R.string.exp_nav_right)
-                    : getString(R.string.exp_nav_left));
+                    : pos == 2 ? getString(R.string.exp_nav_left)
+                    : pos == 3 ? getString(R.string.exp_nav_right)
+                    : getString(R.string.exp_nav_bottom));
         }
     }
 

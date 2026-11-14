@@ -999,6 +999,7 @@ For learning only. Author is not liable for API misuse.</string>
     <string name="exp_emergency_desc">Crash page may export with a one-time passphrase when no password is set</string>
     <string name="exp_responsive_title">Responsive settings layout</string>
     <string name="exp_responsive_desc">Use side or top navigation on tablets and foldables</string>
+    <string name="exp_nav_bottom">Bottom</string>
     <string name="exp_nav_position_title">Settings navigation position</string>
     <string name="exp_nav_left">Left</string>
     <string name="exp_nav_top">Top</string>

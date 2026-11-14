@@ -1066,6 +1066,7 @@
     <string name="exp_emergency_desc">崩溃页无密码时可用一次性口令导出</string>
     <string name="exp_responsive_title">响应式设置布局</string>
     <string name="exp_responsive_desc">平板/折叠屏使用侧边或顶部导航</string>
+    <string name="exp_nav_bottom">底部</string>
     <string name="exp_nav_position_title">设置导航位置</string>
     <string name="exp_nav_left">左侧</string>
     <string name="exp_nav_top">顶部</string>

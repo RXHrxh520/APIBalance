@@ -35,7 +35,8 @@ public class SettingsHomeFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        if (!AppPrefs.isResponsiveSettings(getActivity()) || !isWideScreen()) {
+        // 设置页固定单列：实验开关改为控制主界面底部标签栏，设置页不再变换布局
+        if (true) {
             View legacy = inflater.inflate(R.layout.fragment_settings_home, container, false);
             bindContent(legacy);
             ThemeUtils.apply(legacy);
