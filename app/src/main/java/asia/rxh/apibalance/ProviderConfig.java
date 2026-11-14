@@ -119,7 +119,11 @@ public final class ProviderConfig {
         for (Provider p : PROVIDERS) {
             if (p.id == providerId) return p;
         }
-        return PROVIDERS[PROVIDER_DEEPSEEK];
+        // 未知 ID 以前会静默回落 DeepSeek，结果拿着 A 家的 Key 去打 B 家的接口。
+        // 现在返回一个显式的“未知服务商”，让调用方直接报错，而不是给出错误的余额。
+        android.util.Log.w("APIBalance", "unknown providerId=" + providerId);
+        return new Provider(providerId, "未知服务商", new String[]{}, null,
+                AUTH_BEARER, "CNY", TYPE_BALANCE, null, "未知");
     }
 
     /** 全部真实服务商（不含自定义），按表内顺序；遍历请用这个，不要按下标猜 ID。 */
