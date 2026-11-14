@@ -77,7 +77,11 @@ public class ExperimentalFragment extends Fragment {
             if (suppress) return;
             if (!checked) {
                 setter.set(false);
-                if (button.getId() == R.id.sw_responsive) updateNavRow();
+                if (button.getId() == R.id.sw_responsive) {
+                    updateNavRow();
+                    // 关闭后重建界面，立即退回原来的单列设置页
+                    if (getActivity() != null) getActivity().recreate();
+                }
                 return;
             }
             // 开启前先回弹，用户确认风险后再真正写入。
@@ -94,7 +98,11 @@ public class ExperimentalFragment extends Fragment {
                         suppress = true;
                         button.setChecked(true);
                         suppress = false;
-                        if (button.getId() == R.id.sw_responsive) updateNavRow();
+                        if (button.getId() == R.id.sw_responsive) {
+                            updateNavRow();
+                            // 打开后重建界面，平板/折叠屏立刻切到侧边或顶部导航
+                            if (getActivity() != null) getActivity().recreate();
+                        }
                     },
                     null);
         });
