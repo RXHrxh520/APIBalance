@@ -65,11 +65,18 @@ public class DependenciesFragment extends Fragment {
 
         // ===== 服务商接口 =====
         sb.append(getString(R.string.dep_section_service)).append("\n");
-        sb.append("• DeepSeek   GET /user/balance\n");
-        sb.append("• Kimi       GET /v1/users/me/balance\n");
-        sb.append("• 智谱 GLM   GET /api/paas/v4/balance\n");
-        sb.append("• Anthropic  GET /v1/organizations/cost_report\n");
-        sb.append("• 自定义服务商：由用户自行填写地址与认证方式\n\n");
+        sb.append("• DeepSeek      GET https://api.deepseek.com/user/balance（Bearer）\n");
+        sb.append("• Kimi          GET https://api.moonshot.cn/v1/users/me/balance（Bearer）\n");
+        sb.append("• 智谱 GLM      GET https://open.bigmodel.cn/api/biz/account/query-customer-account-report");
+        sb.append("（新密钥直传 / 旧 id.secret 现场签 JWT）\n");
+        sb.append("• Anthropic     GET https://api.anthropic.com/v1/organizations/cost_report");
+        sb.append("（需 Admin Key，金额单位为美分）\n");
+        sb.append("• 火山方舟      POST https://billing.volcengineapi.com（AK|SK HMAC-SHA256 签名）\n");
+        sb.append("• Kimi Code     GET https://api.kimi.com/coding/v1/usages（套餐配额）\n");
+        sb.append("• GLM Coding    GET https://open.bigmodel.cn/api/monitor/usage/quota/limit（套餐配额）\n");
+        sb.append("• Codex         GET https://chatgpt.com/backend-api/wham/usage（Bearer + Account-Id）\n");
+        sb.append("• OpenAI        需 Admin Key 的组织成本接口，默认不出现在可选列表\n");
+        sb.append("• 自定义服务商：由用户自行填写地址、认证方式与余额字段路径\n\n");
 
         // ===== 许可与合规 =====
         sb.append(getString(R.string.dep_section_license)).append("\n");
