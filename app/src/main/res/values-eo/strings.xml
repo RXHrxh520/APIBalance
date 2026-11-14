@@ -1104,4 +1104,17 @@
     <string name="dep_license_agpl">• 本项目按 AGPL-3.0 发布，源码公开可查\n</string>
     <string name="dep_license_avatar">• 开发者头像来自 GitHub 公开头像接口 github.com/RXHrxh520.png，只作展示\n</string>
     <string name="dep_license_fx">• 汇率默认按离线近似算，想用自定义汇率地址也可以自己填\n</string>
+    <string name="quota_5h_left">5小时还剩</string>
+    <string name="quota_weekly_left">每周还剩</string>
+    <string name="quota_5h_reset">5小时重置</string>
+    <string name="quota_weekly_reset">每周重置</string>
+    <string name="quota_window_left">这一档还剩</string>
+    <string name="quota_7d_left">7天还剩</string>
+    <string name="quota_30d_left">30天还剩</string>
+    <string name="quota_days_left_fmt">还剩 %1$d 天</string>
+    <string name="quota_hours_left_fmt">还剩 %1$d 小时</string>
+    <string name="quota_next_window">下一档</string>
+    <string name="quota_status">状态</string>
+    <string name="quota_plan">套餐</string>
+    <string name="quota_footer_none">套餐还剩多少</string>
 </resources>

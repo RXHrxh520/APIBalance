@@ -1125,4 +1125,17 @@ For learning only. Author is not liable for API misuse.</string>
     <string name="dep_license_agpl">• Distributed under AGPL-3.0; source is public\n</string>
     <string name="dep_license_avatar">• Developer avatar comes from GitHub public avatar API github.com/RXHrxh520.png, display only\n</string>
     <string name="dep_license_fx">• FX conversion is an offline approximation by default; a custom rate URL is optional\n</string>
+    <string name="quota_5h_left">5h left</string>
+    <string name="quota_weekly_left">Weekly left</string>
+    <string name="quota_5h_reset">5h resets</string>
+    <string name="quota_weekly_reset">Weekly resets</string>
+    <string name="quota_window_left">Window left</string>
+    <string name="quota_7d_left">7d left</string>
+    <string name="quota_30d_left">30d left</string>
+    <string name="quota_days_left_fmt">%1$d days left</string>
+    <string name="quota_hours_left_fmt">%1$d h left</string>
+    <string name="quota_next_window">Next window</string>
+    <string name="quota_status">Status</string>
+    <string name="quota_plan">Plan</string>
+    <string name="quota_footer_none">Plan quota</string>
 </resources>

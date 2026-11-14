@@ -416,8 +416,9 @@ public final class ProviderConfig {
             JsonObject user = object(root, "user");
             JsonObject membershipObj = user == null ? null : object(user, "membership");
             if (membershipObj != null) membership = str(membershipObj, "level", "");
-            String footer = joinFooter(reset, weeklyReset, membership);
-            return BalanceResult.quota("5小时剩余", main, "每周剩余", sub, footer);
+            String footer = joinFooter(ctx, reset, weeklyReset, membership);
+            return BalanceResult.quota(ctx.getString(R.string.quota_5h_left), main,
+                    ctx.getString(R.string.quota_weekly_left), sub, footer);
         }
 
         /**
@@ -461,8 +462,9 @@ public final class ProviderConfig {
             String sub = quotaTextGlm(weekly);
             String reset = resetText(five != null ? str(five, "nextResetTime", "") : "");
             String weeklyReset = resetText(weekly != null ? str(weekly, "nextResetTime", "") : "");
-            return BalanceResult.quota("5小时剩余", main, "每周剩余", sub,
-                    joinFooter(reset, weeklyReset, ""));
+            return BalanceResult.quota(ctx.getString(R.string.quota_5h_left), main,
+                    ctx.getString(R.string.quota_weekly_left), sub,
+                    joinFooter(ctx, reset, weeklyReset, ""));
         }
 
         /** Codex：rate_limit.primary_window / secondary_window。 */
@@ -474,14 +476,14 @@ public final class ProviderConfig {
             if (primary == null && secondary == null) {
                 throw new IllegalStateException(ctx.getString(R.string.err_provider_response));
             }
-            String mainLabel = codexWindowLabel(primary);
-            String subLabel = codexWindowLabel(secondary);
+            String mainLabel = codexWindowLabel(ctx, primary);
+            String subLabel = codexWindowLabel(ctx, secondary);
             String main = quotaTextCodex(primary);
             String sub = quotaTextCodex(secondary);
             String reset = resetText(primary != null ? str(primary, "reset_at", "") : "");
             String weeklyReset = resetText(secondary != null ? str(secondary, "reset_at", "") : "");
             return BalanceResult.quota(mainLabel, main, subLabel, sub,
-                    joinFooter(reset, weeklyReset, ""));
+                    joinFooter(ctx, reset, weeklyReset, ""));
         }
     }
 
@@ -612,15 +614,15 @@ public final class ProviderConfig {
         return Math.round(Math.max(0, Math.min(100, 100 - used))) + "%";
     }
 
-    private static String codexWindowLabel(JsonObject o) {
-        if (o == null) return "窗口剩余";
+    private static String codexWindowLabel(Context ctx, JsonObject o) {
+        if (o == null) return ctx.getString(R.string.quota_window_left);
         long secs = (long) num(o, "limit_window_seconds");
-        if (secs == 18000) return "5小时剩余";
-        if (secs == 604800) return "7天剩余";
-        if (secs == 2592000) return "30天剩余";
+        if (secs == 18000) return ctx.getString(R.string.quota_5h_left);
+        if (secs == 604800) return ctx.getString(R.string.quota_7d_left);
+        if (secs == 2592000) return ctx.getString(R.string.quota_30d_left);
         long hours = secs / 3600;
-        if (hours >= 24) return (hours / 24) + "天剩余";
-        return Math.max(1, hours) + "小时剩余";
+        if (hours >= 24) return ctx.getString(R.string.quota_days_left_fmt, (int) (hours / 24));
+        return ctx.getString(R.string.quota_hours_left_fmt, (int) Math.max(1, hours));
     }
 
     private static String resetText(String raw) {
@@ -642,12 +644,14 @@ public final class ProviderConfig {
         }
     }
 
-    private static String joinFooter(String a, String b, String membership) {
+    private static String joinFooter(Context ctx, String a, String b, String membership) {
         StringBuilder sb = new StringBuilder();
-        if (a != null && !a.isEmpty()) sb.append("5小时重置 ").append(a);
+        if (a != null && !a.isEmpty()) {
+            sb.append(ctx.getString(R.string.quota_5h_reset)).append(" ").append(a);
+        }
         if (b != null && !b.isEmpty()) {
             if (sb.length() > 0) sb.append(" · ");
-            sb.append("每周重置 ").append(b);
+            sb.append(ctx.getString(R.string.quota_weekly_reset)).append(" ").append(b);
         }
         if (membership != null && !membership.isEmpty()) {
             if (sb.length() > 0) sb.append(" · ");

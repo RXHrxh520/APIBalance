@@ -28,7 +28,9 @@ public class AutoRefreshReceiver extends BroadcastReceiver {
 
     @Override
     public void onReceive(Context context, Intent intent) {
-        if (!AppPrefs.isAutoRefresh(context)) return;
+        // 小组件「刷新」是手动触发：不看自动刷新总开关，否则按钮就是个死键
+        boolean manual = intent != null && "REFRESH".equals(intent.getAction());
+        if (!manual && !AppPrefs.isAutoRefresh(context)) return;
         final Context ctx = context.getApplicationContext();
 
         int providerId = ctx.getSharedPreferences("ds_balance_prefs", 0)
@@ -42,6 +44,11 @@ public class AutoRefreshReceiver extends BroadcastReceiver {
             try {
                 ProviderConfig.Provider p = ProviderConfig.get(ctx, providerId);
                 ProviderConfig.BalanceResult result = NetworkClient.fetch(ctx, providerId, key);
+                if (manual) {
+                    // 手动刷新只更新界面，不发通知，避免每次点一下都响一声
+                    BalanceWidgetProvider.updateAll(ctx);
+                    return;
+                }
                 double threshold = AppPrefs.getAlertThreshold(ctx);
                 if (AppPrefs.isAlertEnabled(ctx) && result.totalBalance < threshold) {
                     Notifier.notifyBalance(ctx, ctx.getString(R.string.j_116),

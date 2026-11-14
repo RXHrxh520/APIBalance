@@ -471,7 +471,10 @@ public class SettingsFragment extends Fragment {
                                         return;
                                     }
                                     PrivacyPrefs.setPassword(getActivity(), pw);
-                                    PrivacyPrefs.setLockEnabled(getActivity(), true);
+                                    // 密码没真正落盘时不要开锁，否则会退化成「无密码可设新密码」
+                                    if (PrivacyPrefs.hasPassword(getActivity())) {
+                                        PrivacyPrefs.setLockEnabled(getActivity(), true);
+                                    }
                                     MainActivity a2 = (MainActivity) getActivity();
                                     if (a2 != null) a2.showLockFragment();
                                 });
