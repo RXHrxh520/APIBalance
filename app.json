@@ -5,7 +5,7 @@
     {
       "id": "provider-preview-2026-11",
       "enabled": true,
-      "text": "新的供应商目前稳定性未知 正在进行优化测试 如出现异常状况 请及时反馈",
+      "text": "",
       "url": "https://github.com/RXHrxh520/APIBalance/releases/latest",
       "start": "2026-11-14",
       "end": "2026-11-18"
