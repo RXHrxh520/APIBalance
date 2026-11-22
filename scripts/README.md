@@ -9,9 +9,9 @@
 示例：
 
 ```bash
-./scripts/bump-version.sh patch     # 1.5.4 -> 1.5.5，versionCode +1
-./scripts/bump-version.sh minor     # 1.5.4 -> 1.6.0
-./scripts/bump-version.sh major     # 1.5.4 -> 2.0.0
+./scripts/bump-version.sh patch     # 1.5.5 -> 1.5.6，versionCode +1
+./scripts/bump-version.sh minor     # 1.5.5 -> 1.6.0
+./scripts/bump-version.sh major     # 1.5.5 -> 2.0.0
 ```
 
 > 执行前请确认当前分支与工作区干净，脚本会直接修改 `app/build.gradle`。

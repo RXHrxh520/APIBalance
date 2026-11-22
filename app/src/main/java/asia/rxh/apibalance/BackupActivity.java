@@ -29,7 +29,7 @@ import javax.crypto.spec.SecretKeySpec;
  * 新格式为 PBKDF2-SHA256 + AES-GCM；旧版 CBC 格式仍可读取。
  *
  * Copyright (C) 2026 软小寒
- * SPDX-License-Identifier: AGPL-3.0-or-later
+ * SPDX-License-Identifier: BSD-3-Clause
  */
 public class BackupActivity extends Activity {
 

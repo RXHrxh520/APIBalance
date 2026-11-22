@@ -15,7 +15,7 @@ import java.io.FileOutputStream;
  * 走 MediaStore，失败再退回公共下载目录，让用户真的能在文件管理器里找到。
  *
  * Copyright (C) 2026 软小寒
- * SPDX-License-Identifier: AGPL-3.0-or-later
+ * SPDX-License-Identifier: BSD-3-Clause
  */
 public final class Exporter {
 

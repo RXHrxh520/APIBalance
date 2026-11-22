@@ -1,22 +1,8 @@
 package asia.rxh.apibalance;
 
 /*
- * Copyright (C) 2026 软小寒
- *
- * This file is part of APIBalance.
- *
- * APIBalance is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * APIBalance is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ * Copyright (c) 2026, 软小寒
+ * SPDX-License-Identifier: BSD-3-Clause
  */
 
 import android.content.Context;
@@ -517,6 +503,22 @@ public final class AppPrefs {
 
     public static void setOnboardingDone(Context c, boolean b) {
         sp(c).edit().putBoolean(KEY_ONBOARDING_DONE, b).apply();
+    }
+
+    /**
+     * 用户协议与隐私政策版本。协议文本有实质变更时必须同步改这里；
+     * 已安装用户升级后会被要求重新阅读并同意，避免"更新了文本但没人看到"。
+     */
+    public static final String LEGAL_VERSION = "1.0";
+
+    /** 当前版本协议是否已被用户接受。 */
+    public static boolean isLegalAccepted(Context c) {
+        return LEGAL_VERSION.equals(sp(c).getString("legal_version", ""));
+    }
+
+    /** 记录用户已同意当前版本协议。 */
+    public static void acceptLegal(Context c) {
+        sp(c).edit().putString("legal_version", LEGAL_VERSION).apply();
     }
 
     public static boolean isProMode(Context c) {

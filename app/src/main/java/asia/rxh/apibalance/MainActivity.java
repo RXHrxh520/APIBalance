@@ -1,22 +1,8 @@
 package asia.rxh.apibalance;
 
 /*
- * Copyright (C) 2026 软小寒
- *
- * This file is part of APIBalance.
- *
- * APIBalance is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * APIBalance is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ * Copyright (c) 2026, 软小寒
+ * SPDX-License-Identifier: BSD-3-Clause
  */
 
 import android.animation.ValueAnimator;
@@ -205,8 +191,14 @@ public class MainActivity extends Activity {
 
         SharedPreferences prefs = getSharedPreferences(PREFS_NAME, MODE_PRIVATE);
 
-        // Startup open-source notice (show once)
-        if (!prefs.getBoolean("oss_notice_shown", false)) {
+        // 协议版本化：已安装用户升级后必须重新阅读并同意，避免新协议只对新装生效
+        boolean legalPending = AppPrefs.isOnboardingDone(this) && !AppPrefs.isLegalAccepted(this);
+        if (legalPending) {
+            showLegalUpdateDialog();
+        }
+
+        // Startup open-source notice (show once)；协议弹窗优先，避免叠两层
+        if (!legalPending && !prefs.getBoolean("oss_notice_shown", false)) {
             prefs.edit().putBoolean("oss_notice_shown", true).apply();
             UiDialog.showConfirm(this, getString(R.string.j_136),
                     getString(R.string.j_137),
@@ -291,6 +283,19 @@ public class MainActivity extends Activity {
         } else {
             showLoginFragment(false);
         }
+    }
+
+    /** 协议更新后向已安装用户重新征得同意；不同意直接退出。 */
+    private void showLegalUpdateDialog() {
+        String body = getString(R.string.agreement_user) + "\n\n"
+                + getString(R.string.agreement_privacy);
+        UiDialog.showConfirm(this,
+                getString(R.string.agreement_title),
+                body,
+                getString(R.string.agreement_agree),
+                getString(R.string.agreement_reject),
+                () -> AppPrefs.acceptLegal(this),
+                this::finish);
     }
 
     @Override

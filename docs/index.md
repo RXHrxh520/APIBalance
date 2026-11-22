@@ -9,7 +9,7 @@ permalink: /
 
 # APIBalance 文档
 
-**一个安卓 App，查完 8 家 AI 的余额和套餐配额。** 密钥只存在你自己的手机里，不上传任何服务器。
+**一个安卓 App，查完 8 家 AI 的余额和套餐配额。** 密钥只存在你自己的手机里，查询时只发给对应服务商，不经过作者服务器。
 
 <div class="hero-actions">
   <a class="btn" href="https://github.com/RXHrxh520/APIBalance/releases/latest">下载最新版 APK</a>
@@ -71,4 +71,4 @@ APIBalance 把这 8 家放进一个界面：打开就看完所有余额、赠金
 
 ## 安全承诺
 
-密钥不上传任何服务器；只请求各家官方余额接口与 GitHub 版本检查，TLS 校验恒开启；无广告 SDK、无第三方统计。详见 [隐私与安全](security.html)。
+密钥不上传作者服务器；余额查询只请求各家官方接口，检查更新走 GitHub（更新包下载可能经 gh-proxy.com 镜像加速，不携带任何密钥）；TLS 校验恒开启；无广告 SDK、无第三方统计。详见 [隐私与安全](security.html)。
