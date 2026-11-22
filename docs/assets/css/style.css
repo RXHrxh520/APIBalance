@@ -16,8 +16,16 @@ body{
   color:#fff; padding:22px 0 14px; position:sticky; top:0; z-index:10;
   box-shadow:0 1px 0 rgba(255,255,255,.06);
 }
-.header-inner{display:flex;flex-direction:column;gap:12px}
-.brand{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap}
+.header-inner{display:flex;flex-direction:column;gap:12px;position:relative}
+.brand{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap;padding-right:50px}
+.dev-avatar{
+  position:absolute;top:0;right:0;width:40px;height:40px;padding:0;
+  border:0;border-radius:50%;background:transparent;cursor:pointer;overflow:hidden;
+  box-shadow:0 0 0 2px rgba(255,255,255,.22);transition:.15s;
+}
+.dev-avatar img{display:block;width:100%;height:100%;object-fit:cover;border-radius:50%}
+.dev-avatar:hover{box-shadow:0 0 0 2px rgba(78,161,255,.75)}
+.dev-avatar:focus-visible{outline:2px solid #4ea1ff;outline-offset:2px}
 .brand-name{display:inline-flex;align-items:center;gap:9px;color:#fff;font-size:22px;font-weight:700;letter-spacing:.3px;text-decoration:none}
 .logo{width:26px;height:26px;border-radius:7px;display:block}
 .figure{margin:22px 0;border:1px solid var(--line);border-radius:var(--radius);overflow:hidden}
@@ -77,6 +85,19 @@ pre code{background:none;border:0;color:inherit;padding:0}
 }
 .site-footer p{margin:4px 0}
 .site-footer .muted{color:#98a1b3}
+
+.heart-pop{
+  position:fixed;left:50%;top:50%;z-index:9999;pointer-events:none;
+  font-size:96px;line-height:1;color:#ff5f9e;text-shadow:0 10px 34px rgba(255,95,158,.38);
+  transform:translate(-50%,-50%) scale(.3);opacity:0;
+  animation:heart-pop 1.6s ease-out forwards;
+}
+@keyframes heart-pop{
+  0%{opacity:0;transform:translate(-50%,-50%) scale(.3)}
+  18%{opacity:1;transform:translate(-50%,-50%) scale(1.15)}
+  70%{opacity:1;transform:translate(-50%,-50%) scale(1)}
+  100%{opacity:0;transform:translate(-50%,-56%) scale(1.28)}
+}
 
 @media (max-width:600px){
   h1{font-size:23px}
