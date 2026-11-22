@@ -13,9 +13,8 @@ permalink: /build.html
 
 ### 环境要求
 - Android SDK 37（platform android-37，build-tools 37.0.0）
-- JDK 27
+- JDK 27（运行 Gradle 的 JVM；Android 字节码语言级别仍为 Java 17，这是 D8/R8 的目标，不是 JDK 版本）
 - Gradle 9.8.2（AGP 9.4.0）
-- 如需同款 ARM64架构构建包，请前往 QQ 群文件下载build.zip GitHub 无法上传大文件
 
 ### 构建命令
 ```bash
@@ -23,7 +22,7 @@ permalink: /build.html
 ```
 产出：`app/build/outputs/apk/release/app-release.apk`
 
-仓库自带 Gradle Wrapper 与三套入口脚本，效果等同于上面的命令：
+仓库自带 Gradle Wrapper 与三套 release 入口脚本，效果等同于上面的命令：
 
 | 环境 | 命令 |
 |---|---|
@@ -31,16 +30,22 @@ permalink: /build.html
 | Windows cmd | `build-release.bat` |
 | Windows PowerShell | `powershell -ExecutionPolicy Bypass -File build-release.ps1` |
 
-脚本会先检查 `keystore.properties` 是否存在，再把参数原样透传给 `gradlew`。首次构建前确认
-`JAVA_HOME` 指向 JDK 27、`ANDROID_HOME` 指向已安装 `android-37` 与 `build-tools 37.0.0` 的 SDK。
+脚本会先检查 JDK 主版本 ≥ 27、SDK 路径、`platforms/android-37`、`build-tools/37.0.0`、
+`keystore.properties` 与密钥库文件，再调用 `gradlew`。在 ARM64 / aarch64 机器上，
+脚本会自动追加 `-Pandroid.aapt2FromMavenOverride=<SDK>/build-tools/37.0.0/aapt2`，
+不需要手工传参。首次构建前确认 `JAVA_HOME` 指向 JDK 27、`ANDROID_HOME`
+指向已安装 `android-37` 与 `build-tools 37.0.0` 的 SDK；也可以先运行
+`scripts/check-env.sh --release` 或 `scripts/check-env.ps1 --release` 做环境体检。
 
-> 说明：工程已显式开启 `buildConfig`。若本机是 arm64 架构，需自备 arm64 版 aapt2，并追加
-> `-Pandroid.aapt2FromMavenOverride=<SDK>/build-tools/37.0.0/aapt2` 与 `-Pandroid.builder.sdkDownload=false`。
+> 说明：工程已显式开启 `buildConfig`，并默认 `android.builder.sdkDownload=false`，
+> 不会在构建时偷偷下载缺失的 SDK 组件。
 
 ### 签名
 签名信息不保存在仓库中。构建时按 keystore.properties、环境变量、`-P` 参数的顺序读取
-RXH_STORE_FILE / RXH_STORE_PASS / RXH_KEY_ALIAS / RXH_KEY_PASS，
-口令缺失会直接报错终止，不会产出未签名或错误签名的包。开源分发时请使用你自己的密钥库。
+RXH_STORE_FILE / RXH_STORE_PASS / RXH_KEY_ALIAS / RXH_KEY_PASS。只有这四项齐全且密钥库文件
+真实存在时，release 签名配置才会注册；缺签名时 `assembleDebug`、`tasks`、`clean` 仍可正常执行，
+而一旦任务图里出现 `assembleRelease` / `bundleRelease` / `packageRelease` / `installRelease`，
+Gradle 会明确报错终止，不会产出未签名或错误签名的包。开源分发时请使用你自己的密钥库。
 
 ## 用你自己的证书签名，怎么让应用认这个包
 
@@ -84,9 +89,8 @@ apksigner verify --print-certs app-release.apk
 
 ### 两个容易踩的坑
 
-1. **debug 构建也走 release 签名配置**。没配 `keystore.properties` 时，连 `./gradlew assembleDebug`
-   都会因为找不到密钥库而失败。想跑调试，先在根目录放一份 `keystore.properties`（模板见
-   `keystore.properties.example`），或者临时把 `app/build.gradle` 里的 `signingConfig` 换回 debug。
+1. **debug 与 release 签名已分离**。debug 构建使用 AGP 自动生成的 debug keystore，不需要
+   `keystore.properties`；release 构建才要求 release 证书。两套证书不同，不能互相覆盖安装。
 2. **证书换了就不能覆盖安装**。Android 只允许同证书升级；从官方版换到自编译版必须先卸载，
    卸载会清掉应用私有目录里的密钥与历史，装之前先做一次备份。
 

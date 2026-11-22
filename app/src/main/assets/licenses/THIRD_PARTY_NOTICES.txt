@@ -1,0 +1,19 @@
+APIBalance — third-party notices
+================================
+
+This APK contains the following third-party libraries:
+
+- OkHttp 4.12.1
+  Copyright Square, Inc.
+  Licensed under the Apache License, Version 2.0.
+  Project: https://square.github.io/okhttp/
+
+- Gson 2.14.0
+  Copyright Google LLC.
+  Licensed under the Apache License, Version 2.0.
+  Project: https://github.com/google/gson
+
+The full Apache License 2.0 text is bundled at assets/licenses/Apache-2.0.txt.
+The license and NOTICE files shipped inside the libraries are also preserved in the APK
+under META-INF/LICENSE* and META-INF/NOTICE*. The application's own BSD 3-Clause
+license text is available as assets/licenses/APIBalance-LICENSE.txt.

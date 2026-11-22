@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# 版本号升位工具：同时更新 versionCode 与 versionName
+# 版本号升位工具：同时更新 versionCode 与 versionName（macOS/Linux 通用，不依赖 sed -i）。
 # 用法：./scripts/bump-version.sh [patch|minor|major] [gradle文件路径]
 set -euo pipefail
 
@@ -11,35 +11,41 @@ if [ ! -f "$GRADLE_FILE" ]; then
   exit 1
 fi
 
-OLD_CODE=$(grep -oE 'versionCode[[:space:]]+[0-9]+' "$GRADLE_FILE" | head -1 | grep -oE '[0-9]+')
-OLD_NAME=$(grep -oE 'versionName[[:space:]]+"[^"]+"' "$GRADLE_FILE" | head -1 | sed -E 's/.*"([^"]+)".*/\1/')
-
-if [ -z "$OLD_CODE" ] || [ -z "$OLD_NAME" ]; then
-  echo "未能在 $GRADLE_FILE 中找到 versionCode / versionName" >&2
-  exit 1
-fi
-
-NEW_CODE=$((OLD_CODE + 1))
-NEW_NAME=$(python3 - "$OLD_NAME" "$TYPE" <<'PY'
+python3 - "$GRADLE_FILE" "$TYPE" <<'PY'
+import re
 import sys
-old, kind = sys.argv[1], sys.argv[2]
-parts = [int(p) if p.isdigit() else 0 for p in old.replace('-', '.').split('.')]
+from pathlib import Path
+
+path = Path(sys.argv[1])
+kind = sys.argv[2]
+text = path.read_text(encoding="utf-8")
+
+m_code = re.search(r"versionCode\s+(\d+)", text)
+m_name = re.search(r'''versionName\s+([\'"])([^\'"]+)\1''', text)
+if not m_code or not m_name:
+    sys.exit(f"未能在 {path} 中找到 versionCode / versionName")
+
+old_code = int(m_code.group(1))
+quote = m_name.group(1)
+old_name = m_name.group(2)
+parts = [int(p) if p.isdigit() else 0 for p in old_name.replace("-", ".").split(".")]
 while len(parts) < 3:
     parts.append(0)
-if kind == 'major':
+if kind == "major":
     parts = [parts[0] + 1, 0, 0]
-elif kind == 'minor':
+elif kind == "minor":
     parts = [parts[0], parts[1] + 1, 0]
 else:
     parts = [parts[0], parts[1], parts[2] + 1]
-print('.'.join(str(p) for p in parts))
+new_code = old_code + 1
+new_name = ".".join(str(p) for p in parts)
+
+text = text[: m_code.start()] + f"versionCode {new_code}" + text[m_code.end():]
+text = text[: m_name.start()] + f'versionName {quote}{new_name}{quote}' + text[m_name.end():]
+path.write_text(text, encoding="utf-8")
+print(f"versionCode : {old_code} -> {new_code}")
+print(f"versionName : {old_name} -> {new_name}")
 PY
-)
 
-sed -i -E "s/versionCode[[:space:]]+${OLD_CODE}/versionCode ${NEW_CODE}/" "$GRADLE_FILE"
-sed -i -E "s/versionName[[:space:]]+\"${OLD_NAME//./\\.}\"/versionName \"${NEW_NAME}\"/" "$GRADLE_FILE"
-
-echo "versionCode : ${OLD_CODE} -> ${NEW_CODE}"
-echo "versionName : ${OLD_NAME} -> ${NEW_NAME}"
 echo
 echo "下一步：./gradlew assembleRelease，然后把 APK 与签名信息发到 Release"

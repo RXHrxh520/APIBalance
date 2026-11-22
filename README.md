@@ -31,7 +31,7 @@
   <img src="https://img.shields.io/github/v/release/RXHrxh520/APIBalance?label=%E6%9C%80%E6%96%B0%E7%89%88%E6%9C%AC&color=brightgreen" alt="Release">
   <img src="https://img.shields.io/github/license/RXHrxh520/APIBalance?color=brightgreen" alt="License">
   <img src="https://img.shields.io/badge/Android-8.0%2B-3DDC84?logo=android&logoColor=white" alt="Platform">
-  <img src="https://img.shields.io/badge/语言-中文%20%7C%20English%20%7C%20繁體%20%7C%20萌语-blue" alt="Language">
+  <img src="https://img.shields.io/badge/语言-中文%20%7C%20English%20%7C%20繁體%20%7C%20萌语%20%7C%20Esperanto-blue" alt="Language">
   <img src="https://img.shields.io/github/last-commit/RXHrxh520/APIBalance?color=ff69b4" alt="Last Commit">
 </p>
 
@@ -77,7 +77,7 @@
 - **能看趋势**：折线图 + 月度柱状图，近 7 / 30 / 90 天消耗一目了然，可导出 CSV / JSON。
 - **桌面就能看**：小组件、悬浮球、长按图标"一键查余额"，不打开 App 也知道剩多少。
 - **锁得住**：指纹 / 密码锁、隐藏余额（\*\*\*\*）、禁止截屏、禁通知，三开关独立。
-- **能自己装修**：3 套界面风格、8 种强调色、深色模式、自定义背景与文案、多语言（含萌语）。
+- **能自己装修**：3 套界面风格、8 种强调色、深色模式、自定义背景与文案、多语言（含萌语、世界语）。
 
 完整 57 项功能见 [功能清单](docs/features.md)。
 

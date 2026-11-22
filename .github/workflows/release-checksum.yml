@@ -1,0 +1,33 @@
+name: Release SHA256 校验文件
+
+on:
+  release:
+    types: [published]
+  schedule:
+    # 每天扫描一次，补上遗漏的 SHA256SUMS.txt（UTC 03:17 / 北京时间 11:17）
+    - cron: '17 3 * * *'
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: '只处理指定 tag，留空则扫描最近 100 个 Release'
+        required: false
+
+permissions:
+  contents: write
+
+concurrency:
+  group: release-checksum
+  cancel-in-progress: false
+
+jobs:
+  checksum:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: 生成并上传 SHA256SUMS.txt
+        env:
+          GH_TOKEN: ${{ github.token }}
+          TAG: ${{ github.event.release.tag_name || inputs.tag }}
+        run: |
+          bash scripts/release-checksum.sh "$TAG"

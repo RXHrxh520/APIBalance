@@ -10,23 +10,34 @@ def rxhKeystoreFile = rootProject.file('keystore.properties')
 if (rxhKeystoreFile.exists()) {
     rxhKeystoreFile.withInputStream { rxhKeystoreProps.load(it) }
 }
-def rxhSigningValueOr = { String key, String fallback ->
+def rxhSigningProp = { String key ->
     def v = rxhKeystoreProps.getProperty(key)
     if (v == null || v.trim().isEmpty()) v = System.getenv(key)
     if (v == null || v.trim().isEmpty()) v = project.findProperty(key)
-    if (v == null || v.trim().isEmpty()) return fallback
+    if (v == null || v.trim().isEmpty()) return null
     return v.trim()
 }
-def rxhSigningValue = { String key ->
-    def v = rxhKeystoreProps.getProperty(key)
-    if (v == null || v.trim().isEmpty()) v = System.getenv(key)
-    if (v == null || v.trim().isEmpty()) v = project.findProperty(key)
-    if (v == null || v.trim().isEmpty()) {
-        throw new GradleException("缺少签名口令 " + key
-            + "：请先 export " + key + "=... ，或在项目根目录创建 keystore.properties"
-            + "（内容为 " + key + "=... ，该文件已被 .gitignore 忽略）。")
-    }
-    return v.trim()
+def rxhSigningValueOr = { String key, String fallback ->
+    def v = rxhSigningProp(key)
+    return v == null ? fallback : v
+}
+def rxhStoreFileValue = rxhSigningValueOr('RXH_STORE_FILE', 'keystore.jks')
+def rxhStoreFile = rootProject.file(rxhStoreFileValue)
+def rxhStorePass = rxhSigningProp('RXH_STORE_PASS')
+def rxhKeyAlias = rxhSigningValueOr('RXH_KEY_ALIAS', 'key0')
+def rxhKeyPass = rxhSigningProp('RXH_KEY_PASS')
+def rxhSigningReady = rxhStorePass != null && rxhKeyPass != null && rxhStoreFile.isFile()
+def rxhSigningHint = "缺少完整的 release 签名配置：请把 keystore.properties 放到仓库根目录" +
+        "（模板见 keystore.properties.example），或设置 RXH_STORE_PASS / RXH_KEY_PASS。" +
+        "默认密钥库路径为仓库根目录的 keystore.jks；也可以在 keystore.properties 里写绝对路径。"
+
+// 可复现构建：CI 或打包脚本可传 SOURCE_DATE_EPOCH；未传时沿用当前时间。
+def rxhBuildDate = new java.util.Date()
+def rxhSourceEpoch = System.getenv('SOURCE_DATE_EPOCH')
+def rxhBuildTimeFmt = new java.text.SimpleDateFormat('yyyy-MM-dd HH:mm', java.util.Locale.US)
+if (rxhSourceEpoch != null && rxhSourceEpoch ==~ /[0-9]+/) {
+    rxhBuildDate = new java.util.Date(Long.parseLong(rxhSourceEpoch) * 1000L)
+    rxhBuildTimeFmt.timeZone = java.util.TimeZone.getTimeZone('UTC')
 }
 
 android {
@@ -40,7 +51,7 @@ android {
         targetSdk 37
         versionCode 12
         versionName '1.5.5'
-        buildConfigField "String", "BUILD_TIME", "\"" + new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm").format(new java.util.Date()) + "\""
+        buildConfigField "String", "BUILD_TIME", "\"" + rxhBuildTimeFmt.format(rxhBuildDate) + "\""
     }
 
     buildFeatures {
@@ -49,17 +60,20 @@ android {
     }
 
     signingConfigs {
-        release {
-            // 密钥库路径 / 别名同样不写死在仓库里，
-            // 避免把个人环境信息带进开源分发。
-            storeFile file(rxhSigningValueOr('RXH_STORE_FILE', 'keystore.jks'))
-            storePassword rxhSigningValue('RXH_STORE_PASS')
-            keyAlias rxhSigningValueOr('RXH_KEY_ALIAS', 'key0')
-            keyPassword rxhSigningValue('RXH_KEY_PASS')
-            enableV1Signing true
-            enableV2Signing true
-            enableV3Signing true
-            enableV4Signing true
+        // 只有四个字段齐全且密钥库真实存在时才注册 release 签名，
+        // 避免没有证书的贡献者在 Gradle 配置阶段被直接打断（tasks/clean/IDE sync 也会失败）。
+        if (rxhSigningReady) {
+            release {
+                // 密钥库默认解析到仓库根目录，和 keystore.properties 的位置一致。
+                storeFile rxhStoreFile
+                storePassword rxhStorePass
+                keyAlias rxhKeyAlias
+                keyPassword rxhKeyPass
+                enableV1Signing true
+                enableV2Signing true
+                enableV3Signing true
+                enableV4Signing true
+            }
         }
     }
 
@@ -68,23 +82,42 @@ android {
             minifyEnabled true
             shrinkResources false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-            signingConfig signingConfigs.release
+            if (rxhSigningReady) {
+                signingConfig signingConfigs.release
+            }
         }
         debug {
-            signingConfig signingConfigs.release
+            // 使用 AGP 自动生成的 debug keystore，不再复用 release 证书；
+            // 这样没有发布密钥的人也能直接 assembleDebug。
         }
     }
 
     packaging {
         pickFirst 'lib/**/libc++_shared.so'
+        // 多个依赖可能各带一份同名许可文件；保留一份，避免打包冲突。
+        // App 自己的完整文本在 assets/licenses/ 下，第三方清单也在那里。
+        pickFirst 'META-INF/LICENSE*'
+        pickFirst 'META-INF/NOTICE*'
         exclude 'META-INF/DEPENDENCIES'
-        exclude 'META-INF/LICENSE*'
-        exclude 'META-INF/NOTICE*'
     }
 
     compileOptions {
+        // 字节码目标保持 Java 17（Android D8/R8 支持范围）；Gradle 本身由 JDK 27 运行。
         sourceCompatibility JavaVersion.VERSION_17
         targetCompatibility JavaVersion.VERSION_17
+    }
+}
+
+// 没有 release 密钥时，只允许普通任务与 debug 构建；
+// 一旦任务图里出现 release 打包任务，就在这里明确失败，而不是产出未签名 APK。
+gradle.taskGraph.whenReady { graph ->
+    if (!rxhSigningReady) {
+        def releaseTasks = graph.allTasks.findAll { t ->
+            t.name in ['assembleRelease', 'bundleRelease', 'packageRelease', 'installRelease']
+        }
+        if (!releaseTasks.isEmpty()) {
+            throw new GradleException(rxhSigningHint)
+        }
     }
 }
 
@@ -94,4 +127,7 @@ dependencies {
     // 现代网络 / JSON 依赖
     implementation 'com.squareup.okhttp3:okhttp:4.12.1'
     implementation 'com.google.code.gson:gson:2.14.0'
+
+    // 本地单元测试；CI 的 testDebugUnitTest 会跑这里的用例。
+    testImplementation 'junit:junit:4.13.2'
 }

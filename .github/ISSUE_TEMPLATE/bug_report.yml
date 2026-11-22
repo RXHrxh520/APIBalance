@@ -12,7 +12,7 @@ body:
     id: version
     attributes:
       label: App 版本
-      placeholder: 例如 v1.5.4（设置 → 关于 里能看到）
+      placeholder: 例如 v1.5.5（设置 → 关于 里能看到）
     validations:
       required: true
   - type: input

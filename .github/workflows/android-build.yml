@@ -1,0 +1,97 @@
+name: Android 构建矩阵
+
+on:
+  push:
+    paths:
+      - 'app/**'
+      - 'gradle/**'
+      - 'gradlew'
+      - 'gradlew.bat'
+      - 'build.gradle'
+      - 'settings.gradle'
+      - 'gradle.properties'
+      - '.github/workflows/android-build.yml'
+  pull_request:
+    paths:
+      - 'app/**'
+      - 'gradle/**'
+      - 'gradlew'
+      - 'gradlew.bat'
+      - 'build.gradle'
+      - 'settings.gradle'
+      - 'gradle.properties'
+  workflow_dispatch:
+
+concurrency:
+  group: android-build-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+env:
+  # CI 在海外网络，直接用官方源，避免阿里云镜像超时。
+  RXH_MAVEN_OFFICIAL_FIRST: '1'
+
+jobs:
+  build:
+    name: ${{ matrix.os }} / JDK 27
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: 校验 Gradle Wrapper
+        if: runner.os == 'Linux'
+        uses: gradle/actions/wrapper-validation@v4
+
+      - name: 安装 JDK 27
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '27'
+
+      - name: 安装 Android SDK 37
+        uses: android-actions/setup-android@v3
+        with:
+          packages: 'platforms;android-37 build-tools;37.0.0 platform-tools'
+          log-accepted-android-sdk-licenses: false
+
+      - name: 缓存 Gradle
+        uses: gradle/actions/setup-gradle@v4
+
+      - name: 解析 aapt2（Unix）
+        if: runner.os != 'Windows'
+        shell: bash
+        run: |
+          AAPT2="$ANDROID_HOME/build-tools/37.0.0/aapt2"
+          test -x "$AAPT2"
+          echo "RXH_AAPT2=$AAPT2" >> "$GITHUB_ENV"
+
+      - name: 解析 aapt2（Windows）
+        if: runner.os == 'Windows'
+        shell: pwsh
+        run: |
+          $aapt2 = Join-Path $env:ANDROID_HOME 'build-tools/37.0.0/aapt2.exe'
+          if (-not (Test-Path $aapt2)) { throw "找不到 aapt2: $aapt2" }
+          "RXH_AAPT2=$aapt2" | Out-File -FilePath $env:GITHUB_ENV -Append
+
+      - name: 构建 debug（Unix）
+        if: runner.os != 'Windows'
+        shell: bash
+        run: ./gradlew assembleDebug testDebugUnitTest -Pandroid.aapt2FromMavenOverride="$RXH_AAPT2" --stacktrace
+
+      - name: 构建 debug（Windows）
+        if: runner.os == 'Windows'
+        shell: cmd
+        run: gradlew.bat assembleDebug testDebugUnitTest -Pandroid.aapt2FromMavenOverride="%RXH_AAPT2%" --stacktrace
+
+      - name: 上传 debug APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: apibalance-debug-${{ matrix.os }}
+          path: app/build/outputs/apk/debug/*.apk
+          if-no-files-found: error

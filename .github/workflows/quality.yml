@@ -1,0 +1,55 @@
+name: 构建配置与文案检查
+
+on:
+  push:
+    paths:
+      - 'app/**'
+      - 'scripts/**'
+      - 'docs/**'
+      - 'README.md'
+      - '.github/workflows/quality.yml'
+  pull_request:
+    paths:
+      - 'app/**'
+      - 'scripts/**'
+      - 'docs/**'
+      - 'README.md'
+      - '.github/workflows/quality.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: quality-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  checks:
+    name: 版本 / 许可证 / i18n
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: 版本号一致性
+        run: python3 scripts/check-version.py
+
+      - name: 许可证一致性
+        run: python3 scripts/check-license-headers.py
+
+      - name: 五套语言包 key 对齐
+        run: python3 scripts/check-i18n.py
+
+      - name: 校验 YAML 可解析
+        run: |
+          python3 -m pip install --disable-pip-version-check pyyaml
+          python3 - <<'PY'
+          import pathlib, yaml
+          for p in pathlib.Path('.github/workflows').glob('*.yml'):
+              yaml.safe_load(p.read_text(encoding='utf-8'))
+              print(f'OK {p}')
+          PY

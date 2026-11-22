@@ -204,6 +204,7 @@
 
         <!-- License -->
         <TextView
+            android:id="@+id/tv_license"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
@@ -211,9 +212,13 @@
             android:layout_marginRight="4dp"
             android:gravity="center"
             android:lineSpacingExtra="3dp"
+            android:padding="8dp"
             android:text="@string/str_089"
             android:textColor="@color/footer"
-            android:textSize="11sp" />
+            android:textSize="11sp"
+            android:clickable="true"
+            android:focusable="false"
+            android:background="@drawable/bg_ripple_24" />
 
     </LinearLayout>
 </ScrollView>

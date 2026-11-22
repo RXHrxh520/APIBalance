@@ -1,0 +1,5 @@
+# 复制为 local.properties 后改成你的 SDK 路径；该文件已被 .gitignore 忽略。
+# Linux:   sdk.dir=/home/user/Android/Sdk
+# macOS:   sdk.dir=/Users/you/Library/Android/sdk
+# Windows: sdk.dir=C\:\\Users\\you\\AppData\\Local\\Android\\Sdk
+sdk.dir=

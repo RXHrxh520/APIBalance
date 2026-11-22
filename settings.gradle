@@ -1,21 +1,37 @@
+// 默认优先阿里云镜像（国内网络快）；海外或镜像不可达时设置
+// RXH_MAVEN_OFFICIAL_FIRST=1，把 google()/mavenCentral() 放到镜像前面。
 pluginManagement {
     repositories {
-        maven { url 'https://maven.aliyun.com/repository/google' }
-        maven { url 'https://maven.aliyun.com/repository/central' }
-        maven { url 'https://maven.aliyun.com/repository/gradle-plugin' }
+        if (System.getenv('RXH_MAVEN_OFFICIAL_FIRST') != '1') {
+            maven { url 'https://maven.aliyun.com/repository/google' }
+            maven { url 'https://maven.aliyun.com/repository/central' }
+            maven { url 'https://maven.aliyun.com/repository/gradle-plugin' }
+        }
         google()
         mavenCentral()
         gradlePluginPortal()
+        if (System.getenv('RXH_MAVEN_OFFICIAL_FIRST') == '1') {
+            maven { url 'https://maven.aliyun.com/repository/google' }
+            maven { url 'https://maven.aliyun.com/repository/central' }
+            maven { url 'https://maven.aliyun.com/repository/gradle-plugin' }
+        }
     }
 }
 dependencyResolutionManagement {
     repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
     repositories {
-        maven { url 'https://maven.aliyun.com/repository/google' }
-        maven { url 'https://maven.aliyun.com/repository/central' }
-        maven { url 'https://maven.aliyun.com/repository/public' }
+        if (System.getenv('RXH_MAVEN_OFFICIAL_FIRST') != '1') {
+            maven { url 'https://maven.aliyun.com/repository/google' }
+            maven { url 'https://maven.aliyun.com/repository/central' }
+            maven { url 'https://maven.aliyun.com/repository/public' }
+        }
         google()
         mavenCentral()
+        if (System.getenv('RXH_MAVEN_OFFICIAL_FIRST') == '1') {
+            maven { url 'https://maven.aliyun.com/repository/google' }
+            maven { url 'https://maven.aliyun.com/repository/central' }
+            maven { url 'https://maven.aliyun.com/repository/public' }
+        }
     }
 }
 rootProject.name = 'RxHBalance'
