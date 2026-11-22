@@ -295,6 +295,7 @@ public final class UiDialog {
         Dialog d = new Dialog(ctx);
         d.requestWindowFeature(Window.FEATURE_NO_TITLE);
         d.setContentView(R.layout.dialog_custom);
+        WindowInsetsUtil.applyBottomInset(d.findViewById(R.id.dialog_root));
         Window w = d.getWindow();
         if (w != null) {
             w.setBackgroundDrawable(new GradientDrawable());

@@ -63,6 +63,7 @@ public final class EggChat {
         LinearLayout root = new LinearLayout(act);
         root.setOrientation(LinearLayout.VERTICAL);
         root.setBackgroundColor(ThemeUtils.cardBg(act));
+        WindowInsetsUtil.applyBottomInset(root);
 
         LinearLayout header = new LinearLayout(act);
         header.setOrientation(LinearLayout.HORIZONTAL);

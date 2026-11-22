@@ -32,7 +32,8 @@
             android:visibility="gone"
             android:textColor="@color/text_secondary"
             android:textSize="14sp"
-            android:lineSpacingExtra="3dp" />
+            android:lineSpacingExtra="3dp"
+            android:paddingBottom="12dp" />
     </ScrollView>
 
     <LinearLayout

@@ -60,7 +60,7 @@ public final class AppPrefs {
     public static Context wrapLocale(Context base) {
         try {
             int lang = getLanguage(base);
-            if (lang < 1 || lang > 4) return base;
+            if (lang < 1 || lang > 5) return base;
             android.content.res.Configuration cfg =
                     new android.content.res.Configuration(base.getResources().getConfiguration());
             if (lang == 2) {
@@ -68,6 +68,10 @@ public final class AppPrefs {
             } else if (lang == 3) {
                 cfg.setLocale(java.util.Locale.TRADITIONAL_CHINESE);
             } else if (lang == 4) {
+                // 萌语：独立资源目录 values-b+zh+MEOW
+                cfg.setLocale(java.util.Locale.forLanguageTag("zh-MEOW"));
+            } else if (lang == 5) {
+                // 世界语占位；后续把 values-eo 翻完即可
                 cfg.setLocale(new java.util.Locale("eo"));
             } else {
                 cfg.setLocale(new java.util.Locale("zh"));
