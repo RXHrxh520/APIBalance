@@ -13,7 +13,7 @@ permalink: /build.html
 
 ### 环境要求
 - Android SDK 37（platform android-37，build-tools 37.0.0）
-- JDK 27（运行 Gradle 的 JVM；Android 字节码语言级别仍为 Java 17，这是 D8/R8 的目标，不是 JDK 版本）
+- JDK 27（运行 Gradle 的 JVM；Android 字节码语言级别由 AGP/D8 支持范围决定，不是 JDK 版本）
 - Gradle 9.8.2（AGP 9.4.0）
 
 ### 构建命令
