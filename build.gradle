@@ -15,4 +15,14 @@ buildscript {
     dependencies {
         classpath 'com.android.tools.build:gradle:9.4.0'
     }
+    configurations.classpath {
+        resolutionStrategy {
+            // 统一 Bouncy Castle 各模块版本，避免证书链与签名组件版本错配。
+            eachDependency { details ->
+                if (details.requested.group == 'org.bouncycastle') {
+                    details.useVersion '1.85'
+                }
+            }
+        }
+    }
 }
