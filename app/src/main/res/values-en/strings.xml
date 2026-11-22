@@ -319,7 +319,7 @@ For learning only. Author is not liable for API misuse.</string>
     <string name="j_134">Auto refresh</string>
     <string name="j_135"> current balance </string>
     <string name="j_136">Open Source Notice</string>
-    <string name="j_137">This software is free and open source, forever!\n\nIf you paid for it, ask the seller for a refund right away.\n\nThis project is based on </string>
+    <string name="j_137">This software is free and open source, forever!\n\nIf you paid for it, contact the seller for a refund right away.\n\nThis project is open source under AGPLv3.\nProject URL:\nhttps://github.com/RXHrxh520/APIBalance\n\nThank you for your support!</string>
     <string name="j_138">Got it</string>
     <string name="j_139">No data</string>
     <string name="j_140">Key invalid</string>
