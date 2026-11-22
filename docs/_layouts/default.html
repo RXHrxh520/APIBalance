@@ -11,6 +11,9 @@
 <body>
 <header class="site-header">
   <div class="wrap header-inner">
+    <button class="dev-avatar" type="button" title="开发者" aria-label="开发者头像">
+      <img src="https://github.com/RXHrxh520.png?size=80" alt="开发者头像" width="40" height="40">
+    </button>
     <div class="brand">
       <a href="{{ site.baseurl }}/" class="brand-name"><img class="logo" src="{{ site.baseurl }}/assets/brand/logo.png" alt="APIBalance">APIBalance</a>
       <span class="brand-sub">Android · 多服务商余额查询</span>
@@ -37,5 +40,23 @@
     <p class="muted">文档站不收集访问者数据</p>
   </div>
 </footer>
+<script>
+(function () {
+  var avatar = document.querySelector('.dev-avatar');
+  if (!avatar) return;
+  var clicks = 0;
+  avatar.addEventListener('click', function () {
+    clicks += 1;
+    if (clicks !== 10) return;
+    clicks = 0;
+    var heart = document.createElement('span');
+    heart.className = 'heart-pop';
+    heart.textContent = '♥';
+    heart.setAttribute('aria-hidden', 'true');
+    document.body.appendChild(heart);
+    window.setTimeout(function () { heart.remove(); }, 1600);
+  });
+})();
+</script>
 </body>
 </html>
