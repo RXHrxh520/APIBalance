@@ -24,7 +24,7 @@ permalink: /release-checklist.html
 
 ---
 
-## 二、四种语言（必查）
+## 二、五种语言（必查）
 
 | 语言 | 文件 |
 |---|---|
@@ -32,25 +32,17 @@ permalink: /release-checklist.html
 | English | `app/src/main/res/values-en/strings.xml` |
 | 繁體中文 | `app/src/main/res/values-zh-rTW/strings.xml` |
 | 萌语 | `app/src/main/res/values-b+zh+MEOW/strings.xml` |
+| 世界语 | `app/src/main/res/values-eo/strings.xml` |
 
-发布前检查简中 / 繁中 / 英文 / 萌语四个完整语言包的键位是否一致；缺键会静默回退中文。
+发布前检查五个完整语言包的 string 与 string-array 是否与 base 一致；缺键会静默回退中文。
 
 自检命令（在仓库根目录执行）：
 
 ```bash
-python3 - <<'PY'
-import re
-def keys(p):
-    s = open(p, encoding='utf-8').read()
-    return set(re.findall(r'<string name="([^"]+)"', s))
-a = keys('app/src/main/res/values/strings.xml')
-for loc in ('en', 'zh-rTW', 'b+zh+MEOW'):
-    b = keys(f'app/src/main/res/values-{loc}/strings.xml')
-    print(loc, '缺失', sorted(a - b), '多余', sorted(b - a))
-PY
+python3 scripts/check-i18n.py
 ```
 
-三行输出都应该是 `缺失 [] 多余 []`。
+输出必须全部是 `missing 0+0, extra 0+0`，且 `values-eo` 没有空字符串。
 
 ---
 
@@ -110,7 +102,7 @@ git clone https://github.com/RXHrxh520/APIBalance.wiki.git /tmp/wiki
 
 | 位置 | 内容 |
 |---|---|
-| `app/src/main/res/values*/strings.xml` 中的用户协议、隐私政策条目 | 条款有实质变化才改；四语言同步 |
+| `app/src/main/res/values*/strings.xml` 中的用户协议、隐私政策条目 | 条款有实质变化才改；五语言同步 |
 | `PRIVACY.md` | 数据收集范围、权限用途有变化 |
 | `docs/permissions.md` | 同上 |
 
@@ -123,8 +115,9 @@ git clone https://github.com/RXHrxh520/APIBalance.wiki.git /tmp/wiki
 1. GitHub Release：打 tag `v1.5.x`，上传 APK，正文写「新增 / 修复 / 变更」三段。
 2. QQ 群资源发布界面同步一份更新说明（仓库不放 CHANGELOG）。
 3. Release 里必须带 APK，否则 `release-asset-check` 工作流会自动开 Issue。
-4. 发布后确认：
-   - `Actions` 里 `docs-quality` 是绿的；
+4. `release-checksum` 工作流会在发布后（以及每天定时）生成并上传 `SHA256SUMS.txt`，包含 APK 与源码压缩包。
+5. 发布后确认：
+   - `Actions` 里 `quality`、`android-build`、`docs-quality` 是绿的；
    - Release 附件能下载；
    - 文档站首页能打开。
 
@@ -132,7 +125,7 @@ git clone https://github.com/RXHrxh520/APIBalance.wiki.git /tmp/wiki
 
 ## 八、一次性自检（发布后 10 分钟）
 
-- [ ] 简中 / 繁中 / 英文 / 萌语四个完整语言包键位齐平
+- [ ] 简中 / 繁中 / 英文 / 萌语 / 世界语五个完整语言包键位齐平
 - [ ] README 版本徽章与新版本一致
 - [ ] Wiki「版本与下载说明」已写本版本
 - [ ] Release 带 APK
@@ -145,7 +138,7 @@ git clone https://github.com/RXHrxh520/APIBalance.wiki.git /tmp/wiki
 
 ---
 
-## 附：v1.5.4 更新说明草稿（可直接粘到 GitHub Release）
+## 附：v1.5.5 更新说明草稿（可直接粘到 GitHub Release）
 
 ### 新增
 
@@ -163,5 +156,5 @@ git clone https://github.com/RXHrxh520/APIBalance.wiki.git /tmp/wiki
 
 ### 变更
 
-- 版本号更新为 `1.5.4`。
+- 版本号更新为 `1.5.5`。
 - 安卓主题设置（仿 4.4 / 5.1.1 / 8 / 12）为已知不可用项，暂缓修复；不影响查询、通知、悬浮窗与备份。

@@ -84,6 +84,15 @@ public class AboutFragment extends Fragment {
                     getString(R.string.about_policy_privacy), getString(R.string.agreement_privacy)));
         }
 
+        TextView tvLicense = view.findViewById(R.id.tv_license);
+        if (tvLicense != null) {
+            tvLicense.setOnClickListener(v -> UiDialog.showInfo(getActivity(),
+                    getString(R.string.dep_section_license),
+                    readAsset("licenses/APIBalance-LICENSE.txt") + "\n\n" +
+                            readAsset("licenses/THIRD_PARTY_NOTICES.txt") + "\n\n" +
+                            readAsset("licenses/Apache-2.0.txt")));
+        }
+
         // 内容入场动画：淡入 + 上滑
         view.setAlpha(0f);
         view.setTranslationY(24f);
@@ -96,5 +105,20 @@ public class AboutFragment extends Fragment {
 
         ThemeUtils.apply(view);
         return view;
+    }
+
+    private String readAsset(String name) {
+        try (java.io.InputStream in = getActivity().getAssets().open(name);
+             java.io.BufferedReader reader = new java.io.BufferedReader(
+                     new java.io.InputStreamReader(in, java.nio.charset.StandardCharsets.UTF_8))) {
+            StringBuilder sb = new StringBuilder();
+            String line;
+            while ((line = reader.readLine()) != null) {
+                sb.append(line).append('\n');
+            }
+            return sb.toString().trim();
+        } catch (Exception e) {
+            return "";
+        }
     }
 }

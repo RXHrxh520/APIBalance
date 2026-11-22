@@ -1,7 +1,16 @@
 buildscript {
     repositories {
+        // 与 settings.gradle 一致：默认阿里云优先，RXH_MAVEN_OFFICIAL_FIRST=1 时官方源优先。
+        if (System.getenv('RXH_MAVEN_OFFICIAL_FIRST') != '1') {
+            maven { url 'https://maven.aliyun.com/repository/google' }
+            maven { url 'https://maven.aliyun.com/repository/central' }
+        }
         google()
         mavenCentral()
+        if (System.getenv('RXH_MAVEN_OFFICIAL_FIRST') == '1') {
+            maven { url 'https://maven.aliyun.com/repository/google' }
+            maven { url 'https://maven.aliyun.com/repository/central' }
+        }
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:9.4.0'

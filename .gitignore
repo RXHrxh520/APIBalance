@@ -2,6 +2,7 @@
 .gradle/
 build/
 app/build/
+dist/
 local.properties
 
 # Android Studio / IntelliJ
@@ -20,6 +21,10 @@ keystore.properties
 # OS
 .DS_Store
 Thumbs.db
+
+# Python
+__pycache__/
+*.pyc
 
 # Logs
 *.log

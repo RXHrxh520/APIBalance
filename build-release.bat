@@ -1,10 +1,7 @@
 @echo off
-rem Windows 发布构建入口，双击或 cmd 运行。
+rem Windows 发布构建入口：统一交给 PowerShell 脚本做 JDK/SDK/签名/ARM64 检查。
+chcp 65001 >nul
 setlocal
-cd /d "%~dp0"
-if not exist keystore.properties (
-  echo 缺少 keystore.properties：请复制 keystore.properties.example 并填入签名信息。
-  exit /b 1
-)
-call gradlew.bat assembleRelease %*
-endlocal
+powershell -NoProfile -ExecutionPolicy Bypass -File "%~dp0build-release.ps1" %*
+set "RC=%ERRORLEVEL%"
+endlocal & exit /b %RC%

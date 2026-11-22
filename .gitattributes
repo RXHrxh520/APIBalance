@@ -13,3 +13,8 @@
 *.apk     binary
 *.jar     binary
 *.keystore binary
+
+# Windows 脚本固定 CRLF，并禁止 Git 归一化，保证源码压缩包在 Windows 上也是 CRLF
+*.bat     -text eol=crlf
+*.cmd     -text eol=crlf
+*.ps1     -text eol=crlf
