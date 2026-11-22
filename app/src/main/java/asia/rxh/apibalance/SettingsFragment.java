@@ -519,11 +519,13 @@ public class SettingsFragment extends Fragment {
         if (btnLang != null && tvLangDesc != null) {
             int lang0 = AppPrefs.getLanguage(getActivity());
             tvLangDesc.setText(lang0 == 1 ? getString(R.string.j_017) : lang0 == 2 ? "English"
-                    : lang0 == 3 ? getString(R.string.lang_trad) : lang0 == 4 ? getString(R.string.lang_meow) : getString(R.string.str_026));
+                    : lang0 == 3 ? getString(R.string.lang_trad) : lang0 == 4 ? getString(R.string.lang_meow)
+                    : lang0 == 5 ? getString(R.string.lang_eo) : getString(R.string.str_026));
             btnLang.setOnClickListener(v -> {
                 MainActivity act = (MainActivity) getActivity();
                 if (act == null) return;
-                String[] opts = {getString(R.string.j_018), getString(R.string.j_017), "English", getString(R.string.lang_trad), getString(R.string.lang_meow)};
+                String[] opts = {getString(R.string.j_018), getString(R.string.j_017), "English",
+                        getString(R.string.lang_trad), getString(R.string.lang_meow), getString(R.string.lang_eo)};
                 int sel = AppPrefs.getLanguage(act);
                 UiDialog.showPickerWithDesc(act, getString(R.string.j_019),
                         getString(R.string.j_020), opts, sel == 0 ? 0 : sel, w -> {

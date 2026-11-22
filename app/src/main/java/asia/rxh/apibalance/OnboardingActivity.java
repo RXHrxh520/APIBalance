@@ -84,12 +84,13 @@ public class OnboardingActivity extends Activity {
     @Override
     protected void attachBaseContext(android.content.Context base) {
         int lang = AppPrefs.getLanguage(base);
-        if (lang >= 1 && lang <= 4) {
+        if (lang >= 1 && lang <= 5) {
             android.content.res.Configuration cfg =
                     new android.content.res.Configuration(base.getResources().getConfiguration());
             if (lang == 2) cfg.setLocale(new java.util.Locale("en"));
             else if (lang == 3) cfg.setLocale(java.util.Locale.TRADITIONAL_CHINESE);
-            else if (lang == 4) cfg.setLocale(new java.util.Locale("eo"));
+            else if (lang == 4) cfg.setLocale(java.util.Locale.forLanguageTag("zh-MEOW"));
+            else if (lang == 5) cfg.setLocale(new java.util.Locale("eo"));
             else cfg.setLocale(new java.util.Locale("zh"));
             base = base.createConfigurationContext(cfg);
         }

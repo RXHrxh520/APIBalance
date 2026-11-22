@@ -162,6 +162,7 @@ public final class UpdateChecker {
         tlp.topMargin = (int) (8 * density);
         col.addView(tvPct, tlp);
 
+        WindowInsetsUtil.applyBottomInset(col);
         dlg.setContentView(col);
         dlg.setCancelable(true);
         try {

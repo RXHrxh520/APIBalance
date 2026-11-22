@@ -65,17 +65,19 @@ public class MainActivity extends Activity {
 
     @Override
     protected void attachBaseContext(Context base) {
-        // 应用用户选择的语言（0=跟随 1=中文 2=English 3=繁體 4=萌语）
+        // 应用用户选择的语言（0=跟随 1=中文 2=English 3=繁體 4=萌语 5=世界语）
         int lang = AppPrefs.getLanguage(base);
         appliedLang = lang;
-        if (lang >= 1 && lang <= 4) {
+        if (lang >= 1 && lang <= 5) {
             android.content.res.Configuration cfg = new android.content.res.Configuration(base.getResources().getConfiguration());
             if (lang == 2) {
                 cfg.setLocale(new java.util.Locale("en"));
             } else if (lang == 3) {
                 cfg.setLocale(java.util.Locale.TRADITIONAL_CHINESE); // zh-rTW
             } else if (lang == 4) {
-                cfg.setLocale(new java.util.Locale("eo")); // 萌语（借用 eo 语言位，萌系简中）
+                cfg.setLocale(java.util.Locale.forLanguageTag("zh-MEOW")); // 萌语独立资源
+            } else if (lang == 5) {
+                cfg.setLocale(new java.util.Locale("eo")); // 世界语占位
             } else {
                 cfg.setLocale(new java.util.Locale("zh"));
             }

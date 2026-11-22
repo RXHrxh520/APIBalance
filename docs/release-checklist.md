@@ -31,9 +31,9 @@ permalink: /release-checklist.html
 | 简体中文 | `app/src/main/res/values/strings.xml` |
 | English | `app/src/main/res/values-en/strings.xml` |
 | 繁體中文 | `app/src/main/res/values-zh-rTW/strings.xml` |
-| 萌语 | `app/src/main/res/values-eo/strings.xml` |
+| 萌语 | `app/src/main/res/values-b+zh+MEOW/strings.xml` |
 
-新增任何一条文案，**四份文件都要加**，键名必须一致。缺键会静默回退成中文，界面里就冒出一句中英混杂的怪话。
+发布前检查简中 / 繁中 / 英文 / 萌语四个完整语言包的键位是否一致；缺键会静默回退中文。
 
 自检命令（在仓库根目录执行）：
 
@@ -44,13 +44,13 @@ def keys(p):
     s = open(p, encoding='utf-8').read()
     return set(re.findall(r'<string name="([^"]+)"', s))
 a = keys('app/src/main/res/values/strings.xml')
-for loc in ('en', 'zh-rTW', 'eo'):
+for loc in ('en', 'zh-rTW', 'b+zh+MEOW'):
     b = keys(f'app/src/main/res/values-{loc}/strings.xml')
     print(loc, '缺失', sorted(a - b), '多余', sorted(b - a))
 PY
 ```
 
-四行输出都应该是 `缺失 [] 多余 []`。
+三行输出都应该是 `缺失 [] 多余 []`。
 
 ---
 
@@ -132,7 +132,7 @@ git clone https://github.com/RXHrxh520/APIBalance.wiki.git /tmp/wiki
 
 ## 八、一次性自检（发布后 10 分钟）
 
-- [ ] 四个语言包键位齐平（第二节的命令输出为空）
+- [ ] 简中 / 繁中 / 英文 / 萌语四个完整语言包键位齐平
 - [ ] README 版本徽章与新版本一致
 - [ ] Wiki「版本与下载说明」已写本版本
 - [ ] Release 带 APK

@@ -77,7 +77,7 @@
 - **能看趋势**：折线图 + 月度柱状图，近 7 / 30 / 90 天消耗一目了然，可导出 CSV / JSON。
 - **桌面就能看**：小组件、悬浮球、长按图标"一键查余额"，不打开 App 也知道剩多少。
 - **锁得住**：指纹 / 密码锁、隐藏余额（\*\*\*\*）、禁止截屏、禁通知，三开关独立。
-- **能自己装修**：3 套界面风格、8 种强调色、深色模式、自定义背景与文案、4 种语言（含萌语）。
+- **能自己装修**：3 套界面风格、8 种强调色、深色模式、自定义背景与文案、多语言（含萌语）。
 
 完整 57 项功能见 [功能清单](docs/features.md)。
 
@@ -140,18 +140,18 @@
 
 - 提 Issue：报告 Bug、建议新功能（模板已内置）
 - 提 PR：修问题、优化代码（见 [PR 模板](.github/PULL_REQUEST_TEMPLATE.md)）
-- 翻译：完善 `values/values-en`、`values-zh-rTW`、`values-eo` 等多语言
+- 翻译：完善 `values`、`values-en`、`values-zh-rTW`、`values-b+zh+MEOW` 等多语言
 - 报告安全问题：请走 [安全策略](.github/SECURITY.md) 的私密通道，不要公开贴细节
 
 细则见 [贡献指南](.github/CONTRIBUTING.md)，社区规范见 [行为准则](.github/CODE_OF_CONDUCT.md)。
 
-开发约定：新增 Java 文件必须带 AGPL 版权头；不引入第三方统计/广告 SDK；不擅自修改各家 API 端点。
+开发约定：新增 Java 文件必须带 BSD 3-Clause 版权头；不引入第三方统计/广告 SDK；不擅自修改各家 API 端点。
 
 ## 开源协议
 
-本项目基于 **GNU Affero General Public License v3.0** 开源。
+本项目基于 **BSD 3-Clause License** 开源。
 
-- 本软件永远开源免费。如您是付费购买的，请联系对应方退款。
+- 本软件永远开源免费。如您是付费购买的，请联系对应发售方退款。
 - 仅调用各家服务商官方余额 API，仅供学习交流使用，作者不承担滥用 API 导致的任何账号风险。
 - 图标说明：App 图标为 Deepseek 的萌化版形象；QQ 图标取自系统素材；GitHub 图标为官方 Octicons（MIT）；其余图标为 Material Design Icons 风格（Apache 2.0）。
 
