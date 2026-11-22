@@ -95,3 +95,5 @@ jobs:
           name: apibalance-debug-${{ matrix.os }}
           path: app/build/outputs/apk/debug/*.apk
           if-no-files-found: error
+          # 构建产物只保留 15 天，避免 Actions 存储长期堆积。
+          retention-days: 15

@@ -102,7 +102,7 @@ android {
     }
 
     compileOptions {
-        // 字节码目标保持 Java 17（Android D8/R8 支持范围）；Gradle 本身由 JDK 27 运行。
+        // 字节码目标按 AGP/D8 支持范围设置，不随运行 Gradle 的 JDK 版本变化；Gradle 本身由 JDK 27 运行。
         sourceCompatibility JavaVersion.VERSION_17
         targetCompatibility JavaVersion.VERSION_17
     }
