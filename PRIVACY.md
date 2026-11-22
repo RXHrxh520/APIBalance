@@ -25,7 +25,8 @@ APIBalance 是一个只查询余额的本地工具。这份声明说明它**拿�
 - `open.bigmodel.cn`（智谱 GLM 余额）
 - `api.anthropic.com`（Anthropic 组织成本）
 - 火山方舟官方接口（账户余额）
-- `api.github.com` / `github.com`（检查更新、下载新版 APK）
+- `api.github.com` / `raw.githubusercontent.com`（检查更新、读取公告）
+- `gh-proxy.com`（GitHub 更新包下载镜像；只传 APK，不携带任何 Key）
 - 如你自行填写了「自定义汇率 JSON 地址」，则额外请求该地址
 
 **不存在**任何私人中转服务器，没有自建后端，没有云端同步。

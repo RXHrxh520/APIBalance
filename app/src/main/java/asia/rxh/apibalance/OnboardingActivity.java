@@ -1,18 +1,6 @@
 /*
- * Copyright (C) 2026 软小寒
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ * Copyright (c) 2026, 软小寒
+ * SPDX-License-Identifier: BSD-3-Clause
  */
 
 package asia.rxh.apibalance;
@@ -746,13 +734,10 @@ public class OnboardingActivity extends Activity {
         android.widget.Toast.makeText(this, msg, android.widget.Toast.LENGTH_SHORT).show();
     }
 
-    private static final String AGREEMENT_KEY = "onb_agreement_ok";
-
-    /** v1.5：首次进入引导页前先展示用户协议与隐私政策，不同意则直接退出。 */
+    /** 首次进入引导页前先展示用户协议与隐私政策，不同意则直接退出。 */
     private void showAgreementOnce() {
         try {
-            if (getSharedPreferences("onboarding_tmp", MODE_PRIVATE)
-                    .getBoolean(AGREEMENT_KEY, false)) {
+            if (AppPrefs.isLegalAccepted(this)) {
                 return;
             }
             String body = getString(R.string.agreement_user) + "\n\n"
@@ -762,8 +747,7 @@ public class OnboardingActivity extends Activity {
                     body,
                     getString(R.string.agreement_agree),
                     getString(R.string.agreement_reject),
-                    () -> getSharedPreferences("onboarding_tmp", MODE_PRIVATE)
-                            .edit().putBoolean(AGREEMENT_KEY, true).apply(),
+                    () -> AppPrefs.acceptLegal(this),
                     this::finish);
         } catch (Throwable ignored) {
         }

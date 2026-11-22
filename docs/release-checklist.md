@@ -17,7 +17,7 @@ permalink: /release-checklist.html
 | 位置 | 改什么 |
 |---|---|
 | `app/build.gradle` | `versionCode` 加 1（只增不减，回退版本会导致系统拒装） |
-| `app/build.gradle` | `versionName` 改成对外版本号，如 `1.5.4` |
+| `app/build.gradle` | `versionName` 改成对外版本号，如 `1.5.5` |
 | `app/src/main/res/values/strings.xml` | 版本号展示用的字符串（如有独立条目） |
 
 改完先本地编译一次，确认能出包再往下走——后面所有页面都要引用这个版本号。

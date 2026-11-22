@@ -12,7 +12,7 @@ import java.util.Random;
  * 题库 20 道，每次随机抽 5 道；每道题的选项顺序也每次重新打乱。
  *
  * Copyright (C) 2026 软小寒
- * SPDX-License-Identifier: AGPL-3.0-or-later
+ * SPDX-License-Identifier: BSD-3-Clause
  */
 public final class ProQuiz {
 

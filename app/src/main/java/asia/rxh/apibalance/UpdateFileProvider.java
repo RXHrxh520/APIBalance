@@ -1,5 +1,10 @@
 package asia.rxh.apibalance;
 
+/*
+ * Copyright (c) 2026, 软小寒
+ * SPDX-License-Identifier: BSD-3-Clause
+ */
+
 import android.content.ContentProvider;
 import android.content.ContentValues;
 import android.database.Cursor;
