@@ -43,7 +43,7 @@
     <string name="debug">Debugado</string>
     <string name="debug_desc">Iloj por evoluigantoj</string>
     <string name="history_title">Salda tendenco</string>
-    <string name="history_empty">Ankoraŭ ne historio; ĝi aŭtomate registriĝos post saldokontrolo</string>
+    <string name="history_empty">Ankoraŭ neniu historio; ĝi aŭtomate registriĝos post saldokontrolo</string>
     <string name="history_clear">Malplenigi</string>
     <string name="history_cleared">Historio malplenigita</string>
     <string name="history_list">Historio</string>
@@ -135,7 +135,7 @@ Nur por lernado kaj interŝanĝo; la aŭtoro ne respondecas pri ajna risko kaŭz
     <string name="str_080">Malplenigi</string>
     <string name="str_081">Ĉiuj provizantoj</string>
     <string name="str_082">Ĉiuj tempoj</string>
-    <string name="str_083">Ankoraŭ ne historio; ĝi aŭtomate registriĝos post saldokontrolo</string>
+    <string name="str_083">Ankoraŭ neniu historio; ĝi aŭtomate registriĝos post saldokontrolo</string>
     <string name="str_084">Historio</string>
     <string name="str_085">Kontaktinformoj</string>
     <string name="str_086">Evoluiganto</string>
@@ -279,7 +279,7 @@ Nur por lernado kaj interŝanĝo; la aŭtoro ne respondecas pri ajna risko kaŭz
     <string name="j_106">Reŝargi</string>
     <string name="j_107">Reŝargante…</string>
     <string name="j_108">Liang Wenfeng · pinta horo</string>
-    <string name="j_109">Liang Wengu · malpinta horo</string>
+    <string name="j_109">Liang Wenfeng · malpinta horo</string>
     <string name="j_110">Nun estas pinta horo (labortagoj 09:00-12:00 / 14:00-18:00): la komputado estas okupata kaj la prezo de tokeno estas pli alta.\nKonsideru malpliigi neesencajn alvokojn dum ĉi tiu periodo.</string>
     <string name="j_111">Nun estas malpinta horo (ceteraj tempoj + tutaj semajnfinoj): la komputado estas libera kaj tokenoj estas kun ĉ. 50 procentoj da rabato.\nTaŭga por amasa prilaborado kaj modelaj eksperimentoj.</string>
     <string name="j_112">Bone</string>
@@ -322,12 +322,12 @@ Nur por lernado kaj interŝanĝo; la aŭtoro ne respondecas pri ajna risko kaŭz
     <string name="j_149"> fojojn por eniri la debuggeran reĝimon</string>
     <string name="j_150">Historio malplenigita</string>
     <string name="j_151">Ĉiuj provizantoj</string>
-    <string name="j_152">Filtrili laŭ provizanto</string>
+    <string name="j_152">Filtri laŭ provizanto</string>
     <string name="j_153">Ĉiuj tempoj</string>
     <string name="j_154">Lastaj 7 tagoj</string>
     <string name="j_155">Lastaj 30 tagoj</string>
     <string name="j_156">Lastaj 90 tagoj</string>
-    <string name="j_157">Filtrili laŭ tempo</string>
+    <string name="j_157">Filtri laŭ tempo</string>
     <string name="j_158" formatted="false">Entute %.2f %s    Bonusa %.2f    Reŝargita %.2f</string>
     <string name="j_159">Ŝarĝo de historiaj datumoj malsukcesis: </string>
     <string name="j_160">Bonusa saldo</string>
@@ -403,7 +403,7 @@ Nur por lernado kaj interŝanĝo; la aŭtoro ne respondecas pri ajna risko kaŭz
     <string name="onboarding_title">Rekomenci la unuan agordon</string>
     <string name="onboarding_desc">Trairi la unuan agordan procezon denove</string>
     <string name="onb_welcome_title">Bonvenon al APIBalance</string>
-    <string name="onb_welcome_sub">Agordo en duonminuto; kontrolu la salon kaj koston de pluraj modelaj provizantoj</string>
+    <string name="onb_welcome_sub">Agordo en duonminuto; kontrolu la saldon kaj koston de pluraj modelaj provizantoj</string>
     <string name="onb_provider_title">Elekti provizanton</string>
     <string name="onb_provider_sub">Poste vi povas ŝanĝi tion en «Agordoj → Ŝanĝi provizanton»</string>
     <string name="onb_key_title">Enigi API-ŝlosilon</string>
@@ -441,7 +441,7 @@ Nur por lernado kaj interŝanĝo; la aŭtoro ne respondecas pri ajna risko kaŭz
     <string name="lang_trad">Tradicia ĉina</string>
     <string name="pro_mode_title">Profesia reĝimo</string>
     <string name="pro_mode_desc">Malŝaltite montriĝas nur bazaj agordoj; altnivelaj ebloj estas kaŝitaj</string>
-    <string name="pro_mode_help">Profesia reĝimo inkluzivas: propran provizanton, altnivelan reton, prokseon, temat centron, propran fonon kaj ikonon, debugadon kaj dependecojn, altnivelajn privatecajn eblojn.\nMalŝaltite restas nur konto kaj bazaj personigoj.</string>
+    <string name="pro_mode_help">Profesia reĝimo inkluzivas: propran provizanton, altnivelan reton, prokseon, teman centron, propran fonon kaj ikonon, debugadon kaj dependecojn, altnivelajn privatecajn eblojn.\nMalŝaltite restas nur konto kaj bazaj personigoj.</string>
     <string name="perm_center_title">Permesa centro</string>
     <string name="perm_center_desc">Rigardi kaj peti sistemajn permesojn: sciigoj, flosanta fenestro, preciza alarmo ktp.</string>
     <string name="onb_perm_title">Permesoj</string>
@@ -518,7 +518,7 @@ Nur por lernado kaj interŝanĝo; la aŭtoro ne respondecas pri ajna risko kaŭz
     <string name="h_064">Donita (la sistemversio ne bezonas apartan permeson)</string>
     <string name="h_065">Sciigoj:</string>
     <string name="h_066">Flosanta fenestro:</string>
-    <string name="h_067">Kaŝi la salon kaj kaŝi la aplikaĵon el lastaj taskoj estas en-aplikaj ŝaltiloj; vidu la privatecajn agordojn sube.</string>
+    <string name="h_067">Kaŝi la saldon kaj kaŝi la aplikaĵon el lastaj taskoj estas en-aplikaj ŝaltiloj; vidu la privatecajn agordojn sube.</string>
     <string name="h_068">Alŝuti bildon</string>
     <string name="h_069">Forigi kaj revenigi la defaŭlton</string>
     <string name="h_070">Ŝanĝi la aplikaĵan ikonon</string>
@@ -638,7 +638,7 @@ Nur por lernado kaj interŝanĝo; la aŭtoro ne respondecas pri ajna risko kaŭz
     <string name="g_013">Neniu balance_infos en la respondo</string>
     <string name="g_014">Neniu data en la respondo</string>
     <string name="g_015">Liang Wenfeng</string>
-    <string name="g_016">Liang Wengu</string>
+    <string name="g_016">Liang Wenfeng</string>
     <string name="g_017">Pinta horo</string>
     <string name="g_018">Malpinta</string>
     <string name="g_019">Laborepoka pinto: la komputado estas okupata, uzu ĝin ŝpareme.</string>
