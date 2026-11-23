@@ -17,7 +17,7 @@ body{
   box-shadow:0 1px 0 rgba(255,255,255,.06);
 }
 .header-inner{display:flex;flex-direction:column;gap:12px;position:relative}
-.brand{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap;padding-right:50px}
+.brand{display:flex;flex-direction:column;align-items:flex-start;gap:2px;padding-right:50px}
 .dev-avatar{
   position:absolute;top:28px;right:24px;width:40px;height:40px;padding:0;
   border:0;border-radius:50%;background:transparent;cursor:pointer;overflow:hidden;
@@ -27,10 +27,13 @@ body{
 .dev-avatar:hover{box-shadow:0 0 0 2px rgba(78,161,255,.75)}
 .dev-avatar:focus-visible{outline:2px solid #4ea1ff;outline-offset:2px}
 .brand-name{display:inline-flex;align-items:center;gap:9px;color:#fff;font-size:22px;font-weight:700;letter-spacing:.3px;text-decoration:none}
-.logo{width:30px;height:30px;border-radius:8px;display:block}
+.logo{
+  width:36px;height:36px;border-radius:9px;display:block;
+  box-shadow:0 0 0 1px rgba(255,255,255,.18),0 6px 18px rgba(0,0,0,.22);
+}
 .figure{margin:22px 0;border:1px solid var(--line);border-radius:var(--radius);overflow:hidden}
 .figure img,.figure svg{display:block;width:100%;height:auto}
-.brand-sub{color:rgba(255,255,255,.6);font-size:13px}
+.brand-sub{color:rgba(255,255,255,.66);font-size:12.5px;line-height:1.4;letter-spacing:.2px;padding-left:45px}
 .nav{display:flex;gap:6px;flex-wrap:wrap;font-size:14px}
 .nav a{
   color:rgba(255,255,255,.82); text-decoration:none; padding:5px 10px;
@@ -137,6 +140,8 @@ pre code{background:none;border:0;color:inherit;padding:0}
   .main{padding:24px 16px 44px}
   .site-header{padding:16px 0 10px}
   .brand{padding-right:44px}
+  .logo{width:32px;height:32px}
+  .brand-sub{padding-left:41px;font-size:12px}
   .dev-avatar{top:20px;right:16px;width:36px;height:36px}
   .nav{font-size:13px;gap:4px}
   .nav a{padding:4px 8px}
