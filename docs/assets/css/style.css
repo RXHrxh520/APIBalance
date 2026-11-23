@@ -19,7 +19,7 @@ body{
 .header-inner{display:flex;flex-direction:column;gap:12px;position:relative}
 .brand{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap;padding-right:50px}
 .dev-avatar{
-  position:absolute;top:0;right:0;width:40px;height:40px;padding:0;
+  position:absolute;top:28px;right:24px;width:40px;height:40px;padding:0;
   border:0;border-radius:50%;background:transparent;cursor:pointer;overflow:hidden;
   box-shadow:0 0 0 2px rgba(255,255,255,.22);transition:.15s;
 }
@@ -27,7 +27,7 @@ body{
 .dev-avatar:hover{box-shadow:0 0 0 2px rgba(78,161,255,.75)}
 .dev-avatar:focus-visible{outline:2px solid #4ea1ff;outline-offset:2px}
 .brand-name{display:inline-flex;align-items:center;gap:9px;color:#fff;font-size:22px;font-weight:700;letter-spacing:.3px;text-decoration:none}
-.logo{width:26px;height:26px;border-radius:7px;display:block}
+.logo{width:30px;height:30px;border-radius:8px;display:block}
 .figure{margin:22px 0;border:1px solid var(--line);border-radius:var(--radius);overflow:hidden}
 .figure img,.figure svg{display:block;width:100%;height:auto}
 .brand-sub{color:rgba(255,255,255,.6);font-size:13px}
@@ -72,6 +72,39 @@ pre code{background:none;border:0;color:inherit;padding:0}
 
 .banner{display:block;width:100%;max-width:860px;margin:0 0 26px;border-radius:var(--radius)}
 
+.hero-carousel{
+  position:relative;max-width:860px;aspect-ratio:4/1;margin:0 0 26px;
+  border-radius:var(--radius);overflow:hidden;background:#07101f;
+  box-shadow:0 16px 40px rgba(12,28,56,.18);
+}
+.carousel-slide{position:absolute;inset:0;opacity:0;pointer-events:none;transition:opacity .55s ease}
+.carousel-slide.is-active{opacity:1;pointer-events:auto}
+.carousel-slide img{display:block;width:100%;height:100%;object-fit:cover}
+.carousel-caption{
+  position:absolute;left:0;right:0;bottom:0;padding:30px 30px 26px;
+  background:linear-gradient(180deg,transparent,rgba(3,10,24,.82));
+  color:#fff;pointer-events:none;
+}
+.carousel-caption strong{display:block;color:#fff;font-size:19px;line-height:1.35;letter-spacing:.2px}
+.carousel-caption span{display:block;margin-top:4px;color:rgba(255,255,255,.78);font-size:13px}
+.carousel-arrow{
+  position:absolute;top:50%;z-index:2;width:34px;height:34px;padding:0;
+  border:1px solid rgba(255,255,255,.3);border-radius:50%;
+  background:rgba(4,13,30,.48);color:#fff;font-size:20px;line-height:1;
+  display:grid;place-items:center;cursor:pointer;transform:translateY(-50%);
+  backdrop-filter:blur(6px);transition:.15s;
+}
+.carousel-arrow:hover{background:rgba(78,161,255,.55);border-color:rgba(78,161,255,.8)}
+.carousel-arrow.prev{left:12px}
+.carousel-arrow.next{right:12px}
+.carousel-dots{position:absolute;right:16px;bottom:14px;z-index:2;display:flex;gap:7px}
+.carousel-dot{
+  width:8px;height:8px;padding:0;border:0;border-radius:999px;
+  background:rgba(255,255,255,.45);cursor:pointer;transition:.2s;
+}
+.carousel-dot.is-active{width:22px;background:#fff}
+.carousel-dot:focus-visible{outline:2px solid #4ea1ff;outline-offset:2px}
+
 .hero-actions{display:flex;gap:10px;flex-wrap:wrap;margin:20px 0 6px}
 .btn{
   display:inline-block;padding:10px 18px;border-radius:999px;font-size:15px;
@@ -103,7 +136,16 @@ pre code{background:none;border:0;color:inherit;padding:0}
   h1{font-size:23px}
   .main{padding:24px 16px 44px}
   .site-header{padding:16px 0 10px}
+  .brand{padding-right:44px}
+  .dev-avatar{top:20px;right:16px;width:36px;height:36px}
   .nav{font-size:13px;gap:4px}
   .nav a{padding:4px 8px}
+  .hero-carousel{aspect-ratio:3/1}
+  .carousel-slide.is-brand img{object-position:left center}
+  .carousel-caption{top:14px;bottom:auto;padding:0 16px;background:none;text-shadow:0 1px 8px rgba(0,0,0,.6)}
+  .carousel-caption strong{font-size:14px}
+  .carousel-caption span{font-size:11px;margin-top:2px}
+  .carousel-arrow{display:none}
+  .carousel-dots{right:12px;bottom:10px}
   table{font-size:13.5px;display:block;overflow-x:auto;white-space:nowrap}
 }

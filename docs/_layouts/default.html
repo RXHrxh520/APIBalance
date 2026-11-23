@@ -5,17 +5,17 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>{{ page.title | default: site.title }}</title>
 <meta name="description" content="{{ page.description | default: site.description }}">
-<link rel="icon" href="{{ site.baseurl }}/assets/brand/logo.png">
+<link rel="icon" href="{{ site.baseurl }}/assets/brand/app-icon.png">
 <link rel="stylesheet" href="{{ site.baseurl }}/assets/css/style.css">
 </head>
 <body>
 <header class="site-header">
+  <button class="dev-avatar" type="button" title="开发者" aria-label="开发者头像">
+    <img src="https://github.com/RXHrxh520.png?size=80" alt="开发者头像" width="40" height="40">
+  </button>
   <div class="wrap header-inner">
-    <button class="dev-avatar" type="button" title="开发者" aria-label="开发者头像">
-      <img src="https://github.com/RXHrxh520.png?size=80" alt="开发者头像" width="40" height="40">
-    </button>
     <div class="brand">
-      <a href="{{ site.baseurl }}/" class="brand-name"><img class="logo" src="{{ site.baseurl }}/assets/brand/logo.png" alt="APIBalance">APIBalance</a>
+      <a href="{{ site.baseurl }}/" class="brand-name"><img class="logo" src="{{ site.baseurl }}/assets/brand/app-icon.png" alt="APIBalance">APIBalance</a>
       <span class="brand-sub">Android · 多服务商余额查询</span>
     </div>
     <nav class="nav">
@@ -56,6 +56,62 @@
     document.body.appendChild(heart);
     window.setTimeout(function () { heart.remove(); }, 1600);
   });
+})();
+</script>
+<script>
+(function () {
+  var root = document.querySelector('[data-carousel]');
+  if (!root) return;
+  var slides = Array.prototype.slice.call(root.querySelectorAll('.carousel-slide'));
+  var dots = Array.prototype.slice.call(root.querySelectorAll('.carousel-dot'));
+  var index = 0;
+  var timer;
+  var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  function show(n) {
+    index = (n + slides.length) % slides.length;
+    slides.forEach(function (slide, i) {
+      slide.classList.toggle('is-active', i === index);
+    });
+    dots.forEach(function (dot, i) {
+      dot.classList.toggle('is-active', i === index);
+      if (i === index) dot.setAttribute('aria-current', 'true');
+      else dot.removeAttribute('aria-current');
+    });
+  }
+  function stop() {
+    if (timer) window.clearInterval(timer);
+    timer = null;
+  }
+  function start() {
+    stop();
+    if (reduce) return;
+    timer = window.setInterval(function () { show(index + 1); }, 5000);
+  }
+  var prev = root.querySelector('.carousel-arrow.prev');
+  var next = root.querySelector('.carousel-arrow.next');
+  if (prev) prev.addEventListener('click', function () { show(index - 1); start(); });
+  if (next) next.addEventListener('click', function () { show(index + 1); start(); });
+  dots.forEach(function (dot, i) {
+    dot.addEventListener('click', function () { show(i); start(); });
+  });
+  var startX = null;
+  root.addEventListener('touchstart', function (event) {
+    if (event.touches.length === 1) startX = event.touches[0].clientX;
+  }, { passive: true });
+  root.addEventListener('touchend', function (event) {
+    if (startX === null) return;
+    var delta = event.changedTouches[0].clientX - startX;
+    startX = null;
+    if (Math.abs(delta) < 40) return;
+    show(index + (delta < 0 ? 1 : -1));
+    start();
+  }, { passive: true });
+  root.addEventListener('mouseenter', stop);
+  root.addEventListener('mouseleave', start);
+  root.addEventListener('focusin', stop);
+  root.addEventListener('focusout', function () { window.setTimeout(start, 0); });
+  show(0);
+  if (!reduce) start();
 })();
 </script>
 </body>

@@ -5,7 +5,32 @@ description: APIBalance 使用文档：支持 DeepSeek / Kimi / 智谱 GLM / Ant
 permalink: /
 ---
 
-<img class="banner" src="{{ site.baseurl }}/assets/brand/banner.jpg" alt="APIBalance">
+<div class="hero-carousel" data-carousel aria-label="APIBalance 介绍轮播">
+  <div class="carousel-slide is-active is-brand">
+    <img src="{{ site.baseurl }}/assets/brand/banner.jpg" alt="APIBalance 多服务商 AI API 余额监控" decoding="async">
+  </div>
+  <div class="carousel-slide">
+    <img src="{{ site.baseurl }}/assets/brand/carousel-1.jpg" alt="多服务商 AI 余额仪表盘" loading="lazy" decoding="async">
+    <div class="carousel-caption">
+      <strong>一个面板，看清所有 AI 余额</strong>
+      <span>DeepSeek · Kimi · 智谱 GLM · Claude · 火山方舟</span>
+    </div>
+  </div>
+  <div class="carousel-slide">
+    <img src="{{ site.baseurl }}/assets/brand/carousel-2.jpg" alt="本地加密与隐私保护" loading="lazy" decoding="async">
+    <div class="carousel-caption">
+      <strong>密钥只留在你的设备</strong>
+      <span>本地加密，不经过作者服务器</span>
+    </div>
+  </div>
+  <button class="carousel-arrow prev" type="button" aria-label="上一张">‹</button>
+  <button class="carousel-arrow next" type="button" aria-label="下一张">›</button>
+  <div class="carousel-dots" aria-label="轮播页码">
+    <button class="carousel-dot is-active" type="button" aria-label="第 1 张" aria-current="true"></button>
+    <button class="carousel-dot" type="button" aria-label="第 2 张"></button>
+    <button class="carousel-dot" type="button" aria-label="第 3 张"></button>
+  </div>
+</div>
 
 # APIBalance 文档
 
