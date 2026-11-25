@@ -1,0 +1,27 @@
+# Gitee Go 流水线：Gitee 上 .github/workflows 不生效，这里是等价移植。
+# 触发方式统一为 push 到 main，避免使用 Gitee 尚未支持的高级触发器。
+version: 1.0
+name: quality
+displayName: 构建配置与文案检查
+
+triggers:
+  push:
+    branches:
+      include:
+        - main
+
+stages:
+  - name: check
+    displayName: 版本 / 许可证 / i18n
+    steps:
+      - step: build@python
+        name: quality
+        displayName: 运行仓库自带校验脚本
+        pythonVersion: 3.10
+        commands:
+          - python3 scripts/check-version.py
+          - python3 scripts/check-license-headers.py
+          - python3 scripts/check-i18n.py
+          - python3 -c "import pathlib,yaml,sys
+for p in list(pathlib.Path('.github/workflows').glob('*.yml'))+list(pathlib.Path('.workflow').glob('*.yml')):
+    yaml.safe_load(p.read_text(encoding='utf-8')); print('OK', p)"

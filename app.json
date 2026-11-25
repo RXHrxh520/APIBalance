@@ -3,13 +3,13 @@
   "_format": 2,
   "notices": [
     {
-      "id": "provider-preview-2026-11",
+      "id": "v155-2026-11",
       "enabled": true,
-      "text": "",
-      "url": "https://github.com/RXHrxh520/APIBalance/releases/latest",
-      "start": "2026-11-14",
-      "end": "2026-11-18"
+      "text": "v1.5.5 已发布：代理设置合并为单个弹窗（HTTP/HTTPS/SOCKS5 + 账号密码），应用内更新优先 GitHub、Gitee 兜底。",
+      "url": "https://gitee.com/RXHrxh520/APIBalance/releases",
+      "start": "2026-11-26",
+      "end": "2026-11-27"
     }
   ],
-  "notice_url": "https://github.com/RXHrxh520/APIBalance/releases/latest"
+  "notice_url": "https://gitee.com/RXHrxh520/APIBalance/releases"
 }
