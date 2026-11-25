@@ -1,0 +1,22 @@
+# Gitee Go 流水线：Gitee 上 .github/workflows 不生效，这里是等价移植。
+# 触发方式统一为 push 到 main，避免使用 Gitee 尚未支持的高级触发器。
+version: 1.0
+name: release-checksum
+displayName: 发布校验和
+
+triggers:
+  push:
+    branches:
+      include:
+        - main
+
+stages:
+  - name: run
+    displayName: 发布校验和
+    steps:
+      - step: build@python
+        name: release_checksum
+        displayName: 发布校验和
+        pythonVersion: 3.10
+        commands:
+          - python3 scripts/gitee/release_checksum.py
