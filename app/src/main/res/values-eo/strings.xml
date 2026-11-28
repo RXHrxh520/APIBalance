@@ -1129,6 +1129,9 @@ Nur por lernado kaj interŝanĝo; la aŭtoro ne respondecas pri ajna risko kaŭz
     <string name="lock_too_many_fmt">Tro multaj provoj; bonvolu reprovi post %1$d sekundoj</string>
     <string name="update_notice_title_fmt">Novaĵoj en v%1$s</string>
     <string name="backup_sig_bad">Kontrolo de savkopio malsukcesis: la dosiero estis modifita aŭ ne estas eksportita de ĉi tiu aplikaĵo; bonvolu reeksporti</string>
+    <string name="backup_legacy_title">Malnova savkopio devas esti konvertita unue</string>
+    <string name="backup_legacy_msg">Ĉi tiu savkopio uzas la malnovan ĉifradan formaton, kiun la nova versio ne plu inkluzivas. Konvertu ĝin per la reta ilo: \n%1$s\n\nLa konvertado okazas tute en via retumilo — la dosiero neniam estas alŝutita al iu ajn servilo.</string>
+    <string name="backup_legacy_open">Malfermi konvertilon</string>
     <string name="update_need_install_perm">Unue permesu "Instali nekonatajn aplikaĵojn"; la agordoj jam estas malfermitaj por vi; post rajtigo denove tuŝu kontroli ĝisdatigojn</string>
     <string name="float_bg_processing">Konservante la bildon ene de la aplikaĵo, por ke la sistemo ne nuligu la rajtigon</string>
     <string name="float_bg_failed">Konservado malsukcesis; bonvolu provi alian bildon</string>

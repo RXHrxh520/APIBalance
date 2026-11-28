@@ -23,6 +23,32 @@ buildscript {
                     details.useVersion '1.85'
                 }
             }
+            // 构建链（AGP / Gradle 插件自身带的传递依赖）里已知有安全告警的坐标，
+            // 统一抬到已修复版本。都是构建期依赖，不进 APK，不影响运行时行为。
+            force 'com.google.guava:guava:33.7.2-jre'      // GHSA-xxph-c9ww-hj94
+            force 'org.jdom:jdom2:2.0.6.1'                 // GHSA-2363-cqg2-863c (XXE)
+            force 'org.bitbucket.b_c:jose4j:0.9.6'         // GHSA-3677-xxcr-wjqv
+            force 'org.apache.commons:commons-lang3:3.18.0'// GHSA-j288-q9x7-2f5v
+            force 'org.apache.httpcomponents:httpclient:4.5.13' // GHSA-7r82-7xv7-xcpj
+        }
+    }
+}
+
+// AGP 内部还会用 detached configuration 解析 aapt2 / lint 之类的东西，
+// 那些配置不继承 buildscript 的规则，所以这里再对所有工程的所有配置兜一遍。
+subprojects {
+    configurations.configureEach {
+        resolutionStrategy {
+            eachDependency { details ->
+                if (details.requested.group == 'org.bouncycastle') {
+                    details.useVersion '1.85'
+                }
+            }
+            force 'com.google.guava:guava:33.7.2-jre'
+            force 'org.jdom:jdom2:2.0.6.1'
+            force 'org.bitbucket.b_c:jose4j:0.9.6'
+            force 'org.apache.commons:commons-lang3:3.18.0'
+            force 'org.apache.httpcomponents:httpclient:4.5.13'
         }
     }
 }

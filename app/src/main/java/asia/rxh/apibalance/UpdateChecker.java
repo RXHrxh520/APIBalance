@@ -168,8 +168,25 @@ public final class UpdateChecker {
         col.addView(tvPct, tlp);
 
         WindowInsetsUtil.applyBottomInset(col);
+        col.setBackgroundColor(0x00000000);
         dlg.setContentView(col);
         dlg.setCancelable(true);
+        // 这个下载框是手搓的 Dialog，不走 UiDialog，必须自己设窗口宽度；
+        // 否则默认 wrap_content 会让里面的 match_parent 进度条塌成一条细缝。
+        try {
+            android.view.Window w = dlg.getWindow();
+            if (w != null) {
+                android.graphics.drawable.GradientDrawable bg =
+                        new android.graphics.drawable.GradientDrawable();
+                bg.setColor(ThemeUtils.cardBg(act));
+                bg.setCornerRadius(18 * density);
+                w.setBackgroundDrawable(bg);
+                w.setGravity(android.view.Gravity.CENTER);
+                w.setLayout(UiDialog.dialogWidth(act),
+                        android.view.ViewGroup.LayoutParams.WRAP_CONTENT);
+            }
+        } catch (Throwable ignored) {
+        }
         try {
             dlg.show();
         } catch (Throwable ignored) {

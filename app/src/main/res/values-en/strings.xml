@@ -1144,6 +1144,9 @@ For learning only. Author is not liable for API misuse.</string>
     <string name="lock_too_many_fmt">Too many attempts. Try again in %1$d s</string>
     <string name="update_notice_title_fmt">What\'s new in v%1$s</string>
     <string name="backup_sig_bad">Backup verification failed: the file was modified or not exported by this app</string>
+    <string name="backup_legacy_title">Old backup needs conversion first</string>
+    <string name="backup_legacy_msg">This backup uses the legacy encryption format, which the new version no longer ships. Convert it with the web tool first:\n%1$s\n\nThe conversion runs entirely in your browser — the file is never uploaded to any server.</string>
+    <string name="backup_legacy_open">Open converter</string>
     <string name="update_need_install_perm">Allow "Install unknown apps" first. Settings has been opened for you.</string>
     <string name="float_bg_processing">Saving the image inside the app to survive URI revocation</string>
     <string name="float_bg_failed">Could not save this image. Try another one.</string>

@@ -1129,6 +1129,9 @@
     <string name="lock_too_many_fmt">嘗試次數過多，請 %1$d 秒後再試</string>
     <string name="update_notice_title_fmt">v%1$s 更新內容</string>
     <string name="backup_sig_bad">備份校驗失敗：檔案被修改過或不是本應用程式匯出的</string>
+    <string name="backup_legacy_title">舊版備份需要先轉換</string>
+    <string name="backup_legacy_msg">這個備份是舊加密格式，新版已經不再內建舊演算法。先用網頁工具把它轉成新格式：\n%1$s\n\n轉換全程在你的瀏覽器裡完成，檔案不會上傳到任何伺服器。</string>
+    <string name="backup_legacy_open">開啟轉換頁</string>
     <string name="update_need_install_perm">需要先允許「安裝未知應用程式」，已為你開啟設定</string>
     <string name="float_bg_processing">正在把圖片存進應用程式內，避免系統回收授權</string>
     <string name="float_bg_failed">儲存失敗，請換一張圖片再試</string>

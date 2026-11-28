@@ -1,0 +1,140 @@
+---
+layout: default
+title: 备份升级工具 · APIBalance
+description: 把旧版加密的 APIBalance 备份包在浏览器本地转换成新版格式，文件不上传任何服务器。
+permalink: /backup-convert.html
+---
+
+<style>
+  .conv-card{max-width:640px;margin:20px 0;padding:20px;border:1px solid #2a2f3a;border-radius:14px;background:#151922}
+  .conv-card label{display:block;margin:14px 0 6px;font-size:14px;color:#c9d1d9}
+  .conv-card input[type=file],.conv-card input[type=password]{width:100%;box-sizing:border-box;padding:10px 12px;border:1px solid #2f3542;border-radius:10px;background:#0d1117;color:#e6edf3;font-size:15px}
+  .conv-card .btn{display:inline-block;margin-top:16px;padding:10px 18px;border-radius:10px;border:1px solid #2f81f7;background:#1f6feb;color:#fff;font-size:15px;cursor:pointer}
+  .conv-card .btn[disabled]{opacity:.5;cursor:not-allowed}
+  .conv-msg{margin-top:14px;font-size:14px;line-height:1.7;white-space:pre-wrap}
+  .conv-msg.err{color:#f87171}
+  .conv-msg.ok{color:#4ade80}
+  .conv-badge{display:inline-block;padding:2px 8px;border-radius:999px;background:#12261a;border:1px solid #1f7a3a;color:#4ade80;font-size:12px;margin-right:8px}
+  .conv-note{font-size:13px;color:#8b949e;line-height:1.8}
+</style>
+
+# 备份升级工具
+
+> **转换在你的浏览器里完成，文件不会上传到任何服务器。** 这个页面没有任何上传接口，断网也能用；旧的加密算法只在你的电脑/手机本地跑一次，用完即弃。
+
+## 这是干什么的
+
+新版本把备份改成了**一套**格式（PBKDF2-HMAC-SHA256 60 万次 + AES-256-GCM，128 位认证标签，AAD 绑定格式元数据），App 里不再内置旧算法。你手上如果是旧版本导出的备份包，先用这里转一下，再回 App 恢复即可。
+
+- 支持：旧 CBC 格式（v1，`.bin`）、过渡 GCM 格式（v2，`.bin` 或 `.zip`）
+- 输出：新版格式（v3，`.bin`），App 的「恢复」直接选它
+- 已经是 v3 的文件：会提示无需转换
+
+<div class="conv-card">
+  <label for="conv-file">① 选择备份文件（.bin / .zip）</label>
+  <input id="conv-file" type="file" accept=".bin,.zip,application/octet-stream,application/zip">
+
+  <label for="conv-pwd">② 输入导出时用的口令</label>
+  <input id="conv-pwd" type="password" autocomplete="off" placeholder="和 App 里导出时输入的一致">
+
+  <button id="conv-run" class="btn" type="button">在本地转换</button>
+  <div id="conv-msg" class="conv-msg"></div>
+  <div id="conv-dl" style="margin-top:12px"></div>
+</div>
+
+<p class="conv-note">
+口令只在内存里参与 KDF 计算，不落盘、不进日志、不发网络请求。转换完成后刷新页面即可清空。
+页面加载的是 <code>/assets/js/backup-convert.js</code>，你可以自己打开看，全程用的是浏览器自带 WebCrypto。
+</p>
+
+## 参数（和 App 逐字节一致）
+
+| 项目 | 取值 |
+| --- | --- |
+| 密钥派生 | PBKDF2-HMAC-SHA256，600000 次，256 位 |
+| salt | 每次转换随机 16 字节 |
+| 加密 | AES-256-GCM，128 位 tag |
+| nonce | 每次转换随机 12 字节，绝不复用 |
+| AAD | `RXHBK3` + 版本 + KDF 编号 + 迭代次数（4 字节大端）+ salt |
+| 完整性 | 明文尾部保留 App 的 HMAC-SHA256 签名与 `APIBAL01` 标记，转换只换加密壳、不动内容 |
+
+## 常见问题
+
+**转换失败提示「口令错误或文件损坏」？**
+优先确认口令：旧 CBC 格式没有认证标签，口令错时只能靠尾部 HMAC 签名判断，所以报错会统一成这一句。
+
+**需要联网吗？**
+不需要。转换过程零网络请求。
+
+**转换后的文件还是打不开？**
+确认 App 已是包含 v3 格式的新版本；如果仍失败，把文件留在本机，去仓库提 issue 时附上「文件大小 + 转换页输出」，不要附文件本体和口令。
+
+返回：[隐私与安全](security.html) · [安装与常见问题](faq.html)
+
+<script src="{{ site.baseurl }}/assets/js/backup-convert.js"></script>
+<script>
+(function () {
+  var fileEl = document.getElementById('conv-file');
+  var pwdEl = document.getElementById('conv-pwd');
+  var runEl = document.getElementById('conv-run');
+  var msgEl = document.getElementById('conv-msg');
+  var dlEl = document.getElementById('conv-dl');
+  var busy = false;
+
+  function say(text, kind) {
+    msgEl.className = 'conv-msg' + (kind ? ' ' + kind : '');
+    msgEl.textContent = text;
+  }
+
+  function fmtSize(n) {
+    if (n < 1024) return n + ' B';
+    if (n < 1048576) return (n / 1024).toFixed(1) + ' KB';
+    return (n / 1048576).toFixed(2) + ' MB';
+  }
+
+  runEl.addEventListener('click', function () {
+    if (busy) return;
+    var file = fileEl.files && fileEl.files[0];
+    var pwd = pwdEl.value.trim();
+    if (!file) { say('先选择一个备份文件。', 'err'); return; }
+    if (pwd.length < 4) { say('口令至少 4 位，和导出时保持一致。', 'err'); return; }
+    if (!window.BackupConvert) { say('转换模块没加载成功，刷新一下页面。', 'err'); return; }
+
+    busy = true;
+    runEl.disabled = true;
+    dlEl.innerHTML = '';
+    say('正在本地解密并重新加密…（60 万次 PBKDF2，稍等几秒）');
+
+    var reader = new FileReader();
+    reader.onerror = function () {
+      busy = false; runEl.disabled = false;
+      say('读文件失败，换一个文件试试。', 'err');
+    };
+    reader.onload = function () {
+      var bytes = new Uint8Array(reader.result);
+      window.BackupConvert.convert(bytes, pwd).then(function (res) {
+        if (res.from === 'v3') {
+          say('这个文件已经是新版格式（v3），不需要转换，直接在 App 里恢复即可。', 'ok');
+          busy = false; runEl.disabled = false;
+          return;
+        }
+        var blob = new Blob([res.bytes], { type: 'application/octet-stream' });
+        var name = 'APIBalance_backup_v3_' + Date.now() + '.bin';
+        var url = URL.createObjectURL(blob);
+        var a = document.createElement('a');
+        a.href = url; a.download = name; a.className = 'btn';
+        a.textContent = '下载新版备份（' + fmtSize(res.bytes.length) + '）';
+        dlEl.appendChild(a);
+        say('转换完成：' + res.fromName + ' → 新版 v3\n内容 ' + fmtSize(res.plainBytes) +
+          '，输出 ' + fmtSize(res.bytes.length) + '\n点上面的按钮保存，再回 App「恢复」选择它。', 'ok');
+        busy = false; runEl.disabled = false;
+      }).catch(function (e) {
+        busy = false; runEl.disabled = false;
+        var text = (e && e.message) ? e.message : '未知错误';
+        say('转换失败：' + text + '\n\n如果是「口令错误或文件损坏」，先确认口令；口令对但仍失败，说明文件不是本应用的备份。', 'err');
+      });
+    };
+    reader.readAsArrayBuffer(file);
+  });
+})();
+</script>
