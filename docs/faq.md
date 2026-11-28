@@ -104,4 +104,4 @@ App 只读各家**官方接口**返回的值，不做任何推算。若不一致
 
 返回：[GitHub 仓库](https://github.com/RXHrxh520/APIBalance) · [完整功能清单](features.html) · [自己编译](build.html)
 
-> 小提示：改完文档如果看不到新内容，多半是缓存没刷，Ctrl/Cmd + Shift + R 强制刷新一下即可。
+> 小提示：文档站更新后如果还看不到新内容，多半是浏览器缓存，按 Ctrl/Cmd + Shift + R 强制刷新即可。
