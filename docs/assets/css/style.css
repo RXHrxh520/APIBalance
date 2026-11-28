@@ -126,7 +126,15 @@ pre code{background:none;border:0;color:inherit;padding:0}
   position:fixed;left:50%;top:50%;z-index:9999;pointer-events:none;
   font-size:96px;line-height:1;color:#ff5f9e;text-shadow:0 10px 34px rgba(255,95,158,.38);
   transform:translate(-50%,-50%) scale(.3);opacity:0;
-  animation:heart-pop 1.6s ease-out forwards;
+  animation:heart-pop 1.6s cubic-bezier(.2,.85,.3,1) forwards;
+}
+@media (prefers-reduced-motion:reduce){
+  .heart-pop{animation:heart-fade .9s ease-out forwards}
+}
+@keyframes heart-fade{
+  0%{opacity:0;transform:translate(-50%,-50%) scale(1)}
+  25%{opacity:1}
+  100%{opacity:0;transform:translate(-50%,-50%) scale(1)}
 }
 @keyframes heart-pop{
   0%{opacity:0;transform:translate(-50%,-50%) scale(.3)}
