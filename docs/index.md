@@ -10,14 +10,14 @@ permalink: /
     <img src="{{ site.baseurl }}/assets/brand/banner.jpg" alt="APIBalance 多服务商 AI API 余额监控" decoding="async">
   </div>
   <div class="carousel-slide">
-    <img src="{{ site.baseurl }}/assets/brand/carousel-1.jpg" alt="多服务商 AI 余额仪表盘" loading="lazy" decoding="async">
+    <img src="{{ site.baseurl }}/assets/brand/carousel-1.jpg?v=20261128" alt="多服务商 AI 余额仪表盘" loading="lazy" decoding="async">
     <div class="carousel-caption">
       <strong>一个面板，看清所有 AI 余额</strong>
       <span>DeepSeek · Kimi · 智谱 GLM · Claude · 火山方舟</span>
     </div>
   </div>
   <div class="carousel-slide">
-    <img src="{{ site.baseurl }}/assets/brand/carousel-2.jpg" alt="本地加密与隐私保护" loading="lazy" decoding="async">
+    <img src="{{ site.baseurl }}/assets/brand/carousel-2.jpg?v=20261128" alt="本地加密与隐私保护" loading="lazy" decoding="async">
     <div class="carousel-caption">
       <strong>密钥只留在你的设备</strong>
       <span>本地加密，不经过作者服务器</span>
