@@ -56,16 +56,22 @@ permalink: /backup-convert.html
   }
   .cv-download a:hover{background:#dfeeff}
   .cv-note{font-size:13px;color:#6b7486;line-height:1.8;max-width:720px}
+  .cv-steps,.cv-faq{max-width:720px;margin:10px 0 24px}
+  .cv-steps{padding-left:22px;line-height:1.9;color:#33415c}
+  .cv-faq{margin:0 0 22px}
+  .cv-faq dt{font-weight:600;color:#1c2333;margin:14px 0 4px}
+  .cv-faq dd{margin:0;color:#5b6478;line-height:1.85}
+  .cv-back{font-size:13.5px;color:#6b7486;margin-top:18px}
   @media (max-width:560px){
     .cv-card{padding:18px 16px}
     .cv-btn{width:100%;justify-content:center}
   }
 </style>
 
-# 备份升级工具
+<h1>备份升级工具</h1>
 
 <p class="cv-intro">
-把旧版本导出的备份包换成新版格式。**整个转换在你的浏览器里完成，文件不会上传到任何服务器**——页面没有任何上传接口，断网也能用，转换结束后刷新页面即可清空。
+把旧版本导出的备份包换成新版格式。<strong>整个转换在你的浏览器里完成，文件不会上传到任何服务器</strong>。页面没有任何上传接口，断网也能用，转换结束后刷新页面即可清空。
 </p>
 
 <div class="cv-card">
@@ -102,28 +108,28 @@ permalink: /backup-convert.html
   <div class="cv-download" id="cv-download"></div>
 </div>
 
-## 转换之后
+<h2>转换之后</h2>
+<ol class="cv-steps">
+  <li>下载生成的 <code>.bin</code> 文件；</li>
+  <li>打开 App → <strong>备份与恢复</strong> → 恢复，选中它并输入同一个口令；</li>
+  <li>恢复成功后按提示重启 App。</li>
+</ol>
 
-1. 下载生成的 `.bin` 文件；
-2. 打开 App → **备份与恢复** → 恢复，选中它并输入同一个口令；
-3. 恢复成功后按提示重启 App。
-
-## 常见问题
-
-**提示「口令错误或文件损坏」？**
-先确认口令和导出时完全一致。口令不对时不会输出任何文件，错误会统一提示成这一句。
-
-**转换要联网吗？**
-不需要。读取、加密、下载全部留在本机。
-
-**用手机能转吗？**
-可以，把文件放到手机里，用手机浏览器打开本页同样能完成。
+<h2>常见问题</h2>
+<dl class="cv-faq">
+  <dt>提示「口令错误或文件损坏」？</dt>
+  <dd>先确认口令和导出时完全一致。口令不对时不会输出任何文件，错误会统一提示成这一句。</dd>
+  <dt>转换要联网吗？</dt>
+  <dd>不需要。读取、加密、下载全部留在本机。</dd>
+  <dt>用手机能转吗？</dt>
+  <dd>可以。把文件放到手机里，用手机浏览器打开本页同样能完成。</dd>
+</dl>
 
 <p class="cv-note">
 本页只处理你自己选择的文件，转换完不会留下副本；页面没有统计脚本，也不会向任何域名发送请求。
 </p>
 
-返回：[隐私与安全](security.html) · [安装与常见问题](faq.html)
+<p class="cv-back">返回：<a href="{{ site.baseurl }}/security.html">隐私与安全</a> · <a href="{{ site.baseurl }}/faq.html">安装与常见问题</a></p>
 
 <script src="{{ site.baseurl }}/assets/js/backup-convert.js"></script>
 <script>
