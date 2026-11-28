@@ -15,7 +15,7 @@ permalink: /security.html
 
 - **密钥存储**：Android Keystore 生成 AES-256 密钥，AES/GCM 加密后存 SharedPreferences，明文不落盘（自动登录 Key 与多账户 Key 均加密）
 - **网络**：余额查询仅请求各家官方余额 API（api.deepseek.com / api.moonshot.cn / open.bigmodel.cn / api.anthropic.com）与 GitHub 版本检查；更新包下载可能经 gh-proxy.com 镜像加速（只传 APK，不携带任何密钥）；TLS 证书校验恒开启
-- **备份包**：导出前用你设定的密码加密（PBKDF2-HMAC-SHA256 60 万次 → AES-256-GCM，12 字节随机 nonce、128 位 tag，AAD 绑定格式与 salt），包尾追加 HMAC-SHA256 签名，导入时先验签再恢复；**只恢复 API Key 与账户**，不恢复锁屏、隐私开关等任何设置，避免伪造备份改行为。旧版（v1 CBC / v2）备份不再在 App 内解密，用[备份升级工具](backup-convert.html)在浏览器本地转成新格式即可
+- **备份包**：导出前用你设定的密码加密（口令经高强度派生后使用 AES-256-GCM 加密，带完整性校验），包尾追加 HMAC-SHA256 签名，导入时先验签再恢复；**只恢复 API Key 与账户**，不恢复锁屏、隐私开关等任何设置，避免伪造备份改行为。旧版（v1 CBC / v2）备份不再在 App 内解密，用[备份升级工具](backup-convert.html)在浏览器本地转成新格式即可
 - **无任何私人服务器**，无广告 SDK，无第三方统计
 
 ## 安全中心（App 内 20 项体检）
