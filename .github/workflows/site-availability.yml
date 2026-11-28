@@ -17,7 +17,7 @@ jobs:
           base="https://rxhrxh520.github.io/APIBalance"
           fail=0
           out=""
-          for p in "" features.html faq.html errors.html permissions.html security.html build.html roadmap.html 404.html announcement.html release-checklist.html sitemap.xml robots.txt assets/brand/app-icon.png assets/css/style.css; do
+          for p in "" features.html faq.html errors.html permissions.html security.html backup-convert.html build.html roadmap.html 404.html announcement.html release-checklist.html sitemap.xml robots.txt assets/brand/app-icon.png assets/css/style.css assets/js/backup-convert.js; do
             code=$(curl -sS -o /dev/null -w '%{http_code}' --max-time 25 --retry 3 --retry-all-errors --retry-delay 3 "$base/$p")
             out="$out\n| /$p | $code |"
             case "$code" in 200|301|302) ;; *) fail=1 ;; esac
