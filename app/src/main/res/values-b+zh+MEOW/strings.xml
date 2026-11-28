@@ -1123,6 +1123,9 @@
     <string name="lock_too_many_fmt">试太多啦，%1$d 秒后再来吧</string>
     <string name="update_notice_title_fmt">v%1$s 更新了啥</string>
     <string name="backup_sig_bad">这份备份对不上号：要么被改过，要么根本不是这个应用导出的</string>
+    <string name="backup_legacy_title">旧喵备份得先转一下喵</string>
+    <string name="backup_legacy_msg">这份是旧加密喵格式，新版不背那套算法了喵。先用网页喵工具转成新格式喵：\n%1$s\n\n转换全程在你浏览器里喵，文件不上传任何服务器喵。</string>
+    <string name="backup_legacy_open">打开转换喵页</string>
     <string name="update_need_install_perm">得先允许「装未知应用」，设置已经帮你打开了</string>
     <string name="float_bg_processing">Kopi ĝin en la aplikaĵo por eviti perdon de permeso</string>
     <string name="float_bg_failed">Ne eblis konservi. Provu alian bildon.</string>

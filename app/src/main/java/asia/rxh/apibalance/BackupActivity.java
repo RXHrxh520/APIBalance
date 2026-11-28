@@ -34,8 +34,12 @@ import javax.crypto.spec.SecretKeySpec;
 public class BackupActivity extends Activity {
 
     private static final int REQ_RESTORE = 8101;
-    private static final byte[] MAGIC = {'R', 'X', 'H', 'B', 'K', '2'};
-    private static final int PBKDF2_ITERATIONS = 210000;
+    /** v3 格式头；v1/v2 已不再产出，也不再在 App 内解密，统一引导到网页转换工具。 */
+    private static final byte[] MAGIC = {'R', 'X', 'H', 'B', 'K', '3'};
+    private static final byte[] MAGIC_V2 = {'R', 'X', 'H', 'B', 'K', '2'};
+    private static final int PBKDF2_ITERATIONS = 600000; // 每次备份 60 万次 PBKDF2-SHA256
+    private static final String CONVERTER_URL =
+            "https://rxhrxh520.github.io/APIBalance/backup-convert.html";
     private static final int MAX_ENTRY_BYTES = 64 * 1024 * 1024;
     private static final int MAX_TOTAL_BYTES = 256 * 1024 * 1024;
 
@@ -271,11 +275,29 @@ public class BackupActivity extends Activity {
                             android.os.Process.killProcess(android.os.Process.myPid());
                         }, null));
             } catch (Throwable t) {
+                if (t instanceof LegacyBackupException) {
+                    runOnUiThread(this::showLegacyConverter);
+                    return;
+                }
                 final boolean sigBad = t instanceof SecurityException;
                 runOnUiThread(() -> toast(getString(sigBad
                         ? R.string.backup_sig_bad : R.string.backup_restore_failed)));
             }
         });
+    }
+
+    /** 旧格式备份：不猜、不勉强解，直接说清楚去哪里转换（转换在浏览器里完成，文件不出本机）。 */
+    private void showLegacyConverter() {
+        UiDialog.showConfirm(this, getString(R.string.backup_legacy_title),
+                getString(R.string.backup_legacy_msg, CONVERTER_URL),
+                getString(R.string.backup_legacy_open), getString(R.string.dlg_cancel),
+                () -> {
+                    try {
+                        startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(CONVERTER_URL)));
+                    } catch (Throwable t) {
+                        toast(CONVERTER_URL);
+                    }
+                }, null);
     }
 
     private byte[] readAll(Uri uri) throws Throwable {
@@ -513,46 +535,66 @@ public class BackupActivity extends Activity {
         return body;
     }
 
+    /**
+     * AAD 绑定格式元数据：magic || version || kdfId || 迭代次数(大端) || salt。
+     * 换版本、换 KDF、换迭代次数或换 salt 都会让 GCM 直接校验失败，防降级与替换。
+     * 网页转换工具 docs/assets/js/backup-convert.js 里的 aadFor() 必须与此处逐字节一致。
+     */
+    private static byte[] aad(byte[] salt) {
+        ByteArrayOutputStream out = new ByteArrayOutputStream();
+        out.write(MAGIC, 0, MAGIC.length);
+        out.write(3);
+        out.write(1); // 1 = PBKDF2-HMAC-SHA256
+        int it = PBKDF2_ITERATIONS;
+        out.write(new byte[]{(byte) (it >>> 24), (byte) (it >>> 16), (byte) (it >>> 8), (byte) it}, 0, 4);
+        out.write(salt, 0, salt.length);
+        return out.toByteArray();
+    }
+
     private static byte[] encrypt(byte[] data, String pwd) throws Throwable {
         byte[] salt = new byte[16];
-        byte[] iv = new byte[12];
+        byte[] nonce = new byte[12]; // 每次加密重新取随机 nonce，绝不复用
         new SecureRandom().nextBytes(salt);
-        new SecureRandom().nextBytes(iv);
+        new SecureRandom().nextBytes(nonce);
         Cipher c = Cipher.getInstance("AES/GCM/NoPadding");
-        c.init(Cipher.ENCRYPT_MODE, key(pwd, salt), new GCMParameterSpec(128, iv));
+        c.init(Cipher.ENCRYPT_MODE, key(pwd, salt), new GCMParameterSpec(128, nonce));
+        c.updateAAD(aad(salt));
         byte[] enc = c.doFinal(data);
         ByteArrayOutputStream out = new ByteArrayOutputStream();
         out.write(MAGIC);
         out.write(salt);
-        out.write(iv);
+        out.write(nonce);
         out.write(enc);
         return out.toByteArray();
     }
 
+    /**
+     * 只认 v3。旧版（v1 CBC / v2 GCM 210k）不再在 App 内解密：
+     * 旧算法只保留在网页转换工具里一次性用完即弃，避免长期维护多套体系。
+     */
     private static byte[] decrypt(byte[] blob, String pwd) throws Throwable {
-        if (blob != null && startsWith(blob, MAGIC)) {
-            int off = MAGIC.length;
-            if (blob.length < off + 16 + 12 + 16) throw new java.io.IOException("bad");
-            byte[] salt = slice(blob, off, 16);
-            byte[] iv = slice(blob, off + 16, 12);
-            byte[] enc = slice(blob, off + 28, blob.length - off - 28);
-            Cipher c = Cipher.getInstance("AES/GCM/NoPadding");
-            c.init(Cipher.DECRYPT_MODE, key(pwd, salt), new GCMParameterSpec(128, iv));
-            return c.doFinal(enc);
+        if (blob == null || !startsWith(blob, MAGIC)) {
+            throw new LegacyBackupException(startsWith(blob, MAGIC_V2) ? 2 : 1);
         }
-        return decryptLegacy(blob, pwd);
+        int off = MAGIC.length;
+        if (blob.length < off + 16 + 12 + 16) throw new java.io.IOException("bad");
+        byte[] salt = slice(blob, off, 16);
+        byte[] nonce = slice(blob, off + 16, 12);
+        byte[] enc = slice(blob, off + 28, blob.length - off - 28);
+        Cipher c = Cipher.getInstance("AES/GCM/NoPadding");
+        c.init(Cipher.DECRYPT_MODE, key(pwd, salt), new GCMParameterSpec(128, nonce));
+        c.updateAAD(aad(salt));
+        return c.doFinal(enc);
     }
 
-    private static byte[] decryptLegacy(byte[] blob, String pwd) throws Throwable {
-        if (blob == null || blob.length < 33) throw new java.io.IOException("bad");
-        byte[] salt = slice(blob, 0, 16);
-        byte[] iv = slice(blob, 16, 16);
-        byte[] enc = slice(blob, 32, blob.length - 32);
-        SecretKeyFactory f = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA1");
-        byte[] k = f.generateSecret(new PBEKeySpec(pwd.toCharArray(), salt, 2000, 256)).getEncoded();
-        Cipher c = Cipher.getInstance("AES/CBC/PKCS5Padding");
-        c.init(Cipher.DECRYPT_MODE, new SecretKeySpec(k, "AES"), new IvParameterSpec(iv));
-        return c.doFinal(enc);
+    /** 旧格式备份：不再尝试解密，直接提示去网页转换（转换在浏览器本地完成，不上传）。 */
+    static final class LegacyBackupException extends Exception {
+        final int version;
+
+        LegacyBackupException(int version) {
+            super("legacy backup v" + version);
+            this.version = version;
+        }
     }
 
     private static SecretKeySpec key(String pwd, byte[] salt) throws Throwable {

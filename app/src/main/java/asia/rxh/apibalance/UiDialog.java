@@ -251,7 +251,7 @@ public final class UiDialog {
     }
 
     /** 弹窗宽度：手机接近满宽，平板封顶，避免固定 320dp 在大屏上变成一条窄缝。 */
-    private static int dialogWidth(Context ctx) {
+    static int dialogWidth(Context ctx) {
         try {
             android.util.DisplayMetrics dm = ctx.getResources().getDisplayMetrics();
             int screenDp = (int) (Math.min(dm.widthPixels, dm.heightPixels) / dm.density);
@@ -301,7 +301,7 @@ public final class UiDialog {
         return d;
     }
 
-    private static int dp(Context c, int v) {
+    static int dp(Context c, int v) {
         return (int) (v * c.getResources().getDisplayMetrics().density + 0.5f);
     }
 }

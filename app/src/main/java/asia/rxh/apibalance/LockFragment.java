@@ -195,6 +195,7 @@ public class LockFragment extends Fragment {
                 return;
             }
             PrivacyPrefs.setPassword(getActivity(), pw);
+            LockToken.provision(getActivity()); // 新密码 → 新钥匙，重建指纹绑定
             if (!PrivacyPrefs.hasPassword(getActivity())) {
                 showError(getString(R.string.lock_wrong));
                 input.setLength(0);
@@ -207,6 +208,7 @@ public class LockFragment extends Fragment {
         }
         if (PrivacyPrefs.checkPassword(getActivity(), pw)) {
             clearFailures();
+            if (!LockToken.isAvailable(getActivity())) LockToken.provision(getActivity());
             unlock();
         } else {
             registerFailure();
@@ -221,7 +223,12 @@ public class LockFragment extends Fragment {
         if (act != null) act.onLockPassed();
     }
 
-    /** API 28+ 使用系统 BiometricPrompt；更低版本没有统一接口，保留密码验证。 */
+    /**
+     * API 28+ 使用系统 BiometricPrompt；更低版本没有统一接口，保留密码验证。
+     *
+     * 关键变化：认证必须带着 CryptoObject 去，指纹通过后还要用这个 Cipher
+     * 真的解出 Keystore 里的标记并核对，认证结果真正参与了密码学运算。
+     */
     private void tryBiometric() {
         final android.app.Activity act = getActivity();
         if (act == null) return;
@@ -235,7 +242,12 @@ public class LockFragment extends Fragment {
             Toast.makeText(act, getString(R.string.lock_fp_none), Toast.LENGTH_SHORT).show();
             return;
         }
+        if (!LockToken.isAvailable(act)) {
+            Toast.makeText(act, getString(R.string.lock_fp_none), Toast.LENGTH_SHORT).show();
+            return;
+        }
         try {
+            final javax.crypto.Cipher cipher = LockToken.decryptCipher(act);
             if (biometricCancel != null) biometricCancel.cancel();
             biometricCancel = new android.os.CancellationSignal();
             android.hardware.biometrics.BiometricPrompt prompt =
@@ -245,25 +257,39 @@ public class LockFragment extends Fragment {
                                     act.getMainExecutor(), (dialog, which) -> {
                                     })
                             .build();
-            prompt.authenticate(biometricCancel, act.getMainExecutor(),
+            prompt.authenticate(
+                    new android.hardware.biometrics.BiometricPrompt.CryptoObject(cipher),
+                    biometricCancel, act.getMainExecutor(),
                     new android.hardware.biometrics.BiometricPrompt.AuthenticationCallback() {
                         @Override
                         public void onAuthenticationSucceeded(
                                 android.hardware.biometrics.BiometricPrompt.AuthenticationResult result) {
-                            if (getActivity() != null) {
-                                getActivity().runOnUiThread(LockFragment.this::unlock);
-                            }
+                            final android.app.Activity a = getActivity();
+                            if (a == null || result == null) return;
+                            android.hardware.biometrics.BiometricPrompt.CryptoObject obj = result.getCryptoObject();
+                            final javax.crypto.Cipher used = obj == null ? null : obj.getCipher();
+                            final boolean passed = LockToken.verify(a, used);
+                            a.runOnUiThread(() -> {
+                                if (passed) {
+                                    clearFailures();
+                                    unlock();
+                                } else {
+                                    Toast.makeText(a, getString(R.string.lock_fp_fail),
+                                            Toast.LENGTH_SHORT).show();
+                                }
+                            });
                         }
 
                         @Override
                         public void onAuthenticationError(int errorCode, CharSequence errString) {
-                            if (getActivity() != null) {
-                                Toast.makeText(getActivity(), getString(R.string.lock_fp_fail),
-                                        Toast.LENGTH_SHORT).show();
-                            }
+                            final android.app.Activity a = getActivity();
+                            if (a == null) return;
+                            Toast.makeText(a, getString(R.string.lock_fp_fail),
+                                    Toast.LENGTH_SHORT).show();
                         }
                     });
         } catch (Throwable t) {
+            LockToken.invalidate(act);
             Toast.makeText(act, getString(R.string.lock_fp_none), Toast.LENGTH_SHORT).show();
         }
     }
@@ -290,6 +316,7 @@ public class LockFragment extends Fragment {
                     if (PrivacyPrefs.checkF2a(getActivity(), code)) {
                         PrivacyPrefs.clearPassword(getActivity());
                         PrivacyPrefs.setLockEnabled(getActivity(), false);
+                        LockToken.invalidate(getActivity());
                         Toast.makeText(getActivity(), getString(R.string.lock_reset_done),
                                 Toast.LENGTH_SHORT).show();
                         unlock();
